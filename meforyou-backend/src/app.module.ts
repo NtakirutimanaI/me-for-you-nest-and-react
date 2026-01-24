@@ -1,0 +1,69 @@
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+
+// Core Entities
+import { User } from './entities/core/user.entity';
+import { UserAddress } from './entities/core/user-address.entity';
+import { UserDocument } from './entities/core/user-document.entity';
+import { RolePermission } from './entities/core/role-permission.entity';
+import { UserRole } from './entities/core/user-role.entity';
+
+// Event Entities
+import { EventCategory } from './entities/events/event-category.entity';
+import { Event } from './entities/events/event.entity';
+import { EventVendor } from './entities/events/event-vendor.entity';
+import { EventVendorAssignment } from './entities/events/event-vendor-assignment.entity';
+
+// Car Entities
+import { CarCategory } from './entities/cars/car-category.entity';
+import { Car } from './entities/cars/car.entity';
+import { CarLocation } from './entities/cars/car-location.entity';
+import { CarRental } from './entities/cars/car-rental.entity';
+import { CarMaintenance } from './entities/cars/car-maintenance.entity';
+
+// Property Entities
+import { PropertyType } from './entities/properties/property-type.entity';
+import { Property } from './entities/properties/property.entity';
+import { Lease } from './entities/properties/lease.entity';
+import { PropertyMaintenance } from './entities/properties/property-maintenance.entity';
+
+// Shared Entities
+import { Invoice } from './entities/shared/invoice.entity';
+import { Payment } from './entities/shared/payment.entity';
+import { AuditLog } from './entities/shared/audit-log.entity';
+
+@Module({
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        type: 'postgres',
+        host: configService.get('DB_HOST'),
+        port: configService.get('DB_PORT'),
+        username: configService.get('DB_USERNAME'),
+        password: configService.get('DB_PASSWORD'),
+        database: configService.get('DB_DATABASE'),
+        entities: [
+          // Core
+          User, UserAddress, UserDocument, RolePermission, UserRole,
+          // Events
+          EventCategory, Event, EventVendor, EventVendorAssignment,
+          // Cars
+          CarCategory, Car, CarLocation, CarRental, CarMaintenance,
+          // Properties
+          PropertyType, Property, Lease, PropertyMaintenance,
+          // Shared
+          Invoice, Payment, AuditLog,
+        ],
+        synchronize: configService.get('DB_SYNCHRONIZE') === 'true',
+        logging: configService.get('DB_LOGGING') === 'true',
+      }),
+      inject: [ConfigService],
+    }),
+  ],
+})
+export class AppModule { }
