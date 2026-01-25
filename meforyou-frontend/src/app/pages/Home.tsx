@@ -11,7 +11,7 @@ export function Home() {
       icon: Calendar,
       title: t('events'),
       description: 'Complete event planning services for weddings, corporate events, and special occasions. We handle everything from venue to decor.',
-      image: '/img/Pic8.jpg',
+      image: '/img/service-events.png',
       link: '/events',
       color: 'text-primary'
     },
