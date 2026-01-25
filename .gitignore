@@ -1,0 +1,7 @@
+legacy_backup/meforyou.zip
+*.zip
+*.sql
+node_modules/
+dist/
+build/
+.env
