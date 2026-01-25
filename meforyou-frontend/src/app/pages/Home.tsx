@@ -201,7 +201,14 @@ export function Home() {
       {/* Why Choose Us */}
       <div className="container-xxl py-5 bg-white">
         <div className="container">
-          <div className="row g-4 justify-content-center pt-4">
+          <div className="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style={{ maxWidth: '900px' }}>
+            <h6 className="text-primary text-uppercase fw-bold mb-3" style={{ letterSpacing: '2px' }}>Move With Us Now</h6>
+            <h1 className="display-5 mb-4 fw-bold">Together We Rise and Thrive</h1>
+            <p className="text-muted fs-5 lh-base px-lg-5">
+              Keep moving with us, as we journey together toward growth and success. We are here for you—dedicated to supporting your goals, empowering your dreams, and building a brighter future. Let’s grow, learn, and innovate side by side, transforming every challenge into opportunity. Together, we rise and thrive.
+            </p>
+          </div>
+          <div className="row g-4 justify-content-center">
             {/* Quick implementation & Planning */}
             <div className="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
               <div className="circle-card-container">
