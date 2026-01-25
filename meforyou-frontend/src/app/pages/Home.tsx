@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router';
-import { Calendar, Car, Home as HomeIcon, Heart, Users, Award, Quote, ArrowRight, Star, ChevronDown, Map as MapIcon, Bus, Briefcase, Globe, Target } from 'lucide-react';
+import { Calendar, Car, Home as HomeIcon, Users, Award, Quote, ArrowRight, Star, ChevronDown, Map as MapIcon, Zap, DollarSign, Settings2 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
 export function Home() {
@@ -201,77 +201,53 @@ export function Home() {
       {/* Why Choose Us */}
       <div className="container-xxl py-5 bg-white">
         <div className="container">
-          <div className="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style={{ maxWidth: '900px' }}>
-            <h6 className="text-primary text-uppercase fw-bold mb-3" style={{ letterSpacing: '2px' }}>Move With Us Now</h6>
-            <h1 className="display-5 mb-4 fw-bold">Together We Rise and Thrive</h1>
-            <p className="text-muted fs-5 lh-base px-lg-5">
-              Keep moving with us, as we journey together toward growth and success. We are here for you—dedicated to supporting your goals, empowering your dreams, and building a brighter future. Let’s grow, learn, and innovate side by side, transforming every challenge into opportunity. Together, we rise and thrive.
-            </p>
-          </div>
-          <div className="row g-5 justify-content-center">
-            {/* OUR DREAM */}
-            <div className="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+          <div className="row g-4 justify-content-center pt-4">
+            {/* Quick implementation & Planning */}
+            <div className="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
               <div className="circle-card-container">
                 <div className="circle-icon-wrapper">
                   <div className="circle-icon-inner bg-dream-soft">
-                    <Bus size={30} className="text-dream" />
+                    <Zap size={30} className="text-dream" />
                   </div>
                 </div>
                 <div className="circle-card bg-dream">
-                  <h4 className="fw-bold text-dream mb-3">OUR DREAM</h4>
-                  <p className="small mb-0 text-dark px-2">
-                    We aim to lead globally, delivering innovation, empowering clients, and impacting communities positively.
+                  <h5 className="fw-bold text-dream mb-3">Quick implementation & Planning</h5>
+                  <p className="small mb-0 text-muted px-2">
+                    Expertly planned and executed with speed and precision to meet your timeline.
                   </p>
                 </div>
               </div>
             </div>
 
-            {/* Why Choose "Me For You"? */}
-            <div className="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
+            {/* Lower costs for high-end services */}
+            <div className="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
               <div className="circle-card-container">
                 <div className="circle-icon-wrapper">
                   <div className="circle-icon-inner bg-choose-soft">
-                    <Target size={30} className="text-choose" />
+                    <DollarSign size={30} className="text-choose" />
                   </div>
                 </div>
                 <div className="circle-card bg-choose">
-                  <h4 className="fw-bold text-choose mb-3" style={{ fontSize: '1.2rem' }}>Why Choose "Me For You"?</h4>
-                  <p className="small mb-0 text-dark px-2">
-                    Our Expertise & Experience, We offer personalized solutions, Our customer-centric approach
+                  <h5 className="fw-bold text-choose mb-3">Lower costs for high-end services</h5>
+                  <p className="small mb-0 text-muted px-2">
+                    Premium quality delivery at competitive prices that respect your budget.
                   </p>
                 </div>
               </div>
             </div>
 
-            {/* Our Values */}
-            <div className="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+            {/* Customized to meet requirements from */}
+            <div className="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
               <div className="circle-card-container">
                 <div className="circle-icon-wrapper">
                   <div className="circle-icon-inner bg-values-soft">
-                    <HomeIcon size={30} className="text-values" />
+                    <Settings2 size={30} className="text-values" />
                   </div>
                 </div>
                 <div className="circle-card bg-values">
-                  <h4 className="fw-bold text-values mb-3">Our Values</h4>
-                  <p className="small mb-0 text-dark px-2">
-                    Trustworthiness, Affordability, Professionalism.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* OUR MISSION */}
-            <div className="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.4s">
-              <div className="circle-card-container">
-                <div className="circle-icon-wrapper">
-                  <div className="circle-icon-inner bg-mission-soft">
-                    <Users size={30} className="text-mission" />
-                  </div>
-                </div>
-                <div className="circle-card bg-mission">
-                  <h4 className="fw-bold text-mission mb-3">OUR MISSION</h4>
-                  <p className="small mb-0 text-dark px-2">
-                    Empowering individuals and businesses through personalized, expert advisory services tailored to each client's needs.
+                  <h5 className="fw-bold text-values mb-3">Customized to meet requirements from</h5>
+                  <p className="small mb-0 text-muted px-2">
+                    Tailored solutions designed specifically to align with your unique vision.
                   </p>
                 </div>
               </div>
