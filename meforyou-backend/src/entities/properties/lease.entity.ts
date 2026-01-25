@@ -135,25 +135,7 @@ export class Lease {
         );
     }
 
-    @Index()
-    get leaseStatusIndex() {
-        return this.lease_status;
-    }
 
-    @Index()
-    get leaseDatesIndex() {
-        return `${this.start_date.toISOString().split('T')[0]}_${this.end_date.toISOString().split('T')[0]}`;
-    }
-
-    @Index()
-    get tenantLeasesIndex() {
-        return this.tenant_id;
-    }
-
-    @Index()
-    get propertyLeasesIndex() {
-        return this.property_id;
-    }
 
     @BeforeInsert()
     generateLeaseCode() {

@@ -39,8 +39,5 @@ export class RolePermission {
     @CreateDateColumn()
     created_at: Date;
 
-    @Index()
-    get moduleIndex() {
-        return this.module_name;
-    }
+
 }

@@ -92,20 +92,7 @@ export class Invoice {
     })
     balance_due: number;
 
-    @Index()
-    get invoiceDatesIndex() {
-        return `${this.invoice_date.toISOString().split('T')[0]}_${this.due_date.toISOString().split('T')[0]}`;
-    }
 
-    @Index()
-    get userInvoicesIndex() {
-        return this.user_id;
-    }
-
-    @Index()
-    get serviceInvoiceIndex() {
-        return `${this.service_type}_${this.service_id}`;
-    }
 
     @BeforeInsert()
     generateInvoiceNumber() {

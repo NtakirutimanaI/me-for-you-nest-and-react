@@ -72,8 +72,5 @@ export class UserDocument {
     @CreateDateColumn()
     created_at: Date;
 
-    @Index()
-    get userDocumentIndex() {
-        return `${this.user_id}_${this.document_type}`;
-    }
+
 }

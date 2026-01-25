@@ -32,8 +32,5 @@ export class EventCategory {
     @OneToMany(() => Event, event => event.category)
     events: Event[];
 
-    @Index()
-    get activeIndex() {
-        return this.is_active;
-    }
+
 }

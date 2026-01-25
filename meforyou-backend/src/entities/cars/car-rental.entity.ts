@@ -172,15 +172,7 @@ export class CarRental {
         return false;
     }
 
-    @Index()
-    get clientRentalsIndex() {
-        return this.client_id;
-    }
 
-    @Index()
-    get carRentalsIndex() {
-        return `${this.car_id}_${this.pickup_date.toISOString().split('T')[0]}`;
-    }
 
     @BeforeInsert()
     generateRentalCode() {

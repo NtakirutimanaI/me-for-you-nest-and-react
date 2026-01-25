@@ -136,15 +136,7 @@ export class Car {
         return `${this.make} ${this.model}`;
     }
 
-    @Index()
-    get carStatusIndex() {
-        return this.car_status;
-    }
 
-    @Index()
-    get makeModelIndex() {
-        return `${this.make}_${this.model}`;
-    }
 
     @BeforeInsert()
     generateCarCode() {

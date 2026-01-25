@@ -144,15 +144,7 @@ export class Event {
     @OneToMany(() => EventVendorAssignment, assignment => assignment.event)
     vendor_assignments: EventVendorAssignment[];
 
-    @Index()
-    get clientEventsIndex() {
-        return this.client_id;
-    }
 
-    @Index()
-    get agentEventsIndex() {
-        return this.agent_id;
-    }
 
     @BeforeInsert()
     generateEventCode() {

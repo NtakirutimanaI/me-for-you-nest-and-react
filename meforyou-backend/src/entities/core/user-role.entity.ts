@@ -50,8 +50,5 @@ export class UserRole {
     @Column({ type: 'text', nullable: true })
     notes: string;
 
-    @Index()
-    get userRoleIndex() {
-        return `${this.user_id}_${this.is_active}`;
-    }
+
 }

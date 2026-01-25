@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, JoinColumn, Index, Check } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, JoinColumn, Check } from 'typeorm';
 import { User } from './user.entity';
 
 export enum AddressType {
@@ -49,8 +49,5 @@ export class UserAddress {
     @CreateDateColumn()
     created_at: Date;
 
-    @Index()
-    get addressIndex() {
-        return `${this.user_id}_${this.address_type}`;
-    }
+
 }

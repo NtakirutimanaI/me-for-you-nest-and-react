@@ -33,11 +33,21 @@ import { Invoice } from './entities/shared/invoice.entity';
 import { Payment } from './entities/shared/payment.entity';
 import { AuditLog } from './entities/shared/audit-log.entity';
 
+// Feature Modules
+import { CarouselItemsModule } from './carousel_items/carousel_items.module';
+import { FacilitiesModule } from './facilities/facilities.module';
+import { ServicesModule } from './services/services.module';
+import { TeamMembersModule } from './team_members/team_members.module';
+import { TestimonialsModule } from './testimonials/testimonials.module';
+
+import { AuthModule } from './auth/auth.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    AuthModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
@@ -64,6 +74,12 @@ import { AuditLog } from './entities/shared/audit-log.entity';
       }),
       inject: [ConfigService],
     }),
+    // Feature Modules
+    CarouselItemsModule,
+    FacilitiesModule,
+    ServicesModule,
+    TeamMembersModule,
+    TestimonialsModule,
   ],
 })
 export class AppModule { }

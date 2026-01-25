@@ -58,8 +58,5 @@ export class EventVendorAssignment {
     @CreateDateColumn()
     created_at: Date;
 
-    @Index()
-    get eventAssignmentsIndex() {
-        return `${this.event_id}_${this.status}`;
-    }
+
 }

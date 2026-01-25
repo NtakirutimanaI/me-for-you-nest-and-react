@@ -145,20 +145,7 @@ export class Property {
         return `${this.street_address}, ${this.city}, ${this.state_province || ''} ${this.postal_code || ''}, ${this.country}`;
     }
 
-    @Index()
-    get propertyStatusIndex() {
-        return this.property_status;
-    }
 
-    @Index()
-    get propertyLocationIndex() {
-        return `${this.city}_${this.state_province}`;
-    }
-
-    @Index()
-    get rentPriceIndex() {
-        return this.monthly_rent;
-    }
 
     @BeforeInsert()
     generatePropertyCode() {
