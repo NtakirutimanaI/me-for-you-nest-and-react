@@ -57,86 +57,95 @@ export class AppService implements OnApplicationBootstrap {
   }
 
   async seedCarousel() {
-    if ((await this.carouselService.findAll()).length === 0) {
-      await this.carouselService.create({
-        title: 'Welcome to Me For You Advisory',
-        description: 'Me For You Advisory is dedicated to providing top-notch services that cater to the diverse needs of our clients.',
-        image_url: 'img/carousel-1.jpg',
-        primary_button_text: 'Learn More',
-        primary_button_link: '',
-        secondary_button_text: 'Our Strength',
-        secondary_button_link: ''
-      });
-      await this.carouselService.create({
-        title: 'Make A Brighter Day With Us Today',
-        description: 'Our offerings span Event Management, Learning Coaching and Mentoring, and comprehensive Language Services. We are committed to delivering excellence and helping you achieve your personal and professional goals.',
-        image_url: 'img/carousel-2.jpg',
-        primary_button_text: 'Learn More',
-        primary_button_link: '',
-        secondary_button_text: 'Our Facts',
-        secondary_button_link: ''
-      });
+    const existing = await this.carouselService.findAll();
+    for (const item of existing) {
+      await this.carouselService.remove(item.id);
     }
+
+    await this.carouselService.create({
+      title: 'Welcome to Me For You Advisory',
+      description: 'Me For You Advisory is dedicated to providing top-notch services that cater to the diverse needs of our clients.',
+      image_url: 'img/carousel-1.jpg',
+      primary_button_text: 'Learn More',
+      primary_button_link: '',
+      secondary_button_text: 'Our Strength',
+      secondary_button_link: ''
+    });
+    await this.carouselService.create({
+      title: 'Make A Brighter Day With Us Today',
+      description: 'Our offerings span Event Management, Learning Coaching and Mentoring, and comprehensive Language Services. We are committed to delivering excellence and helping you achieve your personal and professional goals.',
+      image_url: 'img/carousel-2.jpg',
+      primary_button_text: 'Learn More',
+      primary_button_link: '',
+      secondary_button_text: 'Our Facts',
+      secondary_button_link: ''
+    });
   }
 
   async seedFacilities() {
-    if ((await this.facilitiesService.findAll()).length === 0) {
-      await this.facilitiesService.create({ title: 'OUR DREAM', description: 'We aim to lead globally, delivering innovation, empowering clients, and impacting communities positively.', icon_class: 'fa fa-bus-alt', bg_class: 'bg-primary', text_class: 'text-primary' });
-      await this.facilitiesService.create({ title: 'Why Choose "Me For You"?', description: 'Our Expertise & Experience, We offer personalized solutions, Our customer-centric approach', icon_class: 'fa fa-futbol', bg_class: 'bg-success', text_class: 'text-success' });
-      await this.facilitiesService.create({ title: 'Our Values', description: 'Trustworthiness, Affordability, Professionalism.', icon_class: 'fa fa-home', bg_class: 'bg-warning', text_class: 'text-warning' });
-      await this.facilitiesService.create({ title: 'OUR MISSION', description: 'Empowering individuals and businesses through personalized, expert advisory services tailored to each client\'s needs.', icon_class: 'fa fa-chalkboard-teacher', bg_class: 'bg-info', text_class: 'text-info' });
+    const existing = await this.facilitiesService.findAll();
+    for (const item of existing) {
+      await this.facilitiesService.remove(item.id);
     }
+
+    await this.facilitiesService.create({ title: 'OUR DREAM', description: 'We aim to lead globally, delivering innovation, empowering clients, and impacting communities positively.', icon_class: 'fa fa-bus-alt', bg_class: 'bg-primary', text_class: 'text-primary' });
+    await this.facilitiesService.create({ title: 'Why Choose "Me For You"?', description: 'Our Expertise & Experience, We offer personalized solutions, Our customer-centric approach', icon_class: 'fa fa-futbol', bg_class: 'bg-success', text_class: 'text-success' });
+    await this.facilitiesService.create({ title: 'Our Values', description: 'Trustworthiness, Affordability, Professionalism.', icon_class: 'fa fa-home', bg_class: 'bg-warning', text_class: 'text-warning' });
+    await this.facilitiesService.create({ title: 'OUR MISSION', description: 'Empowering individuals and businesses through personalized, expert advisory services tailored to each client\'s needs.', icon_class: 'fa fa-chalkboard-teacher', bg_class: 'bg-info', text_class: 'text-info' });
   }
 
   async seedServices() {
-    if ((await this.servicesService.findAll()).length === 0) {
-      const services = [
-        {
-          title: 'Event Planning & Coordination',
-          description: 'Full-cycle planning for weddings, corporate retreats, and private parties.',
-          image_url: 'img/classes-1.jpg',
-          category: 'Events',
-          price: 500
-        },
-        {
-          title: 'Protocol & Service',
-          description: 'Professional hosting and protocol services for high-profile gatherings.',
-          image_url: 'img/classes-2.jpg',
-          category: 'Hospitality',
-          price: 150
-        },
-        {
-          title: 'Food & Drink Supply (Catering)',
-          description: 'Authentic Rwandan and international cuisines tailored to your guest list.',
-          image_url: 'img/classes-3.jpg',
-          category: 'Catering',
-          price: 25
-        },
-        {
-          title: 'Professional Sound & Music',
-          description: 'State-of-the-art sound systems and live bands for any event size.',
-          image_url: 'img/classes-4.jpg',
-          category: 'Entertainment',
-          price: 300
-        },
-        {
-          title: 'Language Service',
-          description: 'Translation, interpretation, and language training in EN, FR, KN, and SW.',
-          image_url: 'img/classes-5.jpg',
-          category: 'Consulting',
-          price: 100
-        },
-        {
-          title: 'General Advisory',
-          description: 'Strategic coaching and mentoring for personal and business growth.',
-          image_url: 'img/classes-6.jpg',
-          category: 'Consulting',
-          price: 80
-        },
-      ];
-      for (const s of services) {
-        await this.servicesService.create(s);
-      }
+    const existing = await this.servicesService.findAll();
+    for (const s of existing) {
+      await this.servicesService.remove(s.id);
+    }
+
+    const services = [
+      {
+        title: 'Event Planning & Coordination',
+        description: 'Full-cycle planning for weddings, corporate retreats, and private parties.',
+        image_url: 'img/classes-1.jpg',
+        category: 'Events',
+        price: 500
+      },
+      {
+        title: 'Protocol & Service',
+        description: 'Professional hosting and protocol services for high-profile gatherings.',
+        image_url: 'img/classes-2.jpg',
+        category: 'Hospitality',
+        price: 150
+      },
+      {
+        title: 'Food & Drink Supply (Catering)',
+        description: 'Authentic Rwandan and international cuisines tailored to your guest list.',
+        image_url: 'img/classes-3.jpg',
+        category: 'Catering',
+        price: 25
+      },
+      {
+        title: 'Professional Sound & Music',
+        description: 'State-of-the-art sound systems and live bands for any event size.',
+        image_url: 'img/classes-4.jpg',
+        category: 'Entertainment',
+        price: 300
+      },
+      {
+        title: 'Language Service',
+        description: 'Translation, interpretation, and language training in EN, FR, KN, and SW.',
+        image_url: 'img/classes-5.jpg',
+        category: 'Consulting',
+        price: 100
+      },
+      {
+        title: 'General Advisory',
+        description: 'Strategic coaching and mentoring for personal and business growth.',
+        image_url: 'img/classes-6.jpg',
+        category: 'Consulting',
+        price: 80
+      },
+    ];
+    for (const s of services) {
+      await this.servicesService.create(s);
     }
   }
 
@@ -212,37 +221,40 @@ export class AppService implements OnApplicationBootstrap {
   }
 
   async seedPartners() {
-    if ((await this.partnersService.findAll()).length === 0) {
-      const partners = [
-        {
-          name: 'Papy Patrick Ndazigaruye',
-          role: 'Founder & CEO',
-          description: 'Visionary leader managing Me For You Advisory operations and strategic growth.',
-          logo_url: '/img/founder.jpg'
-        },
-        {
-          name: 'Faustin Ndazigaruye',
-          role: 'Business Partner',
-          description: 'Key strategic partner contributing to the development of our cultural and housing projects.',
-          logo_url: '/img/team-1y.jpg'
-        },
-        {
-          name: 'Jamie Proxy Ndazigaruye',
-          role: 'Business Partner',
-          description: 'Operations and logistics partner specializing in transport and service excellence.',
-          logo_url: '/img/team-222.jpg'
-        },
-        {
-          name: 'Emmanuel Ngamije Ndazigaruye',
-          role: 'Business Partner',
-          description: 'Liaison partner for language services and international relations within the advisory.',
-          logo_url: '/img/team-3.jpg'
-        }
-      ];
+    const existing = await this.partnersService.findAll();
+    for (const p of existing) {
+      await this.partnersService.remove(p.id);
+    }
 
-      for (const p of partners) {
-        await this.partnersService.create(p);
+    const partners = [
+      {
+        name: 'Papy Patrick Ndazigaruye',
+        role: 'Founder & CEO',
+        description: 'Visionary leader managing Me For You Advisory operations and strategic growth.',
+        logo_url: '/img/founder.jpg'
+      },
+      {
+        name: 'Faustin Ndazigaruye',
+        role: 'Business Partner',
+        description: 'Key strategic partner contributing to the development of our cultural and housing projects.',
+        logo_url: '/img/team-1y.jpg'
+      },
+      {
+        name: 'Jamie Proxy Ndazigaruye',
+        role: 'Business Partner',
+        description: 'Operations and logistics partner specializing in transport and service excellence.',
+        logo_url: '/img/team-222.jpg'
+      },
+      {
+        name: 'Emmanuel Ngamije Ndazigaruye',
+        role: 'Business Partner',
+        description: 'Liaison partner for language services and international relations within the advisory.',
+        logo_url: '/img/team-3.jpg'
       }
+    ];
+
+    for (const p of partners) {
+      await this.partnersService.create(p);
     }
   }
 
