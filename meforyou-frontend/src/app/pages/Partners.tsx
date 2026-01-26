@@ -158,6 +158,13 @@ export function PartnersPage() {
                     height: 380px;
                     border-radius: 140px / 190px;
                     background: #f8fafb;
+                    border: 3px solid transparent;
+                    transition: all 0.4s ease;
+                }
+                .partner-oval-frame:hover {
+                    border: 3px solid #FE5D37;
+                    box-shadow: 0 0 20px rgba(254, 93, 55, 0.3);
+                    transform: scale(1.02);
                 }
                 .partner-badge-overlay {
                     position: absolute;
@@ -173,8 +180,13 @@ export function PartnersPage() {
                     justify-content: center;
                     padding: 15px;
                     text-align: center;
-                    border: 1px solid rgba(0,0,0,0.05);
+                    border: 2px solid transparent;
                     z-index: 10;
+                    transition: all 0.3s ease;
+                }
+                .partner-showcase:hover .partner-badge-overlay {
+                    border: 2px solid #FE5D37;
+                    box-shadow: 0 5px 15px rgba(254, 93, 55, 0.2);
                 }
                 .partner-name {
                     font-size: 14px;
