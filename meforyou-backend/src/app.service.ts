@@ -86,86 +86,54 @@ export class AppService implements OnApplicationBootstrap {
   }
 
   async seedTestimonials() {
-    // Clear existing to ensure "true contents" as requested
+    // Clear existing to ensure the latest "true contents" are applied
     const existing = await this.testimonialsService.findAll();
-    if (existing.length > 0 && !existing[0].name.includes('&')) {
+    if (existing.length < 15) { // Force refresh for more content
       for (const t of existing) {
         await this.testimonialsService.remove(t.id);
       }
     }
 
     if ((await this.testimonialsService.findAll()).length === 0) {
+      // WEDDING CATEGORY
+      await this.testimonialsService.create({ name: 'Alice & Janvier', profession: 'Wedding Couple', content: 'Celebrating our love across two unforgettable days was a dream come true. Me For You Advisory carried us through every moment with care.', image_url: 'img/testimonial-1.jpg', type: 'text' });
+      await this.testimonialsService.create({ name: 'Ziggy & Selya', profession: 'Wedding Couple', content: 'From the first meeting to the last dance, we felt supported by a team that cared as if it were their own wedding.', image_url: 'img/testimonial-2.jpg', type: 'text' });
+      await this.testimonialsService.create({ name: 'Muhire & Jeanne', profession: 'Wedding Couple', content: 'Me For You transformed our dreams into perfect memories we will cherish forever.', image_url: 'img/testimonial-3.jpg', type: 'text' });
+
+      // CORPORATE CATEGORY
+      await this.testimonialsService.create({ name: 'Kigali Tech Hub', profession: 'Corporate Partner', content: 'Providing housing and transport for our international consultants was seamless. Logistics were handled with supreme professionalism.', image_url: 'img/testimonial-1.jpg', type: 'text' });
+      await this.testimonialsService.create({ name: 'RwandAir Support', profession: 'Corporate Client', content: 'A truly reliable partner in logistics and hospitality. Their dedication matches our own corporate values.', image_url: 'img/testimonial-2.jpg', type: 'text' });
+      await this.testimonialsService.create({ name: 'I&M Bank HR', profession: 'Business Partner', content: 'The event management team handled our staff retreat with amazing attention to detail. Every protocol was perfect.', image_url: 'img/testimonial-3.jpg', type: 'text' });
+
+      // SERVICES CATEGORY
+      await this.testimonialsService.create({ name: 'Dr. Jean Bosco', profession: 'Language Service User', content: 'The translation and interpretation services provided for our medical conference were top-tier. Extremely professional linguists.', image_url: 'img/testimonial-1.jpg', type: 'text' });
+      await this.testimonialsService.create({ name: 'Umutoni Grace', profession: 'Protocol Service User', content: 'Their protocol team for our gala dinner was exceptional. The students and staff were well-trained and very polite.', image_url: 'img/testimonial-2.jpg', type: 'text' });
+      await this.testimonialsService.create({ name: 'DJ Focus Rwanda', profession: 'Sound System Service', content: 'Working with the sound team from Me For You is always a pleasure. The equipment is modern and the setup is fast.', image_url: 'img/testimonial-3.jpg', type: 'text' });
+      await this.testimonialsService.create({ name: 'Kalisa Eric', profession: 'Housing Service User', content: 'Found a perfect short-term rental in Kigali through them. The house was clean, secure, and exactly as described.', image_url: 'img/testimonial-1.jpg', type: 'text' });
+
+      // VIDEO TESTIMONIALS
       await this.testimonialsService.create({
-        name: 'Alice & Janvier',
-        profession: 'Wedding Couple',
-        content: 'Celebrating our love across two unforgettable days was a dream come true. Me For You Advisory carried us through every moment with such care and excellence that we could simply enjoy the joy of becoming one.',
-        image_url: 'img/testimonial-1.jpg'
-      });
-      await this.testimonialsService.create({
-        name: 'Ziggy & Selya',
-        profession: 'Wedding Couple',
-        content: 'From the first meeting to the last dance, we felt supported by a team that cared as if it were their own wedding. They gave us laughter, peace of mind, and the freedom to focus on our love.',
-        image_url: 'img/testimonial-2.jpg'
-      });
-      await this.testimonialsService.create({
-        name: 'Muhire & Jeanne D’Arc',
-        profession: 'Wedding Couple',
-        content: 'This was our wedding of a lifetime. Every part of the celebration reflected love and professionalism. Me For You transformed our dreams into perfect memories we will cherish forever.',
-        image_url: 'img/testimonial-3.jpg'
-      });
-      await this.testimonialsService.create({
-        name: 'Nadra & Uwera Marie',
-        profession: 'Client',
-        content: 'Me For You Advisory proved truly reliable and trustworthy. They delivered a perfect day we will remember and cherish forever.',
-        image_url: 'img/testimonial-1.jpg'
-      });
-      await this.testimonialsService.create({
-        name: 'Mariza & Adolphe',
-        profession: 'Wedding Couple',
-        content: 'When we look back, we don’t just remember the beauty of the day—we remember how stress-free and joyful it felt. Me For You gave us more than a wedding; they gave us the perfect beginning.',
-        image_url: 'img/testimonial-2.jpg'
-      });
-      await this.testimonialsService.create({
-        name: 'Kigali Tech Hub',
-        profession: 'Corporate Client',
-        content: 'Providing housing and transport for our international consultants was seamless. Me For You Advisory handled every logistics detail with supreme professionalism.',
-        image_url: 'img/testimonial-3.jpg'
-      });
-      await this.testimonialsService.create({
-        name: 'Emmanuel Kwizera',
-        profession: 'Real Estate Developer',
-        content: 'Their advisory on property management and client relations transformed our business model. Highly recommended for strategic growth.',
-        image_url: 'img/testimonial-1.jpg'
-      });
-      await this.testimonialsService.create({
-        name: 'Sandrine Uwase',
-        profession: 'Fashion Designer',
-        content: 'The event management team brought my runway vision to life. The sound, lighting, and protocol services were world-class.',
-        image_url: 'img/testimonial-2.jpg',
-        type: 'text'
-      });
-      await this.testimonialsService.create({
-        name: 'RwandAir Support Team',
-        profession: 'Partner',
-        content: 'A truly reliable partner in logistics and hospitality. Their dedication to excellence matches our own corporate values.',
-        image_url: 'img/testimonial-3.jpg',
-        type: 'text'
-      });
-      // Video Testimonials
-      await this.testimonialsService.create({
-        name: 'The Kigali Grand Wedding',
-        profession: 'Wedding Highlights',
-        content: 'A beautiful journey of two souls coming together in a spectacular celebration managed by Me For You Advisory.',
+        name: 'The Grand Wedding',
+        profession: 'Wedding Highlight',
+        content: 'Experience the magic of a 500-guest wedding coordinated perfectly by our team.',
         image_url: 'img/DSC_7878.jpg',
-        video_url: 'https://www.youtube.com/embed/dQw4w9WgXcQ', // Placeholder video
+        video_url: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
         type: 'video'
       });
       await this.testimonialsService.create({
-        name: 'Muhire & Jeanne',
-        profession: 'Couple',
-        content: 'Our special day was made perfect by the team. Watch our reaction to the final decor!',
-        image_url: 'img/Pic8.jpg',
-        video_url: 'https://www.youtube.com/embed/dQw4w9WgXcQ', // Placeholder video
+        name: 'Corporate Logistics',
+        profession: 'Corporate Service',
+        content: 'A deep dive into how we manage airport transfers and hotel stays for VIP guests.',
+        image_url: 'img/classes-1.jpg',
+        video_url: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+        type: 'video'
+      });
+      await this.testimonialsService.create({
+        name: 'Language & Translation',
+        profession: 'Professional Service',
+        content: 'Our team providing real-time interpretation for an international conference.',
+        image_url: 'img/classes-5.jpg',
+        video_url: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
         type: 'video'
       });
     }
