@@ -80,5 +80,13 @@ export const api = {
 
     testimonials: {
         findAll: () => apiClient.get('/testimonials'),
+    },
+
+    carouselItems: {
+        findAll: () => apiClient.get('/carousel-items'),
+    },
+
+    facilities: {
+        findAll: () => apiClient.get('/facilities'),
     }
 };
