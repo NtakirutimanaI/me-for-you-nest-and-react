@@ -246,7 +246,7 @@ export function AboutPage() {
                 <div className="d-flex align-items-center gap-3">
                   <img
                     src={founder ? (founder.image_url.startsWith('http') ? founder.image_url : `/${founder.image_url}`) : "/img/founder.jpg"}
-                    className="rounded-circle shadow-sm border border-3 border-white"
+                    className="rounded-circle shadow-sm border border-3 border-white founder-img-hover"
                     style={{ width: '80px', height: '80px', objectFit: 'cover' }}
                     alt={founder?.name || "Founder"}
                   />
@@ -318,6 +318,14 @@ export function AboutPage() {
         .leading-relaxed { line-height: 1.8; }
         .hover-lift:hover { transform: translateY(-10px); }
         .bg-primary-soft { background-color: rgba(254, 93, 55, 0.1); }
+        .founder-img-hover {
+          transition: all 0.4s ease;
+        }
+        .founder-img-hover:hover {
+          border-color: #FE5D37 !important;
+          box-shadow: 0 0 20px rgba(254, 93, 55, 0.4);
+          transform: scale(1.1);
+        }
       `}</style>
     </div>
   );

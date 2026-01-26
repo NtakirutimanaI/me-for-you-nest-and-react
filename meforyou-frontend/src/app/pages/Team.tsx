@@ -72,9 +72,9 @@ export function TeamPage() {
                         {teamToDisplay.map((member, index) => (
                             <div key={index} className="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay={`${0.1 * (index % 4)}s`}>
                                 <div className="team-card text-center p-4">
-                                    <div className="team-img-wrapper mb-4">
+                                    <div className="team-img-wrapper mb-4 position-relative">
                                         <img
-                                            className="img-fluid rounded-circle shadow-sm"
+                                            className="img-fluid rounded-circle shadow-sm team-img-hover"
                                             src={member.image_url ? (member.image_url.startsWith('http') ? member.image_url : `/${member.image_url}`) : (member.image || "/img/testimonial-1.jpg")}
                                             alt={member.name}
                                             style={{ width: '180px', height: '180px', objectFit: 'cover' }}
@@ -95,6 +95,18 @@ export function TeamPage() {
                     </div>
                 </div>
             </div>
+
+            <style>{`
+                .team-img-hover {
+                    border: 3px solid transparent;
+                    transition: all 0.4s ease;
+                }
+                .team-card:hover .team-img-hover {
+                    border: 3px solid #FE5D37;
+                    box-shadow: 0 0 20px rgba(254, 93, 55, 0.3);
+                    transform: scale(1.05);
+                }
+            `}</style>
         </div>
     );
 }
