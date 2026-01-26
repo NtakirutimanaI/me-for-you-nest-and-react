@@ -39,6 +39,9 @@ import { FacilitiesModule } from './facilities/facilities.module';
 import { ServicesModule } from './services/services.module';
 import { TeamMembersModule } from './team_members/team_members.module';
 import { TestimonialsModule } from './testimonials/testimonials.module';
+import { EventsModule } from './events/events.module';
+import { PropertiesModule } from './properties/properties.module';
+import { CarsModule } from './cars/cars.module';
 
 import { AuthModule } from './auth/auth.module';
 
@@ -69,6 +72,7 @@ import { AuthModule } from './auth/auth.module';
           // Shared
           Invoice, Payment, AuditLog,
         ],
+        autoLoadEntities: true,
         synchronize: configService.get('DB_SYNCHRONIZE') === 'true',
         logging: configService.get('DB_LOGGING') === 'true',
       }),
@@ -80,6 +84,9 @@ import { AuthModule } from './auth/auth.module';
     ServicesModule,
     TeamMembersModule,
     TestimonialsModule,
+    EventsModule,
+    PropertiesModule,
+    CarsModule,
   ],
 })
 export class AppModule { }

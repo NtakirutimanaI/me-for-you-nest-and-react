@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router';
 import { useAuth } from '../context/AuthContext';
 import { useCurrency } from '../context/CurrencyContext';
@@ -7,6 +7,7 @@ import { Car, Calendar, Users, Fuel, Settings, ShieldCheck } from 'lucide-react'
 import { CurrencySwitcher } from '../components/CurrencySwitcher';
 import { toast } from 'sonner';
 import type { CarRental } from '../types';
+import { api } from '../services/api';
 
 export function CarRentalPage() {
   const { isAuthenticated } = useAuth();
@@ -17,8 +18,22 @@ export function CarRentalPage() {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [filterCategory, setFilterCategory] = useState<string>('all');
+  const [cars, setCars] = useState<CarRental[]>([]);
 
-  const cars: CarRental[] = JSON.parse(localStorage.getItem('carRentals') || '[]');
+  useEffect(() => {
+    const fetchCars = async () => {
+      try {
+        const data = await api.cars.findAll();
+        setCars(data);
+      } catch (error) {
+        console.error('Failed to fetch cars', error);
+        // Fallback for demo
+        const local = JSON.parse(localStorage.getItem('carRentals') || '[]');
+        setCars(local);
+      }
+    };
+    fetchCars();
+  }, []);
 
   const filteredCars = filterCategory === 'all'
     ? cars
@@ -37,7 +52,7 @@ export function CarRentalPage() {
     return selectedCar.pricePerDay * calculateDays();
   };
 
-  const handleBooking = () => {
+  const handleBooking = async () => {
     if (!isAuthenticated) {
       toast.error('Please login to make a booking');
       navigate('/login');
@@ -54,27 +69,25 @@ export function CarRentalPage() {
       return;
     }
 
-    const booking = {
-      id: `booking-${Date.now()}`,
-      userId: JSON.parse(localStorage.getItem('currentUser') || '{}').id,
-      userName: JSON.parse(localStorage.getItem('currentUser') || '{}').name,
-      serviceType: 'car-rental' as const,
-      carId: selectedCar.id,
-      startDate,
-      endDate,
-      totalAmount: calculateTotal(),
-      status: 'pending' as const,
-      paymentStatus: 'pending' as const,
-      createdAt: new Date().toISOString(),
-      notes: `${selectedCar.brand} ${selectedCar.model} (${selectedCar.year})`,
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+
+    const bookingData = {
+      car_id: selectedCar.id,
+      client_id: currentUser.id,
+      start_date: startDate,
+      end_date: endDate,
+      daily_rate: selectedCar.pricePerDay,
+      total_cost: calculateTotal(),
+      status: 'pending'
     };
 
-    const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
-    bookings.push(booking);
-    localStorage.setItem('bookings', JSON.stringify(bookings));
-
-    toast.success('Booking created successfully!');
-    navigate(`/payment/${booking.id}`);
+    try {
+      await api.cars.rent(bookingData);
+      toast.success('Booking created successfully!');
+      navigate(`/payment/booking-${Date.now()}`);
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to create booking');
+    }
   };
 
   return (

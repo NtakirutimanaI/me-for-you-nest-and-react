@@ -6,6 +6,7 @@ import { useCurrency } from '../context/CurrencyContext';
 import { useLanguage } from '../context/LanguageContext';
 import type { Booking } from '../types';
 import { toast } from 'sonner';
+import { api } from '../services/api';
 
 export function BookingsPage() {
   const { user, isAuthenticated } = useAuth();
@@ -13,16 +14,76 @@ export function BookingsPage() {
   const { t } = useLanguage();
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [filter, setFilter] = useState<string>('all');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (user) {
-      const allBookings: Booking[] = JSON.parse(localStorage.getItem('bookings') || '[]');
-      if (user.role === 'client') {
-        setBookings(allBookings.filter(b => b.userId === user.id));
-      } else {
-        setBookings(allBookings);
+    const fetchBookings = async () => {
+      if (!user) return;
+      setLoading(true);
+      try {
+        const [events, leases, rentals] = await Promise.all([
+          api.events.findAll(),
+          api.properties.findAllLeases(),
+          api.cars.findAllRentals()
+        ]);
+
+        const mappedEvents = (events || []).map((e: any) => ({
+          id: `event-${e.event_id}`,
+          userId: e.client?.user_id,
+          userName: e.client?.username,
+          serviceType: 'events',
+          startDate: e.event_date,
+          endDate: e.event_date,
+          totalAmount: e.budget, // or price, verifying field
+          status: e.status || 'pending',
+          paymentStatus: 'pending', // TODO: check invoice
+          createdAt: e.created_at,
+        }));
+
+        const mappedLeases = (leases || []).map((l: any) => ({
+          id: `lease-${l.lease_id}`,
+          userId: l.tenant?.user_id,
+          userName: l.tenant?.username,
+          serviceType: 'house-rental',
+          startDate: l.start_date,
+          endDate: l.end_date,
+          totalAmount: l.monthly_rent, // or total for period
+          status: l.lease_status === 'active' ? 'confirmed' : l.lease_status,
+          paymentStatus: 'pending',
+          createdAt: l.created_at,
+        }));
+
+        const mappedRentals = (rentals || []).map((r: any) => ({
+          id: `rental-${r.rental_id}`,
+          userId: r.client?.user_id, // ensure relationship exists
+          userName: r.client?.username,
+          serviceType: 'car-rental',
+          startDate: r.start_date,
+          endDate: r.end_date,
+          totalAmount: r.total_cost,
+          status: r.status || 'pending',
+          paymentStatus: 'pending',
+          createdAt: r.created_at,
+        }));
+
+        const allBookings = [...mappedEvents, ...mappedLeases, ...mappedRentals];
+
+        if (user.role === 'client') {
+          setBookings(allBookings.filter(b => b.userId === user.id));
+        } else {
+          setBookings(allBookings);
+        }
+
+      } catch (error) {
+        console.error('Failed to fetch bookings', error);
+        toast.error('Failed to load bookings from backend');
+        // Fallback or empty
+        setBookings([]);
+      } finally {
+        setLoading(false);
       }
-    }
+    };
+    fetchBookings();
   }, [user]);
 
   if (!isAuthenticated) {
@@ -33,20 +94,20 @@ export function BookingsPage() {
     ? bookings
     : bookings.filter(b => b.status === filter);
 
-  const updateBookingStatus = (bookingId: string, newStatus: Booking['status']) => {
-    const allBookings = JSON.parse(localStorage.getItem('bookings') || '[]');
-    const updated = allBookings.map((b: Booking) =>
-      b.id === bookingId ? { ...b, status: newStatus } : b
-    );
-    localStorage.setItem('bookings', JSON.stringify(updated));
-
-    if (user?.role === 'client') {
-      setBookings(updated.filter((b: Booking) => b.userId === user.id));
-    } else {
-      setBookings(updated);
-    }
-    toast.success('Booking status updated');
+  const updateBookingStatus = async (bookingId: string, newStatus: Booking['status']) => {
+    // TODO: implement backend update
+    toast.info('Status update not fully implemented on backend yet');
   };
+
+  if (loading) {
+    return (
+      <div className="container-fluid bg-white p-5 text-center">
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container-fluid bg-white p-0">
@@ -107,7 +168,7 @@ export function BookingsPage() {
                       </div>
                       <div className="col-md-3 mt-3 mt-md-0">
                         <h5 className="mb-1 fw-bold">#{booking.id.slice(-8)}</h5>
-                        <span className="text-muted small capitalize">{booking.serviceType.replace('-', ' ')}</span>
+                        <span className="text-muted small capitalize">{booking.serviceType!.replace('-', ' ')}</span>
                       </div>
                       <div className="col-md-3">
                         <div className="small text-muted mb-1"><i className="far fa-calendar-alt me-2 text-primary"></i>Period</div>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router';
 import { useAuth } from '../context/AuthContext';
 import { useCurrency } from '../context/CurrencyContext';
@@ -7,6 +7,7 @@ import { Calendar, Check, Users, Clock, Star } from 'lucide-react';
 import { CurrencySwitcher } from '../components/CurrencySwitcher';
 import { toast } from 'sonner';
 import type { EventType, EventService } from '../types';
+import { api } from '../services/api';
 
 export function EventsPage() {
   const { isAuthenticated } = useAuth();
@@ -20,7 +21,24 @@ export function EventsPage() {
   const [guests, setGuests] = useState('');
   const [notes, setNotes] = useState('');
 
-  const eventServices: EventService[] = JSON.parse(localStorage.getItem('eventServices') || '[]');
+
+  const [eventServices, setEventServices] = useState<EventService[]>([]);
+
+  useEffect(() => {
+    // Fetch services from backend
+    const fetchServices = async () => {
+      try {
+        const services = await api.services.findAll();
+        setEventServices(services);
+      } catch (error) {
+        console.error('Failed to load services', error);
+        // Fallback to local if empty or error, or empty array
+        const local = JSON.parse(localStorage.getItem('eventServices') || '[]');
+        if (local.length > 0) setEventServices(local);
+      }
+    };
+    fetchServices();
+  }, []);
 
   const toggleService = (serviceId: string) => {
     setSelectedServices(prev =>
@@ -36,7 +54,7 @@ export function EventsPage() {
       .reduce((sum, service) => sum + service.price, 0);
   };
 
-  const handleBooking = () => {
+  const handleBooking = async () => {
     if (!isAuthenticated) {
       toast.error('Please login to make a booking');
       navigate('/login');
@@ -61,7 +79,7 @@ export function EventsPage() {
       eventType,
       services: selectedServices,
       startDate,
-      endDate,
+      endDate: startDate, // Assuming single day event if endDate not specified, or match structure
       totalAmount: calculateTotal(),
       status: 'pending' as const,
       paymentStatus: 'pending' as const,
@@ -69,12 +87,15 @@ export function EventsPage() {
       notes: `${guests ? `Guests: ${guests}. ` : ''}${notes}`,
     };
 
-    const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
-    bookings.push(booking);
-    localStorage.setItem('bookings', JSON.stringify(bookings));
-
-    toast.success('Booking created successfully!');
-    navigate(`/payment/${booking.id}`);
+    try {
+      await api.events.create(booking); // Send to backend
+      toast.success('Booking created successfully!');
+      // Ideally navigate to a confirmation page with ID, but we might not get ID back in simple create
+      // Assuming backend returns the created object
+      navigate(`/payment/${booking.id}`);
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to create booking');
+    }
   };
 
   const eventTypes = [

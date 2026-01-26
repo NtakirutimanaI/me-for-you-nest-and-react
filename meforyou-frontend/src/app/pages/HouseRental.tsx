@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router';
 import { useAuth } from '../context/AuthContext';
 import { useCurrency } from '../context/CurrencyContext';
@@ -6,7 +6,8 @@ import { useLanguage } from '../context/LanguageContext';
 import { Home as HomeIcon, MapPin, Bed, Bath, Users, Wifi, Wind, Coffee, Calendar, Check } from 'lucide-react';
 import { CurrencySwitcher } from '../components/CurrencySwitcher';
 import { toast } from 'sonner';
-import type { HouseRental } from '../types';
+import type { HouseRental, User } from '../types';
+import { api } from '../services/api';
 
 export function HouseRentalPage() {
   const { isAuthenticated } = useAuth();
@@ -16,8 +17,21 @@ export function HouseRentalPage() {
   const [selectedHouse, setSelectedHouse] = useState<HouseRental | null>(null);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [houses, setHouses] = useState<HouseRental[]>([]);
 
-  const houses: HouseRental[] = JSON.parse(localStorage.getItem('houseRentals') || '[]');
+  useEffect(() => {
+    const fetchHouses = async () => {
+      try {
+        const data = await api.properties.findAll();
+        setHouses(data);
+      } catch (error) {
+        console.error('Failed to load houses', error);
+        const local = JSON.parse(localStorage.getItem('houseRentals') || '[]');
+        setHouses(local);
+      }
+    };
+    fetchHouses();
+  }, []);
 
   const calculateNights = () => {
     if (!startDate || !endDate) return 0;
@@ -32,7 +46,7 @@ export function HouseRentalPage() {
     return selectedHouse.pricePerNight * calculateNights();
   };
 
-  const handleBooking = () => {
+  const handleBooking = async () => {
     if (!isAuthenticated) {
       toast.error('Please login to make a booking');
       navigate('/login');
@@ -49,27 +63,27 @@ export function HouseRentalPage() {
       return;
     }
 
-    const booking = {
-      id: `booking-${Date.now()}`,
-      userId: JSON.parse(localStorage.getItem('currentUser') || '{}').id,
-      userName: JSON.parse(localStorage.getItem('currentUser') || '{}').name,
-      serviceType: 'house-rental' as const,
-      houseId: selectedHouse.id,
-      startDate,
-      endDate,
-      totalAmount: calculateTotal(),
-      status: 'pending' as const,
-      paymentStatus: 'pending' as const,
-      createdAt: new Date().toISOString(),
-      notes: `${selectedHouse.title} - ${selectedHouse.location}`,
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+
+    // Create a Lease (or booking)
+    const bookingData = {
+      property_id: selectedHouse.id,
+      tenant_id: currentUser.id, // Ensure this maps correctly if tenant_id is number
+      start_date: startDate,
+      end_date: endDate,
+      monthly_rent: selectedHouse.pricePerNight * 30, // Estimate
+      security_deposit: 0,
+      lease_status: 'pending_approval'
     };
 
-    const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
-    bookings.push(booking);
-    localStorage.setItem('bookings', JSON.stringify(bookings));
-
-    toast.success('Booking created successfully!');
-    navigate(`/payment/${booking.id}`);
+    try {
+      await api.properties.lease(bookingData);
+      toast.success('Booking created successfully!');
+      // Ideally navigate to confirmation
+      navigate(`/payment/booking-${Date.now()}`);
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to create booking');
+    }
   };
 
   return (

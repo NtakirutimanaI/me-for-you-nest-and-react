@@ -113,6 +113,9 @@ export class Car {
     @Column({ type: 'decimal', precision: 12, scale: 2, nullable: true })
     purchase_price: number;
 
+    @Column({ type: 'jsonb', nullable: true })
+    photos_urls: string[];
+
     @CreateDateColumn()
     created_at: Date;
 
