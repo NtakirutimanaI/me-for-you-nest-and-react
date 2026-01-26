@@ -6,7 +6,7 @@ import { useLanguage } from '../context/LanguageContext';
 import {
   Calendar, Car, Home, DollarSign, Users, Package,
   TrendingUp, Clock, CheckCircle, XCircle, Settings2, Plus, Layout,
-  MessageSquare, Image as ImageIcon
+  MessageSquare, Image as ImageIcon, Search, Bell, Mail, Sun, Moon
 } from 'lucide-react';
 import { useCurrency } from '../context/CurrencyContext';
 import type { Booking, User } from '../types';

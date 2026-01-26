@@ -5,14 +5,22 @@ import { useLanguage } from '../context/LanguageContext';
 import {
   Globe, ChevronDown, ArrowRight, Info, Users, Heart, Award,
   Phone, HelpCircle, Calendar, Home as HomeIcon, Car, Map,
-  User, Layout, ShoppingBag, LogOut, Shield
+  User, Layout, ShoppingBag, LogOut, Shield,
+  Search, Bell, Mail, Sun, Moon, Plus
 } from 'lucide-react';
+import { toast } from 'sonner';
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const { language, setLanguage, t } = useLanguage();
   const location = useLocation();
   const { user, isAuthenticated, logout } = useAuth();
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const isDashboard = location.pathname.startsWith('/dashboard') ||
+    location.pathname.startsWith('/content-manager') ||
+    location.pathname.startsWith('/bookings') ||
+    location.pathname.startsWith('/profile');
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -20,6 +28,113 @@ export function Navigation() {
   const coralColor = '#FE5D37';
   const darkColor = '#103741';
   const lightCoral = '#FFF5F3';
+
+  if (isDashboard && isAuthenticated) {
+    return (
+      <nav className="navbar navbar-expand bg-white border-bottom fixed-top shadow-sm px-4" style={{ height: '85px', zIndex: 1200 }}>
+        <div className="container-fluid d-flex align-items-center justify-content-between">
+          {/* Dashboard Logo & Branding */}
+          <div className="d-flex align-items-center gap-3">
+            <Link to="/" className="d-flex align-items-center text-decoration-none">
+              <img src="/img/logo.jpg" alt="Logo" style={{ height: '40px' }} />
+              <div className="ms-2 d-none d-md-block">
+                <h5 className="mb-0 fw-bold" style={{ color: coralColor, letterSpacing: '-0.5px' }}>Me For You</h5>
+                <small className="text-muted fw-bold" style={{ fontSize: '10px', textTransform: 'uppercase' }}>Admin Console</small>
+              </div>
+            </Link>
+          </div>
+
+          {/* Search Bar */}
+          <div className="flex-grow-1 mx-5 d-none d-lg-block" style={{ maxWidth: '400px' }}>
+            <div className="position-relative">
+              <Search className="position-absolute top-50 start-0 translate-middle-y ms-3 text-muted" size={18} />
+              <input
+                type="text"
+                className="form-control ps-5 rounded-pill bg-light border-0"
+                placeholder="Search everything..."
+                style={{ height: '45px' }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    toast.info(`Searching for: "${(e.target as HTMLInputElement).value}"`);
+                  }
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Dashboard Actions */}
+          <div className="d-flex align-items-center gap-2 gap-md-3">
+            {/* Quick Add */}
+            <Link to="/content-manager" className="btn btn-primary rounded-circle p-2 d-flex align-items-center justify-content-center" style={{ width: '40px', height: '40px' }}>
+              <Plus size={20} />
+            </Link>
+
+            {/* Theme Toggle */}
+            <button
+              className="btn btn-light rounded-circle p-2 text-muted"
+              onClick={() => {
+                setIsDarkMode(!isDarkMode);
+                document.body.classList.toggle('dark-mode');
+                toast.success(isDarkMode ? 'Light mode activated' : 'Dark mode activated');
+              }}
+              style={{ width: '40px', height: '40px' }}
+            >
+              {isDarkMode ? <Sun size={20} className="text-warning" /> : <Moon size={20} />}
+            </button>
+
+            {/* Messages */}
+            <div className="position-relative">
+              <button
+                className="btn btn-light rounded-circle p-2 text-muted"
+                style={{ width: '40px', height: '40px' }}
+                onClick={() => toast.info('You have 3 unread messages')}
+              >
+                <Mail size={20} />
+              </button>
+              <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style={{ fontSize: '10px' }}>
+                3
+              </span>
+            </div>
+
+            {/* Notifications */}
+            <div className="position-relative">
+              <button
+                className="btn btn-light rounded-circle p-2 text-muted"
+                style={{ width: '40px', height: '40px' }}
+                onClick={() => toast.info('You have 5 new notifications')}
+              >
+                <Bell size={20} />
+              </button>
+              <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary" style={{ fontSize: '10px' }}>
+                5
+              </span>
+            </div>
+
+            {/* Vertical Divider */}
+            <div className="vr mx-2 text-muted opacity-25 d-none d-md-block" style={{ height: '30px' }}></div>
+
+            {/* User Profile */}
+            <div className="dropdown">
+              <button className="btn-account shadow-none border-0 bg-transparent" data-bs-toggle="dropdown">
+                <div className="account-avatar">
+                  {user?.name.charAt(0).toUpperCase()}
+                </div>
+                <div className="account-info d-none d-md-block">
+                  <span className="account-name">{user?.name.split(' ')[0]}</span>
+                  <span className="account-role">{user?.role}</span>
+                </div>
+              </button>
+              <ul className="dropdown-menu dropdown-menu-end border-0 shadow-lg p-2 mt-3" style={{ borderRadius: '15px', minWidth: '200px' }}>
+                <li><Link className="dropdown-item rounded-pill" to="/profile">Profile Settings</Link></li>
+                <li><hr className="dropdown-divider opacity-50" /></li>
+                <li><button onClick={logout} className="dropdown-item rounded-pill text-danger">Sign Out</button></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
+    );
+  }
 
   return (
     <nav className="navbar navbar-expand-lg bg-white navbar-light fixed-top shadow-sm" style={{ top: '0', zIndex: 1200, minHeight: '85px', display: 'flex', alignItems: 'center' }}>
