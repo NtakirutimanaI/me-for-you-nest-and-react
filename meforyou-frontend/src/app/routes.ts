@@ -16,6 +16,7 @@ import { TeamPage } from './pages/Team';
 import { DonationPage } from './pages/Donation';
 import { PartnersPage } from './pages/Partners';
 import { MorePage } from './pages/More';
+import { TestimonialsPage } from './pages/Testimonials';
 import { NotFound } from './pages/NotFound';
 
 export const router = createBrowserRouter([
@@ -29,6 +30,7 @@ export const router = createBrowserRouter([
       { path: 'house-rental', Component: HouseRentalPage },
       { path: 'about', Component: AboutPage },
       { path: 'more', Component: MorePage },
+      { path: 'testimonials', Component: TestimonialsPage },
       { path: 'team', Component: TeamPage },
       { path: 'partners', Component: PartnersPage },
       { path: 'contact', Component: ContactPage },

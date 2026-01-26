@@ -248,6 +248,9 @@ export function Home() {
             <div className="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style={{ maxWidth: '600px' }}>
               <h1 className="mb-3">{t('what_clients_say')}</h1>
               <p>Hear from the people who have experienced our services firsthand.</p>
+              <Link to="/testimonials" className="btn btn-outline-primary rounded-pill px-4 mt-2 fw-bold shadow-sm d-inline-flex align-items-center gap-2">
+                View All Stories <ArrowRight size={16} />
+              </Link>
             </div>
             <div className="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.1s">
               {dynamicTestimonials.map((t_item, idx) => (

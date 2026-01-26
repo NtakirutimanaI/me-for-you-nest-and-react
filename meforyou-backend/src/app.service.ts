@@ -86,10 +86,45 @@ export class AppService implements OnApplicationBootstrap {
   }
 
   async seedTestimonials() {
+    // Clear existing to ensure "true contents" as requested
+    const existing = await this.testimonialsService.findAll();
+    if (existing.length > 0 && !existing[0].name.includes('&')) {
+      for (const t of existing) {
+        await this.testimonialsService.remove(t.id);
+      }
+    }
+
     if ((await this.testimonialsService.findAll()).length === 0) {
-      await this.testimonialsService.create({ name: 'Mutesi Emma', profession: 'Event Planner', content: 'The training sessions were not only insightful but also deeply practical; our team walked away empowered and better equipped.', image_url: 'img/testimonial-1.jpg' });
-      await this.testimonialsService.create({ name: 'John Kabera', profession: 'Musician', content: 'Me For You Advisory transformed our event into an unforgettable experience — their attention to detail and professionalism were unmatched.', image_url: 'img/testimonial-2.jpg' });
-      await this.testimonialsService.create({ name: 'James Musoni', profession: 'Trainer', content: 'Their personalized coaching and language services helped my child thrive academically and boosted their confidence in public speaking.', image_url: 'img/testimonial-3.jpg' });
+      await this.testimonialsService.create({
+        name: 'Alice & Janvier',
+        profession: 'Wedding Couple',
+        content: 'Celebrating our love across two unforgettable days was a dream come true. Me For You Advisory carried us through every moment with such care and excellence that we could simply enjoy the joy of becoming one.',
+        image_url: 'img/testimonial-1.jpg'
+      });
+      await this.testimonialsService.create({
+        name: 'Ziggy & Selya',
+        profession: 'Wedding Couple',
+        content: 'From the first meeting to the last dance, we felt supported by a team that cared as if it were their own wedding. They gave us laughter, peace of mind, and the freedom to focus on our love.',
+        image_url: 'img/testimonial-2.jpg'
+      });
+      await this.testimonialsService.create({
+        name: 'Muhire & Jeanne D’Arc',
+        profession: 'Wedding Couple',
+        content: 'This was our wedding of a lifetime. Every part of the celebration reflected love and professionalism. Me For You transformed our dreams into perfect memories we will cherish forever.',
+        image_url: 'img/testimonial-3.jpg'
+      });
+      await this.testimonialsService.create({
+        name: 'Nadra & Uwera Marie',
+        profession: 'Client',
+        content: 'Me For You Advisory proved truly reliable and trustworthy. They delivered a perfect day we will remember and cherish forever.',
+        image_url: 'img/testimonial-1.jpg'
+      });
+      await this.testimonialsService.create({
+        name: 'Mariza & Adolphe',
+        profession: 'Wedding Couple',
+        content: 'When we look back, we don’t just remember the beauty of the day—we remember how stress-free and joyful it felt. Me For You gave us more than a wedding; they gave us the perfect beginning.',
+        image_url: 'img/testimonial-2.jpg'
+      });
     }
   }
 }

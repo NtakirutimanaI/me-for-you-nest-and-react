@@ -190,7 +190,9 @@ export function Navigation() {
             </li>
 
             <li className="nav-item">
-              <a href="/#testimonials" className="nav-link fw-bold px-3">{t('testimonials')}</a>
+              <Link to="/testimonials" className={`nav-link fw-bold px-3 ${isActive('/testimonials') ? 'active' : ''}`}>
+                {t('testimonials')}
+              </Link>
             </li>
 
             <li className="nav-item">
