@@ -28,8 +28,117 @@ export function AboutPage() {
 
   return (
     <div className="container-fluid bg-white p-0">
-      {/* Background / Who We Are Section */}
+      {/* Photo Collage Hero Section */}
       <div className="container-xxl py-5">
+        <div className="container">
+          <div className="row align-items-center g-5">
+            <div className="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+              <div className="photo-collage-container position-relative" style={{ minHeight: '500px' }}>
+                {/* Main large circle - top */}
+                <div
+                  className="photo-circle photo-circle-main position-absolute"
+                  style={{
+                    width: '320px',
+                    height: '320px',
+                    top: '0',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    borderRadius: '50%',
+                    overflow: 'hidden',
+                    border: '6px solid #f8f4f2',
+                    boxShadow: '0 10px 40px rgba(0,0,0,0.1)',
+                    zIndex: 3
+                  }}
+                >
+                  <img
+                    src="/img/3L7A6367.jpg"
+                    alt="Happy moments"
+                    className="w-100 h-100"
+                    style={{ objectFit: 'cover' }}
+                  />
+                </div>
+
+                {/* Bottom left circle */}
+                <div
+                  className="photo-circle photo-circle-left position-absolute"
+                  style={{
+                    width: '220px',
+                    height: '220px',
+                    bottom: '20px',
+                    left: '10%',
+                    borderRadius: '50%',
+                    overflow: 'hidden',
+                    border: '5px solid #f8f4f2',
+                    boxShadow: '0 10px 40px rgba(0,0,0,0.1)',
+                    zIndex: 2
+                  }}
+                >
+                  <img
+                    src="/img/event1.jpg"
+                    alt="Event decoration"
+                    className="w-100 h-100"
+                    style={{ objectFit: 'cover' }}
+                  />
+                </div>
+
+                {/* Bottom right circle */}
+                <div
+                  className="photo-circle photo-circle-right position-absolute"
+                  style={{
+                    width: '220px',
+                    height: '220px',
+                    bottom: '20px',
+                    right: '10%',
+                    borderRadius: '50%',
+                    overflow: 'hidden',
+                    border: '5px solid #f8f4f2',
+                    boxShadow: '0 10px 40px rgba(0,0,0,0.1)',
+                    zIndex: 2
+                  }}
+                >
+                  <img
+                    src="/img/IMG-20250104-WA0051.jpg"
+                    alt="Team members"
+                    className="w-100 h-100"
+                    style={{ objectFit: 'cover' }}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+              <h6 className="text-primary text-uppercase mb-3" style={{ letterSpacing: '2px' }}>About Me For You</h6>
+              <h1 className="display-4 fw-bold mb-4">Creating Memorable Experiences Together</h1>
+              <p className="fs-5 text-muted mb-4 leading-relaxed">
+                At Me For You Advisory, we believe every moment deserves to be special. From stunning events to comfortable homes and reliable transport, we're here to make your dreams a reality.
+              </p>
+              <div className="d-flex flex-wrap gap-4 mb-4">
+                <div className="d-flex align-items-center gap-2">
+                  <div className="bg-primary rounded-circle p-2">
+                    <CheckCircle className="text-white" size={16} />
+                  </div>
+                  <span className="fw-bold">Events & Weddings</span>
+                </div>
+                <div className="d-flex align-items-center gap-2">
+                  <div className="bg-primary rounded-circle p-2">
+                    <CheckCircle className="text-white" size={16} />
+                  </div>
+                  <span className="fw-bold">Housing Solutions</span>
+                </div>
+                <div className="d-flex align-items-center gap-2">
+                  <div className="bg-primary rounded-circle p-2">
+                    <CheckCircle className="text-white" size={16} />
+                  </div>
+                  <span className="fw-bold">Transport Services</span>
+                </div>
+              </div>
+              <Link to="/contact" className="btn btn-primary rounded-pill py-3 px-5 fw-bold shadow-sm">{t('get_in_touch')}</Link>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Background / Who We Are Section */}
+      <div className="container-xxl py-5 bg-light">
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-lg-10 text-center wow fadeInUp" data-wow-delay="0.1s">
