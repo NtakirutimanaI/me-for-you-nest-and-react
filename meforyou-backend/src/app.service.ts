@@ -141,11 +141,26 @@ export class AppService implements OnApplicationBootstrap {
   }
 
   async seedTeam() {
-    if ((await this.teamMembersService.findAll()).length === 0) {
-      await this.teamMembersService.create({ name: 'Papy Patrick Ndazigaruye', role: 'Founder & CEO', image_url: 'img/team-1y.jpg' });
-      await this.teamMembersService.create({ name: 'Tuyishime Jean Bosco', role: 'Operations Manager', image_url: 'img/team-222.jpg' });
-      await this.teamMembersService.create({ name: 'Mukamurenzi Chantal', role: 'Head of Events', image_url: 'img/team-3.jpg' });
-      await this.teamMembersService.create({ name: 'Ishimwe Solange', role: 'Logistics Coordinator', image_url: 'img/team-1.jpg' });
+    const existing = await this.teamMembersService.findAll();
+    for (const member of existing) {
+      await this.teamMembersService.remove(member.id);
+    }
+
+    const team = [
+      { name: 'Stephano Niyonsenga', role: 'Programs Manager', image_url: 'img/team-1y.jpg' },
+      { name: 'Marie Jeanne Ndazigaruye', role: 'Customer Engagement Manager', image_url: 'img/team-222.jpg' },
+      { name: 'Yvette Kumi', role: 'Operations & Finance Manager', image_url: 'img/team-3.jpg' },
+      { name: 'Claudine Igiraneza', role: 'CEO Office Assistant', image_url: 'img/team-1.jpg' },
+      { name: 'Keren Gisubizo', role: 'Regional Coordinator', image_url: 'img/team-2.jpg' },
+      { name: 'Bosco Nshizirungu', role: 'Regional Coordinator', image_url: 'img/team-1y.jpg' },
+      { name: 'Louise Uwase', role: 'Coordinator', image_url: 'img/team-222.jpg' },
+      { name: 'Joseph Nsengiyumva', role: 'Team Leader', image_url: 'img/team-3.jpg' },
+      { name: 'Aline Uwera', role: 'Team Leader', image_url: 'img/team-1.jpg' },
+      { name: 'Fred Izabayo Shumbusho', role: 'Customer Engagement Assistant', image_url: 'img/team-2.jpg' },
+    ];
+
+    for (const member of team) {
+      await this.teamMembersService.create(member);
     }
   }
 

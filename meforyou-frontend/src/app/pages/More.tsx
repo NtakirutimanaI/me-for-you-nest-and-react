@@ -52,13 +52,34 @@ export function MorePage() {
 
     return (
         <div className="container-fluid bg-white p-0">
-            {/* Hero Section */}
-            <div className="container-fluid py-5 bg-dark-teal text-white text-center">
-                <div className="container py-5">
-                    <h1 className="display-3 fw-bold mb-4 wow fadeInDown">Our Depth & Strategy</h1>
-                    <p className="fs-4 mb-5 wow fadeInUp" data-wow-delay="0.2s">
-                        Going beyond services to deliver meaningful impact through smart solutions.
+            {/* Premium Hero Header Section */}
+            <div className="container-fluid page-header position-relative p-0 mb-5" style={{
+                background: 'linear-gradient(rgba(16, 55, 65, 0.8), rgba(16, 55, 65, 0.8)), url("/img/hero-team.jpg") center center no-repeat',
+                backgroundSize: 'cover',
+                minHeight: '400px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+            }}>
+                <div className="container py-5 text-center mt-3">
+                    <h1 className="display-2 text-white fw-bold mb-3 animated slideInDown" style={{ textShadow: '0 4px 15px rgba(0,0,0,0.5)' }}>Our Depth & Strategy</h1>
+                    <nav aria-label="breadcrumb">
+                        <div className="d-inline-flex align-items-center text-white fs-5 fw-medium animated slideInUp">
+                            <Link className="text-white hover-opacity-100 transition-all text-decoration-none" to="/">{t('home')}</Link>
+                            <span className="mx-2 opacity-50">/</span>
+                            <span className="text-white">Our Depth</span>
+                        </div>
+                    </nav>
+                    <p className="text-white-50 fs-5 mt-4 max-w-700 mx-auto animated fadeInUp">
+                        Going beyond services to deliver meaningful impact through smart solutions and strategic advisory.
                     </p>
+                </div>
+
+                {/* Scalloped Border effect */}
+                <div className="position-absolute start-0 bottom-0 w-100 overflow-hidden" style={{ lineHeight: 0, height: '40px' }}>
+                    <svg viewBox="0 0 120 28" preserveAspectRatio="none" style={{ width: '100%', height: '100%' }}>
+                        <path d="M0 28 Q 5 0, 10 28 T 20 28 T 30 28 T 40 28 T 50 28 T 60 28 T 70 28 T 80 28 T 90 28 T 100 28 T 110 28 T 120 28 V 28 H 0 Z" fill="white" />
+                    </svg>
                 </div>
             </div>
 

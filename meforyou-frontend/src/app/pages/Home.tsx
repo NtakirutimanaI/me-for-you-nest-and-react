@@ -7,20 +7,17 @@ import { api } from '../services/api';
 export function Home() {
   const { t } = useLanguage();
   const [carouselItems, setCarouselItems] = useState<any[]>([]);
-  const [dynamicServices, setDynamicServices] = useState<any[]>([]);
   const [dynamicTestimonials, setDynamicTestimonials] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [carousel, services, testimonials] = await Promise.all([
+        const [carousel, testimonials] = await Promise.all([
           api.carouselItems.findAll(),
-          api.services.findAll(),
           api.testimonials.findAll()
         ]);
 
         if (carousel && carousel.length > 0) setCarouselItems(carousel);
-        if (services && services.length > 0) setDynamicServices(services);
         if (testimonials && testimonials.length > 0) setDynamicTestimonials(testimonials);
       } catch (error) {
         console.error("Error fetching home data:", error);
@@ -75,11 +72,7 @@ export function Home() {
     }
   }, [carouselItems, dynamicTestimonials]);
 
-  const defaultServices = [
-    { icon: Calendar, title: t('events'), description: 'Complete event planning services for weddings, corporate events, and special occasions.', image: '/img/event1.jpg', link: '/events', color: 'text-primary' },
-    { icon: Car, title: t('transport'), description: 'Wide range of vehicles from economy to luxury cars for any occasion.', image: '/img/Pic7.jpg', link: '/car-rental', color: 'text-success' },
-    { icon: HomeIcon, title: t('housing'), description: 'Comfortable accommodations for short-term and long-term stays in Kigali.', image: '/img/Pic9.jpg', link: '/house-rental', color: 'text-warning' },
-  ];
+
 
   const defaultCarousel = [
     { title: t('hero_title_1'), description: t('hero_desc_1'), image_url: 'img/hero-v2-wedding.png' },
@@ -87,7 +80,6 @@ export function Home() {
   ];
 
   const displayCarousel = carouselItems.length > 0 ? carouselItems : defaultCarousel;
-  const displayServices = dynamicServices.length > 0 ? dynamicServices : defaultServices;
 
   return (
     <div className="container-fluid bg-white p-0">
@@ -192,36 +184,7 @@ export function Home() {
         </div>
       </div>
 
-      {/* Our Services */}
-      <div className="container-xxl py-5">
-        <div className="container">
-          <div className="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style={{ maxWidth: '600px' }}>
-            <h1 className="mb-3">{t('premium_services')}</h1>
-            <p>{t('premium_services_desc')}</p>
-          </div>
-          <div className="row g-4">
-            {displayServices.map((service, idx) => (
-              <div key={idx} className="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay={`${0.1 * (idx + 1)}s`}>
-                <div className="classes-item border rounded-4 h-100 hover-lift shadow-sm transition-all bg-white">
-                  <div className="position-relative overflow-hidden rounded-top-4">
-                    <img className="img-fluid w-100 transition-all duration-500" src={service.image_url ? (service.image_url.startsWith('http') ? service.image_url : `/${service.image_url}`) : (service.image || '/img/event1.jpg')} alt={service.title} style={{ height: '260px', objectFit: 'cover' }} />
-                    <div className="classes-overlay">
-                      <Link to={service.link || "/events"} className="btn btn-outline-white rounded-pill px-4 fw-bold">{t('view_details')}</Link>
-                    </div>
-                  </div>
-                  <div className="p-4 text-center">
-                    <div className="bg-primary-soft rounded-pill d-inline-block px-4 py-2 mb-3 text-primary fw-bold">
-                      {service.title || service.name}
-                    </div>
-                    <p className="mb-4 text-muted small">{service.description || "Professional services tailored to your needs."}</p>
-                    <Link to={service.link || "/events"} className="btn btn-primary rounded-pill px-4 py-2 fw-bold shadow-sm">{t('book_now')}</Link>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+
 
       {/* Mobile App Section */}
       <AppSection />
