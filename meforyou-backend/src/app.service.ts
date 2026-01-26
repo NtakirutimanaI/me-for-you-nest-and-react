@@ -147,16 +147,16 @@ export class AppService implements OnApplicationBootstrap {
     }
 
     const team = [
-      { name: 'Stephano Niyonsenga', role: 'Programs Manager', image_url: 'img/team-1y.jpg' },
-      { name: 'Marie Jeanne Ndazigaruye', role: 'Customer Engagement Manager', image_url: 'img/team-222.jpg' },
-      { name: 'Yvette Kumi', role: 'Operations & Finance Manager', image_url: 'img/team-3.jpg' },
-      { name: 'Claudine Igiraneza', role: 'CEO Office Assistant', image_url: 'img/team-1.jpg' },
-      { name: 'Keren Gisubizo', role: 'Regional Coordinator', image_url: 'img/team-2.jpg' },
-      { name: 'Bosco Nshizirungu', role: 'Regional Coordinator', image_url: 'img/team-1y.jpg' },
-      { name: 'Louise Uwase', role: 'Coordinator', image_url: 'img/team-222.jpg' },
-      { name: 'Joseph Nsengiyumva', role: 'Team Leader', image_url: 'img/team-3.jpg' },
-      { name: 'Aline Uwera', role: 'Team Leader', image_url: 'img/team-1.jpg' },
-      { name: 'Fred Izabayo Shumbusho', role: 'Customer Engagement Assistant', image_url: 'img/team-2.jpg' },
+      { name: 'Stephano Niyonsenga', role: 'Programs Manager', image_url: 'https://me-for-you.org/img/stephen.jpg' },
+      { name: 'Marie Jeanne Ndazigaruye', role: 'Customer Engagement Manager', image_url: 'https://me-for-you.org/img/Jeanne.jpg' },
+      { name: 'Yvette Kumi', role: 'Operations & Finance Manager', image_url: 'https://me-for-you.org/img/Yvette.jpg' },
+      { name: 'Claudine Igiraneza', role: 'CEO Office Assistant', image_url: 'https://me-for-you.org/img/igiraneza.jpg' },
+      { name: 'Keren Gisubizo', role: 'Regional Coordinator', image_url: 'https://me-for-you.org/img/keren.jpg' },
+      { name: 'Bosco Nshizirungu', role: 'Regional Coordinator', image_url: 'https://me-for-you.org/img/Bosco.jpg' },
+      { name: 'Louise Uwase', role: 'Coordinator', image_url: 'https://me-for-you.org/img/louise.png' },
+      { name: 'Joseph Nsengiyumva', role: 'Team Leader', image_url: 'https://me-for-you.org/img/Joseph.jpg' },
+      { name: 'Aline Uwera', role: 'Team Leader', image_url: 'https://me-for-you.org/img/aline.jpeg' },
+      { name: 'Fred Izabayo Shumbusho', role: 'Customer Engagement Assistant', image_url: 'https://me-for-you.org/img/shumbusho.png' },
     ];
 
     for (const member of team) {

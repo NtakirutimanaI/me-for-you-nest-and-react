@@ -70,21 +70,24 @@ export function TeamPage() {
                     </div>
                     <div className="row g-4">
                         {teamToDisplay.map((member, index) => (
-                            <div key={index} className="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay={`${0.1 + index * 0.2}s`}>
-                                <div className="classes-item border rounded h-100 p-4 text-center">
-                                    <div className="bg-light rounded-circle w-75 mx-auto p-2 mb-4">
+                            <div key={index} className="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay={`${0.1 * (index % 4)}s`}>
+                                <div className="team-card text-center p-4">
+                                    <div className="team-img-wrapper mb-4">
                                         <img
-                                            className="img-fluid rounded-circle"
-                                            src={member.image_url ? (member.image_url.startsWith('http') ? member.image_url : `/${member.image_url}`) : member.image}
+                                            className="img-fluid rounded-circle shadow-sm"
+                                            src={member.image_url ? (member.image_url.startsWith('http') ? member.image_url : `/${member.image_url}`) : (member.image || "/img/testimonial-1.jpg")}
                                             alt={member.name}
+                                            style={{ width: '180px', height: '180px', objectFit: 'cover' }}
                                         />
                                     </div>
-                                    <h4 className="mb-1">{member.name}</h4>
-                                    <p className="text-primary small fw-bold mb-4">{member.role}</p>
-                                    <div className="d-flex justify-content-center gap-2">
-                                        <a className="btn btn-sm-square btn-primary rounded-circle" href=""><i className="fab fa-facebook-f"></i></a>
-                                        <a className="btn btn-sm-square btn-primary rounded-circle" href=""><i className="fab fa-twitter"></i></a>
-                                        <a className="btn btn-sm-square btn-primary rounded-circle" href=""><i className="fab fa-linkedin-in"></i></a>
+                                    <h5 className="fw-bold mb-1" style={{ color: '#103741' }}>{member.name}</h5>
+                                    <p className="text-muted small mb-3" style={{ minHeight: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto', maxWidth: '180px' }}>
+                                        {member.role}
+                                    </p>
+                                    <div className="d-flex justify-content-center gap-3">
+                                        <Facebook size={18} className="text-primary cursor-pointer hover-opacity-75" />
+                                        <Twitter size={18} className="text-primary cursor-pointer hover-opacity-75" />
+                                        <Linkedin size={18} className="text-primary cursor-pointer hover-opacity-75" />
                                     </div>
                                 </div>
                             </div>
