@@ -1,4 +1,4 @@
-import { Users, Target, Award, Heart, CheckCircle, Shield, Lightbulb, UserCheck, Quote } from 'lucide-react';
+import { Users, Target, Award, Heart, CheckCircle, Shield, Lightbulb, UserCheck, Quote, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -229,6 +229,33 @@ export function AboutPage() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Final CTA Section */}
+      <div className="container-xxl py-5 bg-white">
+        <div className="container">
+          <div className="row g-5 align-items-center">
+            <div className="col-lg-5 wow fadeInUp" data-wow-delay="0.1s">
+              <div className="position-relative">
+                <img
+                  className="img-fluid rounded-4 shadow-lg w-100"
+                  src="/img/DSC09554.JPG"
+                  alt="Me For You Events"
+                  style={{ objectFit: 'cover', minHeight: '400px' }}
+                />
+              </div>
+            </div>
+            <div className="col-lg-7 wow fadeInUp" data-wow-delay="0.3s">
+              <h1 className="display-5 fw-bold mb-4">{t('about_cta_title')}</h1>
+              <p className="fs-5 text-muted mb-4 leading-relaxed">
+                {t('background_desc')}
+              </p>
+              <Link to="/contact" className="btn btn-primary rounded-pill py-3 px-5 fw-bold shadow-sm d-inline-flex align-items-center gap-2" style={{ backgroundColor: '#FE5D37', border: 'none' }}>
+                {t('learn_more_about_us')} <ArrowRight size={20} />
+              </Link>
+            </div>
           </div>
         </div>
       </div>

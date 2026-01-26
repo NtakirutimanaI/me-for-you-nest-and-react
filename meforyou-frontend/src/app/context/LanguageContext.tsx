@@ -170,6 +170,8 @@ const translations: Record<Language, Record<string, string>> = {
         value_trustworthiness_desc: 'We honor our commitments, protect your interests, and maintain transparency in everything we do.',
         value_smartness: 'Smartness',
         value_smartness_desc: 'We bring creative, efficient, and innovative solutions that save you time, effort, and resources while delivering maximum impact.',
+        about_cta_title: 'We Turn Ideas Into Experiences, Challenges Into Solutions',
+        learn_more_about_us: 'Learn More About Us',
 
         // Footer
         get_in_touch: 'Get In Touch',
@@ -352,6 +354,8 @@ const translations: Record<Language, Record<string, string>> = {
         value_trustworthiness_desc: 'Wubaha amasezerano yacu, turinda inyungu zawe, kandi tugumana umuseke mu byo dukora byose.',
         value_smartness: 'Ubwenge',
         value_smartness_desc: 'Tuzana ibisubizo byihuse, binoze, kandi bivuguruye bikuzigamira igihe, imbaraga, n’umutungo mugihe bitanga umusaruro ugaragara.',
+        about_cta_title: 'Duhindura Ibitekerezo mo Ubuhamya, Inzitane mo Ibisubizo',
+        learn_more_about_us: 'Menya Byinshi kuri Twebwe',
 
         // Footer
         get_in_touch: 'Twandikire',
@@ -534,6 +538,8 @@ const translations: Record<Language, Record<string, string>> = {
         value_trustworthiness_desc: 'Tunaheshimu ahadi zetu, kulinda maslahi yako, na kudumisha uwazi katika kila kitu tunachofanya.',
         value_smartness: 'Ujanja',
         value_smartness_desc: 'Tunaleta suluhisho za ubunifu, ufanisi, na uvumbuzi ambazo zinakuokoa wakati, juhudi, na rasilimali huku zikileta matokeo ya juu.',
+        about_cta_title: 'Tunageuza Mawazo Kuwa Uzoefu, Changamoto Kuwa Suluhu',
+        learn_more_about_us: 'Jifunze Zaidi Kuhusu Sisi',
 
         // Footer
         get_in_touch: 'Wasiliana Nasi',
@@ -716,6 +722,8 @@ const translations: Record<Language, Record<string, string>> = {
         value_trustworthiness_desc: 'Nous honorons nos engagements, protégeons vos intérêts et maintenons la transparence dans tout ce que nous faisons.',
         value_smartness: 'Ingéniosité',
         value_smartness_desc: 'Nous apportons des solutions créatives, efficaces et innovantes qui vous font gagner du temps, de l\'effort et des ressources tout en produisant un impact maximal.',
+        about_cta_title: 'Nous Transformons les Idées en Expériences, les Défis en Solutions',
+        learn_more_about_us: 'En Savoir Plus sur Nous',
 
         // Footer
         get_in_touch: 'Contactez-nous',
