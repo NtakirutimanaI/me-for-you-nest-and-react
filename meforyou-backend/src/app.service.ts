@@ -88,7 +88,7 @@ export class AppService implements OnApplicationBootstrap {
   async seedTestimonials() {
     // Clear existing to ensure the latest "true contents" are applied
     const existing = await this.testimonialsService.findAll();
-    if (existing.length < 15) { // Force refresh for more content
+    if (existing.length !== 13) { // Force refresh to reach exactly 13 diverse items
       for (const t of existing) {
         await this.testimonialsService.remove(t.id);
       }
