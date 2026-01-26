@@ -51,7 +51,7 @@ export function AboutPage() {
                   }}
                 >
                   <img
-                    src="/img/3L7A6367.jpg"
+                    src="/img/collage-wedding.jpg"
                     alt="Happy moments"
                     className="w-100 h-100"
                     style={{ objectFit: 'cover' }}
@@ -74,7 +74,7 @@ export function AboutPage() {
                   }}
                 >
                   <img
-                    src="/img/event1.jpg"
+                    src="/img/collage-people.png"
                     alt="Event decoration"
                     className="w-100 h-100"
                     style={{ objectFit: 'cover' }}
@@ -97,7 +97,7 @@ export function AboutPage() {
                   }}
                 >
                   <img
-                    src="/img/IMG-20250104-WA0051.jpg"
+                    src="/img/collage-serving.jpg"
                     alt="Team members"
                     className="w-100 h-100"
                     style={{ objectFit: 'cover' }}
