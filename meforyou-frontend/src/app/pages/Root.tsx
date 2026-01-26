@@ -2,6 +2,7 @@ import { Outlet } from 'react-router';
 import { Navigation } from '../components/Navigation';
 import { Footer } from '../components/Footer';
 import { BookingModal } from '../components/BookingModal';
+import { ScrollToTop } from '../components/ScrollToTop';
 import { AuthProvider } from '../context/AuthContext';
 import { CurrencyProvider } from '../context/CurrencyContext';
 import { LanguageProvider } from '../context/LanguageContext';
@@ -24,6 +25,7 @@ export function Root() {
               <Outlet />
             </main>
             <Footer />
+            <ScrollToTop />
           </div>
         </CurrencyProvider>
       </AuthProvider>
