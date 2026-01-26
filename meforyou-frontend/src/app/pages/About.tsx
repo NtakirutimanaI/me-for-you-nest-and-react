@@ -33,6 +33,34 @@ export function AboutPage() {
         <div className="container">
           <div className="row align-items-center g-5">
             <div className="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+              <h6 className="text-primary text-uppercase mb-3" style={{ letterSpacing: '2px' }}>About Me For You</h6>
+              <h1 className="display-4 fw-bold mb-4">Creating Memorable Experiences Together</h1>
+              <p className="fs-5 text-muted mb-4 leading-relaxed">
+                At Me For You Advisory, we believe every moment deserves to be special. From stunning events to comfortable homes and reliable transport, we're here to make your dreams a reality.
+              </p>
+              <div className="d-flex flex-wrap gap-4 mb-4">
+                <div className="d-flex align-items-center gap-2">
+                  <div className="bg-primary rounded-circle p-2">
+                    <CheckCircle className="text-white" size={16} />
+                  </div>
+                  <span className="fw-bold">Events & Weddings</span>
+                </div>
+                <div className="d-flex align-items-center gap-2">
+                  <div className="bg-primary rounded-circle p-2">
+                    <CheckCircle className="text-white" size={16} />
+                  </div>
+                  <span className="fw-bold">Housing Solutions</span>
+                </div>
+                <div className="d-flex align-items-center gap-2">
+                  <div className="bg-primary rounded-circle p-2">
+                    <CheckCircle className="text-white" size={16} />
+                  </div>
+                  <span className="fw-bold">Transport Services</span>
+                </div>
+              </div>
+              <Link to="/contact" className="btn btn-primary rounded-pill py-3 px-5 fw-bold shadow-sm">{t('get_in_touch')}</Link>
+            </div>
+            <div className="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
               <div className="photo-collage-container position-relative" style={{ minHeight: '500px' }}>
                 {/* Main large circle - top */}
                 <div
@@ -104,34 +132,6 @@ export function AboutPage() {
                   />
                 </div>
               </div>
-            </div>
-            <div className="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
-              <h6 className="text-primary text-uppercase mb-3" style={{ letterSpacing: '2px' }}>About Me For You</h6>
-              <h1 className="display-4 fw-bold mb-4">Creating Memorable Experiences Together</h1>
-              <p className="fs-5 text-muted mb-4 leading-relaxed">
-                At Me For You Advisory, we believe every moment deserves to be special. From stunning events to comfortable homes and reliable transport, we're here to make your dreams a reality.
-              </p>
-              <div className="d-flex flex-wrap gap-4 mb-4">
-                <div className="d-flex align-items-center gap-2">
-                  <div className="bg-primary rounded-circle p-2">
-                    <CheckCircle className="text-white" size={16} />
-                  </div>
-                  <span className="fw-bold">Events & Weddings</span>
-                </div>
-                <div className="d-flex align-items-center gap-2">
-                  <div className="bg-primary rounded-circle p-2">
-                    <CheckCircle className="text-white" size={16} />
-                  </div>
-                  <span className="fw-bold">Housing Solutions</span>
-                </div>
-                <div className="d-flex align-items-center gap-2">
-                  <div className="bg-primary rounded-circle p-2">
-                    <CheckCircle className="text-white" size={16} />
-                  </div>
-                  <span className="fw-bold">Transport Services</span>
-                </div>
-              </div>
-              <Link to="/contact" className="btn btn-primary rounded-pill py-3 px-5 fw-bold shadow-sm">{t('get_in_touch')}</Link>
             </div>
           </div>
         </div>
