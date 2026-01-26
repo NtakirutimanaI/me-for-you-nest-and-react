@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router';
 import { api } from '../services/api';
 import {
     Plus, Trash2, Edit2, Check, X, Image as ImageIcon,
@@ -10,7 +11,9 @@ import { toast } from 'sonner';
 type ManagerTab = 'testimonials' | 'services' | 'team' | 'partners' | 'carousel' | 'facilities' | 'cars' | 'properties';
 
 export function ContentManagerPage() {
-    const [activeTab, setActiveTab] = useState<ManagerTab>('testimonials');
+    const [searchParams, setSearchParams] = useSearchParams();
+    const tabParam = searchParams.get('tab') as ManagerTab;
+    const [activeTab, setActiveTab] = useState<ManagerTab>(tabParam || 'testimonials');
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState<any[]>([]);
     const [isAdding, setIsAdding] = useState(false);
@@ -20,7 +23,14 @@ export function ContentManagerPage() {
     const [formData, setFormData] = useState<any>({});
 
     useEffect(() => {
+        if (tabParam && tabParam !== activeTab) {
+            setActiveTab(tabParam);
+        }
+    }, [tabParam]);
+
+    useEffect(() => {
         fetchData();
+        setSearchParams({ tab: activeTab });
     }, [activeTab]);
 
     const fetchData = async () => {

@@ -259,28 +259,43 @@ export class AppService implements OnApplicationBootstrap {
   }
 
   async seedUsers() {
-    if ((await this.userRepository.count()) === 0) {
-      const salt = await bcrypt.genSalt();
-      const password_hash = await bcrypt.hash('password123', salt);
+    const salt = await bcrypt.genSalt();
 
-      await this.userRepository.save([
-        {
-          username: 'admin',
-          email: 'admin@meforyou.org',
-          password_hash,
-          first_name: 'Admin',
-          last_name: 'User',
-          user_type: UserType.ADMIN
-        },
-        {
-          username: 'client',
-          email: 'client@meforyou.org',
-          password_hash,
-          first_name: 'Client',
-          last_name: 'User',
-          user_type: UserType.CLIENT
-        }
-      ]);
+    // Ensure Admin exists with 'admin123'
+    let admin = await this.userRepository.findOne({ where: { email: 'admin@meforyou.org' } });
+    const adminPasswordHash = await bcrypt.hash('admin123', salt);
+
+    if (admin) {
+      admin.password_hash = adminPasswordHash;
+      admin.user_type = UserType.ADMIN;
+      await this.userRepository.save(admin);
+    } else {
+      await this.userRepository.save({
+        username: 'admin',
+        email: 'admin@meforyou.org',
+        password_hash: adminPasswordHash,
+        first_name: 'Admin',
+        last_name: 'User',
+        user_type: UserType.ADMIN
+      });
+    }
+
+    // Ensure Client exists with 'password123'
+    let client = await this.userRepository.findOne({ where: { email: 'client@meforyou.org' } });
+    const clientPasswordHash = await bcrypt.hash('password123', salt);
+
+    if (client) {
+      client.password_hash = clientPasswordHash;
+      await this.userRepository.save(client);
+    } else {
+      await this.userRepository.save({
+        username: 'client',
+        email: 'client@meforyou.org',
+        password_hash: clientPasswordHash,
+        first_name: 'Client',
+        last_name: 'User',
+        user_type: UserType.CLIENT
+      });
     }
   }
 

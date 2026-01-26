@@ -5,7 +5,8 @@ import { api } from '../services/api';
 import { useLanguage } from '../context/LanguageContext';
 import {
   Calendar, Car, Home, DollarSign, Users, Package,
-  TrendingUp, Clock, CheckCircle, XCircle, Settings2, Plus
+  TrendingUp, Clock, CheckCircle, XCircle, Settings2, Plus, Layout,
+  MessageSquare, Image as ImageIcon
 } from 'lucide-react';
 import { useCurrency } from '../context/CurrencyContext';
 import type { Booking, User } from '../types';
@@ -107,7 +108,85 @@ export function DashboardPage() {
   };
 
   return (
-    <div className="container-fluid bg-light p-0 min-h-screen">
+    <div className="container-fluid bg-light p-0 min-h-screen position-relative overflow-hidden">
+      {(user?.role === 'admin' || user?.role === 'manager') && (
+        <div className="admin-sidebar-hover-zone">
+          <div className="admin-sidebar shadow-lg">
+            <div className="sidebar-header p-4 border-bottom">
+              <h5 className="mb-0 fw-bold text-primary">MITS ADMIN</h5>
+              <small className="text-muted">Management Hub</small>
+            </div>
+            <div className="sidebar-links p-3">
+              <div className="sidebar-category mt-2 mb-2 px-3">
+                <small className="text-muted fw-bold">MAIN</small>
+              </div>
+              <Link to="/dashboard" className="sidebar-link active">
+                <Layout size={18} />
+                <span>Overview</span>
+              </Link>
+              <Link to="/bookings" className="sidebar-link text-decoration-none">
+                <Package size={18} />
+                <span>Manage Bookings</span>
+              </Link>
+
+              <div className="sidebar-category mt-4 mb-2 px-3">
+                <small className="text-muted fw-bold">SERVICES</small>
+              </div>
+              <Link to="/content-manager?tab=services" className="sidebar-link text-decoration-none">
+                <Package size={18} />
+                <span>Events & Core</span>
+              </Link>
+              <Link to="/content-manager?tab=cars" className="sidebar-link text-decoration-none">
+                <Car size={18} />
+                <span>Car Fleet</span>
+              </Link>
+              <Link to="/content-manager?tab=properties" className="sidebar-link text-decoration-none">
+                <Home size={18} />
+                <span>Properties</span>
+              </Link>
+
+              <div className="sidebar-category mt-4 mb-2 px-3">
+                <small className="text-muted fw-bold">CONTENT</small>
+              </div>
+              <Link to="/content-manager?tab=team" className="sidebar-link text-decoration-none">
+                <Users size={18} />
+                <span>Team Members</span>
+              </Link>
+              <Link to="/content-manager?tab=partners" className="sidebar-link text-decoration-none">
+                <Users size={18} />
+                <span>Partners List</span>
+              </Link>
+              <Link to="/content-manager?tab=testimonials" className="sidebar-link text-decoration-none">
+                <MessageSquare size={18} />
+                <span>Testimonials</span>
+              </Link>
+              <Link to="/content-manager?tab=carousel" className="sidebar-link text-decoration-none">
+                <ImageIcon size={18} />
+                <span>Carousel Items</span>
+              </Link>
+
+              <div className="sidebar-category mt-4 mb-2 px-3">
+                <small className="text-muted fw-bold">SYSTEM</small>
+              </div>
+              <Link to="/profile" className="sidebar-link text-decoration-none">
+                <Settings2 size={18} />
+                <span>Platform Settings</span>
+              </Link>
+
+              <div className="mt-4 pt-4 px-3 border-top">
+                <div className="p-3 bg-primary-soft rounded-4 text-center">
+                  <h6 className="small fw-bold mb-1">Platform Status</h6>
+                  <div className="d-flex align-items-center justify-content-center gap-1">
+                    <div className="rounded-circle bg-success" style={{ width: '6px', height: '6px' }}></div>
+                    <span className="small text-success fw-bold">Online</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="container-xxl py-5">
         <div className="container">
           <div className="d-flex align-items-center justify-content-between mb-5 wow fadeInUp" data-wow-delay="0.1s">
@@ -284,8 +363,8 @@ export function DashboardPage() {
                         <h6 className="mb-0 text-white">Manage Content</h6>
                         <small className="text-white-50">Team, Services, FAQ & More</small>
                       </div>
-                      <Link to="/content-manager" className="text-white ms-auto">
-                        <Plus size={20} />
+                      <Link to="/content-manager" className="text-white ms-auto font-bold d-flex align-items-center justify-content-center bg-white rounded-circle" style={{ width: '32px', height: '32px' }}>
+                        <Plus size={20} color="#FE5D37" />
                       </Link>
                     </Link>
                     <div className="p-3 bg-light rounded shadow-sm">
@@ -309,6 +388,74 @@ export function DashboardPage() {
         .bg-primary-soft { background-color: rgba(254, 93, 55, 0.1); }
         .bg-success-soft { background-color: rgba(25, 135, 84, 0.1); }
         .bg-info-soft { background-color: rgba(13, 202, 240, 0.1); }
+
+        /* Admin Sidebar Styles */
+        .admin-sidebar-hover-zone {
+          position: fixed;
+          left: 0;
+          top: 0;
+          height: 100vh;
+          width: 80px;
+          z-index: 2000;
+          transition: width 0.3s ease;
+        }
+
+        .admin-sidebar {
+          position: fixed;
+          left: -280px;
+          top: 0;
+          height: 100vh;
+          width: 280px;
+          background: white;
+          z-index: 2001;
+          transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .admin-sidebar-hover-zone:hover .admin-sidebar {
+          left: 0;
+        }
+
+        .sidebar-link {
+          display: flex;
+          align-items: center;
+          gap: 15px;
+          padding: 12px 20px;
+          border-radius: 12px;
+          color: #555;
+          text-decoration: none;
+          font-weight: 500;
+          transition: all 0.2s;
+          margin-bottom: 5px;
+        }
+
+        .sidebar-link:hover {
+          background: var(--primary-soft);
+          color: var(--primary);
+          transform: translateX(5px);
+        }
+
+        .sidebar-link.active {
+          background: var(--primary);
+          color: white;
+        }
+
+        /* Hover Hint */
+        .admin-sidebar-hover-zone::after {
+          content: 'ADMIN';
+          position: absolute;
+          left: 10px;
+          top: 50%;
+          transform: translateY(-50%) rotate(-90deg);
+          font-weight: 900;
+          font-size: 10px;
+          letter-spacing: 2px;
+          color: var(--primary);
+          opacity: 0.5;
+          transition: opacity 0.3s;
+        }
+        .admin-sidebar-hover-zone:hover::after {
+          opacity: 0;
+        }
       `}</style>
     </div >
   );
