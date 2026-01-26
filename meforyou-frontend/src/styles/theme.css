@@ -423,12 +423,14 @@ a {
 
 .circle-card:hover {
   transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  border-color: var(--primary) !important;
+  box-shadow: 0 20px 40px rgba(254, 93, 55, 0.2) !important;
 }
 
 .circle-card-container:hover .circle-icon-wrapper {
   transform: translateY(-8px) scale(1.1);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  border-color: var(--primary);
+  box-shadow: 0 10px 20px rgba(254, 93, 55, 0.3);
 }
 
 .circle-icon-wrapper {
@@ -443,6 +445,8 @@ a {
   justify-content: center;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   z-index: 2;
+  border: 3px solid transparent;
+  transition: all 0.4s ease;
 }
 
 .circle-icon-inner {
@@ -500,4 +504,14 @@ a {
 
 .bg-mission-soft {
   background-color: rgba(14, 165, 233, 0.1);
+}
+
+.testimonial-img-hover {
+  transition: all 0.4s ease;
+}
+
+.testimonial-item:hover .testimonial-img-hover {
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 15px rgba(254, 93, 55, 0.4);
+  transform: scale(1.1);
 }

@@ -161,19 +161,19 @@ export function AboutPage() {
             <div className="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
               <div className="photo-collage-container position-relative" style={{ minHeight: '500px' }}>
                 <div
-                  className="photo-circle photo-circle-main position-absolute"
+                  className="photo-circle photo-circle-main position-absolute collage-img-hover"
                   style={{ width: '320px', height: '320px', top: '0', left: '50%', transform: 'translateX(-50%)', borderRadius: '50%', overflow: 'hidden', border: '6px solid #f8f4f2', boxShadow: '0 10px 40px rgba(0,0,0,0.1)', zIndex: 3 }}
                 >
                   <img src="/img/collage-wedding.jpg" alt="Wedding" className="w-100 h-100 object-fit-cover" />
                 </div>
                 <div
-                  className="photo-circle photo-circle-left position-absolute"
+                  className="photo-circle photo-circle-left position-absolute collage-img-hover"
                   style={{ width: '220px', height: '220px', bottom: '20px', left: '10%', borderRadius: '50%', overflow: 'hidden', border: '5px solid #f8f4f2', boxShadow: '0 10px 40px rgba(0,0,0,0.1)', zIndex: 2 }}
                 >
                   <img src="/img/collage-people.png" alt="People" className="w-100 h-100 object-fit-cover" />
                 </div>
                 <div
-                  className="photo-circle photo-circle-right position-absolute"
+                  className="photo-circle photo-circle-right position-absolute collage-img-hover"
                   style={{ width: '220px', height: '220px', bottom: '20px', right: '10%', borderRadius: '50%', overflow: 'hidden', border: '5px solid #f8f4f2', boxShadow: '0 10px 40px rgba(0,0,0,0.1)', zIndex: 2 }}
                 >
                   <img src="/img/collage-serving.jpg" alt="Service" className="w-100 h-100 object-fit-cover" />
@@ -318,13 +318,20 @@ export function AboutPage() {
         .leading-relaxed { line-height: 1.8; }
         .hover-lift:hover { transform: translateY(-10px); }
         .bg-primary-soft { background-color: rgba(254, 93, 55, 0.1); }
-        .founder-img-hover {
+        .founder-img-hover, .collage-img-hover {
           transition: all 0.4s ease;
         }
-        .founder-img-hover:hover {
+        .founder-img-hover:hover, .collage-img-hover:hover {
           border-color: #FE5D37 !important;
-          box-shadow: 0 0 20px rgba(254, 93, 55, 0.4);
-          transform: scale(1.1);
+          box-shadow: 0 0 20px rgba(254, 93, 55, 0.5) !important;
+          transform: scale(1.05);
+          z-index: 10 !important;
+        }
+        .collage-img-hover:hover {
+           transform: scale(1.05) ${window.innerWidth > 992 ? '' : 'translateX(-50%)'};
+        }
+        .photo-circle-main.collage-img-hover:hover {
+          transform: translateX(-50%) scale(1.05) !important;
         }
       `}</style>
     </div>

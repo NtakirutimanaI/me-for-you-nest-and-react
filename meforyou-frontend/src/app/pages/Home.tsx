@@ -224,7 +224,7 @@ export function Home() {
                   </div>
                   <p className="fs-5 mb-4 italic text-dark leading-relaxed">"{t_item.content}"</p>
                   <div className="d-flex align-items-center mt-auto border-top pt-4">
-                    <img className="img-fluid flex-shrink-0 rounded-circle border border-2 border-primary-soft" src={t_item.image_url ? (t_item.image_url.startsWith('http') ? t_item.image_url : `/${t_item.image_url}`) : "/img/testimonial-1.jpg"} style={{ width: '64px', height: '64px', objectFit: 'cover' }} alt="" />
+                    <img className="img-fluid flex-shrink-0 rounded-circle border border-2 border-primary-soft testimonial-img-hover" src={t_item.image_url ? (t_item.image_url.startsWith('http') ? t_item.image_url : `/${t_item.image_url}`) : "/img/testimonial-1.jpg"} style={{ width: '64px', height: '64px', objectFit: 'cover' }} alt="" />
                     <div className="ps-3">
                       <h5 className="mb-0 fw-bold text-dark">{t_item.name}</h5>
                       <small className="text-primary fw-bold text-uppercase" style={{ fontSize: '10px', letterSpacing: '1px' }}>{t_item.profession}</small>

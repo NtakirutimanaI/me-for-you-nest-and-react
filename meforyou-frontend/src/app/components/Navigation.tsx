@@ -167,22 +167,22 @@ export function Navigation() {
                   <div className="col-lg-4 p-5" style={{ backgroundColor: '#F9FAFB', borderLeft: '1px solid #EEE' }}>
                     <h6 className="mega-title text-muted mb-4 pb-2 border-bottom">{t('highlights')}</h6>
                     <div className="featured-item mb-4">
-                      <div className="d-flex gap-3 align-items-center mb-2">
+                      <Link to="/events" className="text-decoration-none d-flex gap-3 align-items-center mb-2 hover-lift-sm">
                         <img src="/img/Pic8.jpg" alt="Featured" style={{ width: '70px', height: '50px', borderRadius: '8px', objectFit: 'cover' }} />
                         <div>
                           <span className="badge mb-1" style={{ backgroundColor: lightCoral, color: coralColor, fontSize: '10px' }}>{t('upcoming')}</span>
                           <div className="fw-bold small" style={{ color: darkColor, lineHeight: '1.2' }}>Kigali Wedding Expo</div>
                         </div>
-                      </div>
+                      </Link>
                     </div>
                     <div className="featured-item">
-                      <div className="d-flex gap-3 align-items-center mb-2">
+                      <Link to="/car-rental" className="text-decoration-none d-flex gap-3 align-items-center mb-2 hover-lift-sm">
                         <img src="/img/Pic7.jpg" alt="Featured" style={{ width: '70px', height: '50px', borderRadius: '8px', objectFit: 'cover' }} />
                         <div>
                           <span className="badge mb-1" style={{ backgroundColor: '#E0F2FE', color: '#0284C7', fontSize: '10px' }}>{t('new')}</span>
                           <div className="fw-bold small" style={{ color: darkColor, lineHeight: '1.2' }}>Luxury SUV Fleet</div>
                         </div>
-                      </div>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -318,6 +318,8 @@ export function Navigation() {
 
           .btn-join { background: ${coralColor}; color: white !important; border-radius: 50px; padding: 8px 25px; display: flex; align-items: center; gap: 10px; height: 44px; transition: 0.3s; }
           .btn-join:hover { background: #e54d2a; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(254, 93, 55, 0.3); }
+          .hover-lift-sm { transition: 0.3s; }
+          .hover-lift-sm:hover { transform: translateY(-2px); opacity: 0.8; }
 
           .dropdown-toggle::after { display: none !important; }
 
