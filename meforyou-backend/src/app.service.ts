@@ -231,25 +231,25 @@ export class AppService implements OnApplicationBootstrap {
         name: 'Papy Patrick Ndazigaruye',
         role: 'Founder & CEO',
         description: 'Visionary leader managing Me For You Advisory operations and strategic growth.',
-        logo_url: '/img/founder.jpg'
+        logo_url: 'https://me-for-you.org/img/founder.jpg'
       },
       {
         name: 'Faustin Ndazigaruye',
         role: 'Business Partner',
         description: 'Key strategic partner contributing to the development of our cultural and housing projects.',
-        logo_url: '/img/team-1y.jpg'
+        logo_url: 'https://me-for-you.org/img/partner11.png'
       },
       {
         name: 'Jamie Proxy Ndazigaruye',
         role: 'Business Partner',
         description: 'Operations and logistics partner specializing in transport and service excellence.',
-        logo_url: '/img/team-222.jpg'
+        logo_url: 'https://me-for-you.org/img/partner12.png'
       },
       {
         name: 'Emmanuel Ngamije Ndazigaruye',
         role: 'Business Partner',
         description: 'Liaison partner for language services and international relations within the advisory.',
-        logo_url: '/img/team-3.jpg'
+        logo_url: 'https://me-for-you.org/img/team-11.jpg'
       }
     ];
 
