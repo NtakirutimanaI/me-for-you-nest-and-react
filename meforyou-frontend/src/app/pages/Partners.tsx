@@ -69,46 +69,84 @@ export function PartnersPage() {
             {/* Partners List Section */}
             <div className="container-xxl py-5 mt-4">
                 <div className="container">
-                    {/* First Row: Papy and Faustin */}
-                    <div className="row g-5 justify-content-center mb-5 pb-4 border-bottom-light">
-                        {partners.slice(0, 2).map((partner, idx) => (
-                            <div key={idx} className="col-md-6 col-lg-5 wow fadeInUp" data-wow-delay={`${0.1 * idx}s`}>
-                                <div className="partner-showcase position-relative mx-auto">
-                                    <div className="partner-oval-frame shadow-lg overflow-hidden">
-                                        <img
-                                            src={partner.logo_url}
-                                            alt={partner.name}
-                                            className="w-100 h-100 object-fit-cover hover-scale"
-                                        />
-                                    </div>
-                                    <div className="partner-badge-overlay shadow-lg">
-                                        <h6 className="partner-name">{partner.name}</h6>
-                                        <p className="partner-role">{partner.role}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* Second Row: Jamie and Emmanuel */}
                     <div className="row g-5 justify-content-center">
-                        {partners.slice(2, 4).map((partner, idx) => (
-                            <div key={idx} className="col-md-6 col-lg-5 wow fadeInUp" data-wow-delay={`${0.2 + 0.1 * idx}s`}>
-                                <div className="partner-showcase position-relative mx-auto">
-                                    <div className="partner-oval-frame shadow-lg overflow-hidden">
-                                        <img
-                                            src={partner.logo_url}
-                                            alt={partner.name}
-                                            className="w-100 h-100 object-fit-cover hover-scale"
-                                        />
+                        {/* Left Column: Papy Patrick and Jamie Proxy */}
+                        <div className="col-md-6 col-lg-5">
+                            <div className="d-flex flex-column gap-5">
+                                {/* Papy Patrick - Index 0 */}
+                                {partners[0] && (
+                                    <div className="partner-showcase position-relative mx-auto wow fadeInUp" data-wow-delay="0.1s">
+                                        <div className="partner-oval-frame shadow-lg overflow-hidden">
+                                            <img
+                                                src={partners[0].logo_url}
+                                                alt={partners[0].name}
+                                                className="w-100 h-100 object-fit-cover hover-scale"
+                                            />
+                                        </div>
+                                        <div className="partner-badge-overlay shadow-lg">
+                                            <h6 className="partner-name">{partners[0].name}</h6>
+                                            <p className="partner-role">{partners[0].role}</p>
+                                        </div>
                                     </div>
-                                    <div className="partner-badge-overlay shadow-lg">
-                                        <h6 className="partner-name">{partner.name}</h6>
-                                        <p className="partner-role">{partner.role}</p>
+                                )}
+
+                                {/* Jamie Proxy - Index 2 */}
+                                {partners[2] && (
+                                    <div className="partner-showcase position-relative mx-auto wow fadeInUp" data-wow-delay="0.3s">
+                                        <div className="partner-oval-frame shadow-lg overflow-hidden">
+                                            <img
+                                                src={partners[2].logo_url}
+                                                alt={partners[2].name}
+                                                className="w-100 h-100 object-fit-cover hover-scale"
+                                            />
+                                        </div>
+                                        <div className="partner-badge-overlay shadow-lg">
+                                            <h6 className="partner-name">{partners[2].name}</h6>
+                                            <p className="partner-role">{partners[2].role}</p>
+                                        </div>
                                     </div>
-                                </div>
+                                )}
                             </div>
-                        ))}
+                        </div>
+
+                        {/* Right Column: Faustin and Emmanuel */}
+                        <div className="col-md-6 col-lg-5">
+                            <div className="d-flex flex-column gap-5">
+                                {/* Faustin - Index 1 */}
+                                {partners[1] && (
+                                    <div className="partner-showcase position-relative mx-auto wow fadeInUp" data-wow-delay="0.2s">
+                                        <div className="partner-oval-frame shadow-lg overflow-hidden">
+                                            <img
+                                                src={partners[1].logo_url}
+                                                alt={partners[1].name}
+                                                className="w-100 h-100 object-fit-cover hover-scale"
+                                            />
+                                        </div>
+                                        <div className="partner-badge-overlay shadow-lg">
+                                            <h6 className="partner-name">{partners[1].name}</h6>
+                                            <p className="partner-role">{partners[1].role}</p>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Emmanuel - Index 3 */}
+                                {partners[3] && (
+                                    <div className="partner-showcase position-relative mx-auto wow fadeInUp" data-wow-delay="0.4s">
+                                        <div className="partner-oval-frame shadow-lg overflow-hidden">
+                                            <img
+                                                src={partners[3].logo_url}
+                                                alt={partners[3].name}
+                                                className="w-100 h-100 object-fit-cover hover-scale"
+                                            />
+                                        </div>
+                                        <div className="partner-badge-overlay shadow-lg">
+                                            <h6 className="partner-name">{partners[3].name}</h6>
+                                            <p className="partner-role">{partners[3].role}</p>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
