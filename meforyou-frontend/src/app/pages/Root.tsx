@@ -20,7 +20,7 @@ export function Root() {
           <div className="d-flex flex-column min-vh-100 bg-white">
             <BookingModal />
             <Navigation />
-            <main className="flex-grow-1">
+            <main className="flex-grow-1" style={{ paddingTop: '85px' }}>
               <Outlet />
             </main>
             <Footer />

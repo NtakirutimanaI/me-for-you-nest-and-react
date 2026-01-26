@@ -22,7 +22,7 @@ export function Navigation() {
   const lightCoral = '#FFF5F3';
 
   return (
-    <nav className="navbar navbar-expand-lg bg-white navbar-light sticky-top shadow-sm" style={{ top: '0', zIndex: 1200, minHeight: '85px', display: 'flex', alignItems: 'center' }}>
+    <nav className="navbar navbar-expand-lg bg-white navbar-light fixed-top shadow-sm" style={{ top: '0', zIndex: 1200, minHeight: '85px', display: 'flex', alignItems: 'center' }}>
       <div className="container-fluid px-4 px-lg-5 d-flex align-items-center justify-content-between w-100">
 
         {/* BRAND LOGO */}
