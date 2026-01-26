@@ -141,13 +141,32 @@ export class AppService implements OnApplicationBootstrap {
         name: 'Sandrine Uwase',
         profession: 'Fashion Designer',
         content: 'The event management team brought my runway vision to life. The sound, lighting, and protocol services were world-class.',
-        image_url: 'img/testimonial-2.jpg'
+        image_url: 'img/testimonial-2.jpg',
+        type: 'text'
       });
       await this.testimonialsService.create({
         name: 'RwandAir Support Team',
         profession: 'Partner',
         content: 'A truly reliable partner in logistics and hospitality. Their dedication to excellence matches our own corporate values.',
-        image_url: 'img/testimonial-3.jpg'
+        image_url: 'img/testimonial-3.jpg',
+        type: 'text'
+      });
+      // Video Testimonials
+      await this.testimonialsService.create({
+        name: 'The Kigali Grand Wedding',
+        profession: 'Wedding Highlights',
+        content: 'A beautiful journey of two souls coming together in a spectacular celebration managed by Me For You Advisory.',
+        image_url: 'img/DSC_7878.jpg',
+        video_url: 'https://www.youtube.com/embed/dQw4w9WgXcQ', // Placeholder video
+        type: 'video'
+      });
+      await this.testimonialsService.create({
+        name: 'Muhire & Jeanne',
+        profession: 'Couple',
+        content: 'Our special day was made perfect by the team. Watch our reaction to the final decor!',
+        image_url: 'img/Pic8.jpg',
+        video_url: 'https://www.youtube.com/embed/dQw4w9WgXcQ', // Placeholder video
+        type: 'video'
       });
     }
   }

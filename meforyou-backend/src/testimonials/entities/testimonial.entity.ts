@@ -16,4 +16,10 @@ export class Testimonial {
 
     @Column()
     image_url: string;
+
+    @Column({ nullable: true })
+    video_url: string;
+
+    @Column({ default: 'text' })
+    type: string; // 'text' or 'video'
 }
