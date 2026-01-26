@@ -249,7 +249,7 @@ export class AppService implements OnApplicationBootstrap {
         name: 'Emmanuel Ngamije Ndazigaruye',
         role: 'Business Partner',
         description: 'Liaison partner for language services and international relations within the advisory.',
-        logo_url: 'img/team-11.jpg'
+        logo_url: 'img/teamLast.png'
       }
     ];
 
