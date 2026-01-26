@@ -229,7 +229,7 @@ const translations: Record<Language, Record<string, string>> = {
         book_now: 'Tegeka None',
 
         // Home Page
-        hero_title_1: 'Serivisi Nziza ku Keneye Zawe',
+        hero_title_1: 'Serivisi Nziza kubyo Ukeneye byose',
         hero_desc_1: 'Umufatanyabikorwa wawe wizewe mu birori bitazibagirana, gukodesha imodoka zizewe, n’amacumbi meza mu Rwanda.',
         hero_title_2: 'Ibyo Ukeneye Byose mu Karere Kamwe',
         hero_desc_2: 'Kuva mu itegura kugeza mu ishyirwa mu bikorwa, duca mu byose kugira ngo ushobore kwishimira akanya mu mutuzo.',

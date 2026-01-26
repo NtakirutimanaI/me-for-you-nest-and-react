@@ -172,23 +172,7 @@ export function BookingModal() {
                                 </div>
                             </div>
 
-                            <div className="mt-4">
-                                <h5 className="text-dark fw-bold mb-3 small text-uppercase" style={{ letterSpacing: '1px' }}>Why Me For You?</h5>
-                                <div className="d-flex flex-column gap-3 text-start">
-                                    <div className="d-flex align-items-center gap-3 text-dark small">
-                                        <CheckCircle size={18} className="text-primary flex-shrink-0" />
-                                        <span>Quick implementation & Planning</span>
-                                    </div>
-                                    <div className="d-flex align-items-center gap-3 text-dark small">
-                                        <CheckCircle size={18} className="text-primary flex-shrink-0" />
-                                        <span>Lower costs for high-end services</span>
-                                    </div>
-                                    <div className="d-flex align-items-center gap-3 text-dark small">
-                                        <CheckCircle size={18} className="text-primary flex-shrink-0" />
-                                        <span>Customized to meet requirements</span>
-                                    </div>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
                 </div>

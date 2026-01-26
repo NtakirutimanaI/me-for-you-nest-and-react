@@ -11,7 +11,7 @@ export function Home() {
       icon: Calendar,
       title: t('events'),
       description: 'Complete event planning services for weddings, corporate events, and special occasions. We handle everything from venue to decor.',
-      image: '/img/service-events.png',
+      image: '/img/event1.jpg',
       link: '/events',
       color: 'text-primary'
     },
@@ -96,20 +96,21 @@ export function Home() {
     <div className="container-fluid bg-white p-0">
       {/* Hero Section */}
       <div className="container-fluid p-0 position-relative">
+        <div className="wave-down" style={{ top: '-1px' }}></div>
         <div className="owl-carousel header-carousel position-relative">
           <div className="owl-carousel-item position-relative">
-            <img className="img-fluid d-block w-100" src="/img/hero-v2-wedding.png" alt="" style={{ height: '500px', objectFit: 'cover' }} />
+            <img className="img-fluid d-block w-100" src="/img/hero-v2-wedding.png" alt="" style={{ height: '700px', objectFit: 'cover' }} />
             <div className="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style={{ background: 'rgba(0, 0, 0, 0.5)' }}>
-              <div className="container">
+              <div className="container pt-5">
                 <div className="row align-items-center">
-                  <div className="col-10 col-lg-6">
-                    <div className="hero-glass-card p-3 p-md-4 rounded-4 animated zoomIn" style={{ background: 'rgba(255, 255, 255, 0.05)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
-                      <h6 className="text-primary text-uppercase fw-bold mb-2 animated slideInDown" style={{ letterSpacing: '2px', fontSize: '0.8rem' }}>Welcome to Me For You</h6>
-                      <h1 className="display-5 text-white mb-3 fw-bold animated slideInDown">{t('hero_title_1')}</h1>
-                      <p className="fs-6 fw-medium text-white-50 mb-4 animated fadeInUp">{t('hero_desc_1')}</p>
-                      <div className="d-flex flex-wrap gap-2 animated fadeInUp">
-                        <Link to="/events" className="btn btn-primary rounded-pill py-2 px-4 fw-bold shadow-sm">{t('book_now')}</Link>
-                        <Link to="/about" className="btn btn-primary rounded-pill py-2 px-4 fw-bold shadow-sm">{t('about')}</Link>
+                  <div className="col-10 col-lg-7">
+                    <div className="p-3 p-md-4 animated zoomIn">
+                      <h6 className="text-white text-uppercase fw-bold mb-3 animated slideInDown" style={{ letterSpacing: '3px', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>Welcome to Me For You</h6>
+                      <h1 className="display-3 text-white mb-4 fw-bold animated slideInDown" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>{t('hero_title_1')}</h1>
+                      <p className="fs-5 fw-medium text-white mb-5 animated fadeInUp" style={{ maxWidth: '600px', textShadow: '0 1px 2px rgba(0,0,0,0.8)' }}>{t('hero_desc_1')}</p>
+                      <div className="d-flex flex-wrap gap-4 animated fadeInUp">
+                        <Link to="/about" className="btn btn-primary rounded-pill py-3 px-5 fw-bold shadow-lg" style={{ minWidth: '180px' }}>Learn More</Link>
+                        <Link to="/services" className="btn btn-dark-teal rounded-pill py-3 px-5 fw-bold shadow-lg" style={{ minWidth: '180px' }}>Our Strength</Link>
                       </div>
                     </div>
                   </div>
@@ -137,18 +138,18 @@ export function Home() {
           </div>
 
           <div className="owl-carousel-item position-relative">
-            <img className="img-fluid d-block w-100" src="/img/hero-cars.jpg" alt="" style={{ height: '500px', objectFit: 'cover' }} />
+            <img className="img-fluid d-block w-100" src="/img/hero-cars.jpg" alt="" style={{ height: '700px', objectFit: 'cover' }} />
             <div className="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style={{ background: 'rgba(0, 0, 0, 0.5)' }}>
-              <div className="container">
+              <div className="container pt-5">
                 <div className="row align-items-center">
-                  <div className="col-10 col-lg-6">
-                    <div className="hero-glass-card p-3 p-md-4 rounded-4 animated zoomIn" style={{ background: 'rgba(255, 255, 255, 0.05)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
-                      <h6 className="text-primary text-uppercase fw-bold mb-2" style={{ letterSpacing: '2px', fontSize: '0.8rem' }}>Seamless Management</h6>
-                      <h1 className="display-5 text-white mb-3 fw-bold animated slideInDown">{t('hero_title_2')}</h1>
-                      <p className="fs-6 fw-medium text-white-50 mb-4 animated fadeInUp">{t('hero_desc_2')}</p>
-                      <div className="d-flex flex-wrap gap-2 animated fadeInUp">
-                        <Link to="/contact" className="btn btn-primary rounded-pill py-2 px-4 fw-bold shadow-sm">{t('contact')}</Link>
-                        <Link to="/car-rental" className="btn btn-primary rounded-pill py-2 px-4 fw-bold shadow-sm">Explore Fleet</Link>
+                  <div className="col-10 col-lg-8">
+                    <div className="p-3 p-md-4 animated zoomIn">
+                      <h6 className="text-white text-uppercase fw-bold mb-3 animated slideInDown" style={{ letterSpacing: '3px', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>Seamless Management</h6>
+                      <h1 className="display-3 text-white mb-4 fw-bold animated slideInDown" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>{t('hero_title_2')}</h1>
+                      <p className="fs-5 fw-medium text-white mb-5 animated fadeInUp" style={{ maxWidth: '600px', textShadow: '0 1px 2px rgba(0,0,0,0.8)' }}>{t('hero_desc_2')}</p>
+                      <div className="d-flex flex-wrap gap-4 animated fadeInUp">
+                        <Link to="/contact" className="btn btn-primary rounded-pill py-3 px-5 fw-bold shadow-lg" style={{ minWidth: '180px' }}>{t('contact')}</Link>
+                        <Link to="/car-rental" className="btn btn-dark-teal rounded-pill py-3 px-5 fw-bold shadow-lg" style={{ minWidth: '180px' }}>Explore Fleet</Link>
                       </div>
                     </div>
                   </div>
@@ -158,16 +159,17 @@ export function Home() {
           </div>
 
           <div className="owl-carousel-item position-relative">
-            <img className="img-fluid d-block w-100" src="/img/hero-v2-decor.png" alt="" style={{ height: '500px', objectFit: 'cover' }} />
+            <img className="img-fluid d-block w-100" src="/img/hero-v2-decor.png" alt="" style={{ height: '700px', objectFit: 'cover' }} />
             <div className="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style={{ background: 'rgba(0, 0, 0, 0.5)' }}>
-              <div className="container">
+              <div className="container pt-5">
                 <div className="row justify-content-start">
-                  <div className="col-10 col-lg-6">
-                    <div className="hero-glass-card p-3 p-md-4 rounded-4 animated zoomIn" style={{ background: 'rgba(255, 255, 255, 0.05)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
-                      <h1 className="display-5 text-white mb-3 fw-bold animated slideInDown">{t('hero_title_3')}</h1>
-                      <p className="fs-6 fw-medium text-white mb-4 animated fadeInUp">{t('hero_desc_3')}</p>
-                      <div className="d-flex flex-wrap gap-2 animated fadeInUp">
-                        <Link to="/about" className="btn btn-primary rounded-pill py-2 px-4 fw-bold shadow-sm">{t('about')}</Link>
+                  <div className="col-10 col-lg-8">
+                    <div className="p-3 p-md-4 animated zoomIn">
+                      <h6 className="text-white text-uppercase fw-bold mb-3 animated slideInDown" style={{ letterSpacing: '3px', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>Unforgettable Moments</h6>
+                      <h1 className="display-3 text-white mb-4 fw-bold animated slideInDown" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>{t('hero_title_3')}</h1>
+                      <p className="fs-5 fw-medium text-white mb-5 animated fadeInUp" style={{ maxWidth: '600px', textShadow: '0 1px 2px rgba(0,0,0,0.8)' }}>{t('hero_desc_3')}</p>
+                      <div className="d-flex flex-wrap gap-4 animated fadeInUp">
+                        <Link to="/about" className="btn btn-primary rounded-pill py-3 px-5 fw-bold shadow-lg" style={{ minWidth: '180px' }}>{t('about')}</Link>
                       </div>
                     </div>
                   </div>
@@ -177,16 +179,17 @@ export function Home() {
           </div>
 
           <div className="owl-carousel-item position-relative">
-            <img className="img-fluid d-block w-100" src="/img/hero-team.jpg" alt="" style={{ height: '500px', objectFit: 'cover' }} />
+            <img className="img-fluid d-block w-100" src="/img/hero-team.jpg" alt="" style={{ height: '700px', objectFit: 'cover' }} />
             <div className="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style={{ background: 'rgba(0, 0, 0, 0.5)' }}>
-              <div className="container">
+              <div className="container pt-5">
                 <div className="row justify-content-start">
-                  <div className="col-10 col-lg-6">
-                    <div className="hero-glass-card p-3 p-md-4 rounded-4 animated zoomIn" style={{ background: 'rgba(255, 255, 255, 0.05)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
-                      <h1 className="display-5 text-white mb-3 fw-bold animated slideInDown">{t('hero_title_4')}</h1>
-                      <p className="fs-6 fw-medium text-white mb-4 animated fadeInUp">{t('hero_desc_4')}</p>
-                      <div className="d-flex flex-wrap gap-2 animated fadeInUp">
-                        <Link to="/house-rental" className="btn btn-primary rounded-pill py-2 px-4 fw-bold shadow-sm">{t('book_now')}</Link>
+                  <div className="col-10 col-lg-8">
+                    <div className="p-3 p-md-4 animated zoomIn">
+                      <h6 className="text-white text-uppercase fw-bold mb-3 animated slideInDown" style={{ letterSpacing: '3px', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>Your Comfort Home</h6>
+                      <h1 className="display-3 text-white mb-4 fw-bold animated slideInDown" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>{t('hero_title_4')}</h1>
+                      <p className="fs-5 fw-medium text-white mb-5 animated fadeInUp" style={{ maxWidth: '600px', textShadow: '0 1px 2px rgba(0,0,0,0.8)' }}>{t('hero_desc_4')}</p>
+                      <div className="d-flex flex-wrap gap-4 animated fadeInUp">
+                        <Link to="/house-rental" className="btn btn-primary rounded-pill py-3 px-5 fw-bold shadow-lg" style={{ minWidth: '180px' }}>{t('book_now')}</Link>
                       </div>
                     </div>
                   </div>
@@ -195,7 +198,7 @@ export function Home() {
             </div>
           </div>
         </div>
-        <div className="scallop-up" style={{ top: 'auto', bottom: '0', height: '40px', backgroundSize: '80px 40px' }}></div>
+        <div className="wave-up" style={{ bottom: '-1px' }}></div>
       </div>
 
       {/* Why Choose Us */}
@@ -683,7 +686,8 @@ function AppSection() {
               </div>
 
               {/* Decorative Background Glows */}
-              <div className="position-absolute top-50 start-50 translate-middle w-100 h-100 bg-primary-soft rounded-circle filter-blur opacity-25" style={{ zIndex: -1, width: '400px', height: '400px' }}></div>
+              {/* Decorative Background Glows - Removed as per request */}
+              {/* <div className="position-absolute top-50 start-50 translate-middle w-100 h-100 bg-primary-soft rounded-circle filter-blur opacity-25" style={{ zIndex: -1, width: '400px', height: '400px' }}></div> */}
             </div>
           </div>
 

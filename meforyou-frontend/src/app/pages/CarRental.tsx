@@ -92,19 +92,32 @@ export function CarRentalPage() {
 
   return (
     <div className="container-fluid bg-white p-0">
+      {/* Hero Section */}
+      <div className="container-fluid p-0 position-relative">
+        <div className="wave-down" style={{ top: '-1px' }}></div>
+        <div className="position-relative">
+          <img className="img-fluid d-block w-100" src="/img/hero-cars.jpg" alt="" style={{ height: '600px', objectFit: 'cover' }} />
+          <div className="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style={{ background: 'rgba(0, 0, 0, 0.5)' }}>
+            <div className="container pt-5">
+              <div className="row align-items-center">
+                <div className="col-10 col-lg-8">
+                  <div className="p-3 p-md-4 animated zoomIn">
+                    <h6 className="text-white text-uppercase fw-bold mb-3 animated slideInDown" style={{ letterSpacing: '3px', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>{t('programs')}</h6>
+                    <h1 className="display-3 text-white mb-4 fw-bold animated slideInDown" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>{t('premium_fleet')}</h1>
+                    <p className="fs-5 fw-medium text-white mb-4 animated fadeInUp" style={{ maxWidth: '600px', textShadow: '0 1px 2px rgba(0,0,0,0.8)' }}>
+                      Whether for business or pleasure, find the perfect vehicle for your journey across Rwanda.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="wave-up" style={{ bottom: '-1px' }}></div>
+      </div>
 
       <div className="container-xxl py-5">
         <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-lg-10 text-center wow fadeInUp" data-wow-delay="0.1s">
-              <h6 className="text-primary text-uppercase mb-2">{t('programs')}</h6>
-              <h1 className="mb-4 display-5 fw-bold">{t('premium_fleet')}</h1>
-              <p className="mb-4 fs-5 text-muted leading-relaxed">
-                Whether for business or pleasure, find the perfect vehicle for your journey across Rwanda.
-              </p>
-            </div>
-          </div>
-
           {/* Filters */}
           <div className="row g-2 mb-5 justify-content-center wow fadeInUp" data-wow-delay="0.2s">
             {['all', 'economy', 'luxury', 'suv', 'van'].map((category) => (
