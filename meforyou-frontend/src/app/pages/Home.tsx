@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router';
-import { Calendar, Car, Home as HomeIcon, Users, Award, Quote, ArrowRight, Star, ChevronDown, Map as MapIcon, Zap, DollarSign, Settings2 } from 'lucide-react';
+import { Calendar, Car, Home as HomeIcon, Award, Quote, ArrowRight, Star, ChevronDown, Zap, DollarSign, Settings2 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
 export function Home() {
@@ -379,36 +379,7 @@ export function Home() {
 function ProcessSection() {
   const { t } = useLanguage();
 
-  const stages = [
-    {
-      title: 'Consultation',
-      icon: <Users className="text-primary" size={24} />,
-      points: ['Inquiry Analysis', 'Site Visitation', 'Budget Assessment', 'Needs Blueprint'],
-      delay: '0.1s',
-      color: '#CFE9FA'
-    },
-    {
-      title: 'Strategy',
-      icon: <MapIcon className="text-primary" size={24} />,
-      points: ['Stakeholder Briefing', 'Market Alignment', 'Service KPIs', 'Planning Blueprint'],
-      delay: '0.3s',
-      color: '#E0F2FE'
-    },
-    {
-      title: 'Preparation',
-      icon: <Calendar className="text-primary" size={24} />,
-      points: ['Logistics Mapping', 'Vendor Selection', 'Quality Testing', 'Resource Analytics'],
-      delay: '0.5s',
-      color: '#FFF5F3'
-    },
-    {
-      title: 'Execution',
-      icon: <Award className="text-primary" size={24} />,
-      points: ['Live Implementation', 'Schedule Syncing', 'Real-time Monitoring', 'Service Delivery'],
-      delay: '0.7s',
-      color: '#F0FDF4'
-    }
-  ];
+
 
   return (
     <div className="container-xxl py-5 bg-white">
@@ -424,64 +395,13 @@ function ProcessSection() {
 
         {/* Process Visual Container */}
         <div className="process-wrapper px-lg-5 wow fadeIn" data-wow-delay="0.2s">
-
-          {/* Top Labels (Grouping) */}
-          <div className="row g-0 mb-3 text-center d-none d-lg-flex border-bottom pb-2">
-            <div className="col-9 position-relative">
-              <span className="fw-bold small text-uppercase" style={{ letterSpacing: '2px' }}>Project Planning & Discovery</span>
-              <div className="position-absolute bottom-0 start-0 w-100" style={{ height: '2px', borderBottom: '1px solid #ddd', bottom: '-9px' }}></div>
-            </div>
-            <div className="col-3 position-relative">
-              <span className="fw-bold small text-uppercase" style={{ letterSpacing: '2px' }}>Execution & Delivery</span>
-              <div className="position-absolute bottom-0 start-0 w-100" style={{ height: '2px', borderBottom: '1px solid #ddd', bottom: '-9px' }}></div>
-            </div>
-          </div>
-
-          <div className="row g-4 position-relative pt-4">
-            {stages.map((stage, idx) => (
-              <div key={idx} className="col-lg-3 col-md-6">
-                <div className="process-card bg-white rounded-4 shadow-sm border h-100 position-relative hover-lift transition-all overflow-hidden">
-                  <div className="process-header py-4 text-center border-bottom d-flex flex-column align-items-center gap-2" style={{ backgroundColor: stage.color }}>
-                    <div className="bg-white p-2 rounded-circle shadow-sm mb-1">{stage.icon}</div>
-                    <span className="fw-bold text-dark" style={{ fontSize: '1.1rem' }}>{stage.title}</span>
-                  </div>
-                  <div className="p-4">
-                    <ul className="list-unstyled mb-0">
-                      {stage.points.map((point, pIdx) => (
-                        <li key={pIdx} className="d-flex align-items-center mb-3 small text-muted">
-                          <div className="rounded-circle me-3" style={{ width: '6px', height: '6px', backgroundColor: '#3498db' }}></div>
-                          {point}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Horizontal Arrow between cards */}
-                  {idx < 3 && (
-                    <div className="position-absolute top-50 end-0 translate-middle-y d-none d-lg-block" style={{ marginRight: '-22px', zIndex: 10 }}>
-                      <div style={{ borderTop: '1px dashed #aaa', width: '30px', position: 'relative' }}>
-                        <span style={{ position: 'absolute', right: '-4px', top: '-6px', fontSize: '12px' }}>▶</span>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
-
-            {/* Bottom Curved Return Arrow (Simplified with dashed line) */}
-            <div className="col-12 d-none d-lg-block position-relative mt-5">
-              <div style={{
-                height: '40px',
-                width: '75%',
-                margin: '0 auto',
-                border: '1px dashed #aaa',
-                borderTop: 'none',
-                borderRadius: '0 0 100px 100px',
-                position: 'relative'
-              }}>
-                <span style={{ position: 'absolute', left: '-5px', top: '-10px', transform: 'rotate(-90deg)', fontSize: '14px' }}>▲</span>
-              </div>
-            </div>
+          <div className="text-center">
+            <img
+              src="/img/process-diagram.png"
+              alt="Service Delivery Process"
+              className="img-fluid rounded-4 shadow-sm"
+              style={{ maxWidth: '100%' }}
+            />
           </div>
         </div>
 
@@ -493,19 +413,6 @@ function ProcessSection() {
         </div>
       </div>
 
-      <style>{`
-        .process-card {
-           border: 1px solid #e1e9ef !important;
-           transition: .3s;
-        }
-        .process-card:hover {
-           box-shadow: 0 10px 40px rgba(0,0,0,0.05) !important;
-        }
-        .process-header {
-           border-top-left-radius: 8px;
-           border-top-right-radius: 8px;
-        }
-      `}</style>
     </div>
   );
 }
