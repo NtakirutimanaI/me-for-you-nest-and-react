@@ -125,6 +125,30 @@ export class AppService implements OnApplicationBootstrap {
         content: 'When we look back, we don’t just remember the beauty of the day—we remember how stress-free and joyful it felt. Me For You gave us more than a wedding; they gave us the perfect beginning.',
         image_url: 'img/testimonial-2.jpg'
       });
+      await this.testimonialsService.create({
+        name: 'Kigali Tech Hub',
+        profession: 'Corporate Client',
+        content: 'Providing housing and transport for our international consultants was seamless. Me For You Advisory handled every logistics detail with supreme professionalism.',
+        image_url: 'img/testimonial-3.jpg'
+      });
+      await this.testimonialsService.create({
+        name: 'Emmanuel Kwizera',
+        profession: 'Real Estate Developer',
+        content: 'Their advisory on property management and client relations transformed our business model. Highly recommended for strategic growth.',
+        image_url: 'img/testimonial-1.jpg'
+      });
+      await this.testimonialsService.create({
+        name: 'Sandrine Uwase',
+        profession: 'Fashion Designer',
+        content: 'The event management team brought my runway vision to life. The sound, lighting, and protocol services were world-class.',
+        image_url: 'img/testimonial-2.jpg'
+      });
+      await this.testimonialsService.create({
+        name: 'RwandAir Support Team',
+        profession: 'Partner',
+        content: 'A truly reliable partner in logistics and hospitality. Their dedication to excellence matches our own corporate values.',
+        image_url: 'img/testimonial-3.jpg'
+      });
     }
   }
 }
