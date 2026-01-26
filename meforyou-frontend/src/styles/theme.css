@@ -320,6 +320,10 @@ a {
   box-shadow: 0 8px 25px rgba(16, 55, 65, 0.5) !important;
 }
 
+.bg-dark-teal {
+  background-color: #103741 !important;
+}
+
 /* Owl Carousel Custom Navigation (Right Vertical) */
 .header-carousel .owl-nav {
   position: absolute;

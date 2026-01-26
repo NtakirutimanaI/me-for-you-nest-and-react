@@ -15,6 +15,7 @@ import { ProfilePage } from './pages/Profile';
 import { TeamPage } from './pages/Team';
 import { DonationPage } from './pages/Donation';
 import { PartnersPage } from './pages/Partners';
+import { MorePage } from './pages/More';
 import { NotFound } from './pages/NotFound';
 
 export const router = createBrowserRouter([
@@ -27,6 +28,7 @@ export const router = createBrowserRouter([
       { path: 'car-rental', Component: CarRentalPage },
       { path: 'house-rental', Component: HouseRentalPage },
       { path: 'about', Component: AboutPage },
+      { path: 'more', Component: MorePage },
       { path: 'team', Component: TeamPage },
       { path: 'partners', Component: PartnersPage },
       { path: 'contact', Component: ContactPage },

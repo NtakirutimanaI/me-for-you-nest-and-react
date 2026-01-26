@@ -1,4 +1,5 @@
-import { Users, Target, Award, Heart, CheckCircle, Shield, Lightbulb, UserCheck, Quote, ArrowRight } from 'lucide-react';
+import { useEffect } from 'react';
+import { Target, Award, CheckCircle, Shield, Lightbulb, UserCheck, Quote, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -25,6 +26,22 @@ export function AboutPage() {
       delay: '0.5s'
     }
   ];
+
+  useEffect(() => {
+    const $ = (window as any).jQuery;
+    if ($ && typeof $.fn.owlCarousel === 'function') {
+      $(".about-carousel").owlCarousel({
+        autoplay: true,
+        smartSpeed: 1000,
+        items: 1,
+        dots: true,
+        loop: true,
+        nav: false,
+        animateOut: 'fadeOut',
+        animateIn: 'fadeIn',
+      });
+    }
+  }, []);
 
   return (
     <div className="container-fluid bg-white p-0">
@@ -238,13 +255,10 @@ export function AboutPage() {
         <div className="container">
           <div className="row g-5 align-items-center">
             <div className="col-lg-5 wow fadeInUp" data-wow-delay="0.1s">
-              <div className="position-relative">
-                <img
-                  className="img-fluid rounded-4 shadow-lg w-100"
-                  src="/img/DSC09554.JPG"
-                  alt="Me For You Events"
-                  style={{ objectFit: 'cover', minHeight: '400px' }}
-                />
+              <div className="owl-carousel about-carousel rounded-4 shadow-lg overflow-hidden">
+                <img className="img-fluid w-100" src="/img/DSC09554.JPG" alt="" style={{ objectFit: 'cover', height: '450px' }} />
+                <img className="img-fluid w-100" src="/img/DSC_7878.jpg" alt="" style={{ objectFit: 'cover', height: '450px' }} />
+                <img className="img-fluid w-100" src="/img/3L7A6430.jpg" alt="" style={{ objectFit: 'cover', height: '450px' }} />
               </div>
             </div>
             <div className="col-lg-7 wow fadeInUp" data-wow-delay="0.3s">
@@ -252,7 +266,7 @@ export function AboutPage() {
               <p className="fs-5 text-muted mb-4 leading-relaxed">
                 {t('background_desc')}
               </p>
-              <Link to="/contact" className="btn btn-primary rounded-pill py-3 px-5 fw-bold shadow-sm d-inline-flex align-items-center gap-2" style={{ backgroundColor: '#FE5D37', border: 'none' }}>
+              <Link to="/more" className="btn btn-primary rounded-pill py-3 px-5 fw-bold shadow-sm d-inline-flex align-items-center gap-2" style={{ backgroundColor: '#FE5D37', border: 'none' }}>
                 {t('learn_more_about_us')} <ArrowRight size={20} />
               </Link>
             </div>
