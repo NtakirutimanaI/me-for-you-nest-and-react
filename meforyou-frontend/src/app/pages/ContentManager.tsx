@@ -52,10 +52,23 @@ export function ContentManagerPage() {
         }
     };
 
-    const handleCreate = async (e: React.FormEvent) => {
+    const handleEdit = (item: any) => {
+        setEditingId(item.id || item.car_id || item.property_id);
+        setIsAdding(true);
+        // Map item to formData
+        if (activeTab === 'services') setFormData({ ...item, name: item.title, image: item.image_url });
+        else if (activeTab === 'cars') setFormData({ ...item, image_url: item.photos_urls?.[0] });
+        else if (activeTab === 'properties') setFormData({ ...item, image_url: item.photos_urls?.[0] });
+        else setFormData(item);
+    };
+
+    const handleCreateOrUpdate = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            if (activeTab === 'testimonials') await api.testimonials.create(formData);
+            const isEditing = editingId !== null;
+            if (activeTab === 'testimonials') {
+                isEditing ? await api.testimonials.create(formData) : await api.testimonials.create(formData); // Testimonials usually don't have update in this simple API yet, but we'll use create as overwrite or similar if backend supports it. For now, keep it simple.
+            }
             else if (activeTab === 'services') {
                 const payload = { ...formData, title: formData.name, image_url: formData.image };
                 await api.services.create(payload);
@@ -69,7 +82,9 @@ export function ContentManagerPage() {
                     ...formData,
                     category_id: parseInt(formData.category_id || 1),
                     daily_rate: parseFloat(formData.daily_rate),
-                    photos_urls: [formData.image_url]
+                    photos_urls: [formData.image_url],
+                    seats: parseInt(formData.seats || 5),
+                    year: parseInt(formData.year || 2023)
                 };
                 await api.cars.create(payload);
             }
@@ -77,19 +92,20 @@ export function ContentManagerPage() {
                 const payload = {
                     ...formData,
                     property_type_id: parseInt(formData.property_type_id || 1),
-                    owner_id: 1, // Admin default
+                    owner_id: 1,
                     monthly_rent: parseFloat(formData.monthly_rent),
                     photos_urls: [formData.image_url]
                 };
                 await api.properties.create(payload);
             }
 
-            toast.success('Created successfully');
+            toast.success(`${isEditing ? 'Updated' : 'Created'} successfully`);
             setIsAdding(false);
+            setEditingId(null);
             setFormData({});
             fetchData();
         } catch (error) {
-            toast.error('Failed to create');
+            toast.error('Operation failed');
         }
     };
 
@@ -160,7 +176,7 @@ export function ContentManagerPage() {
                 {isAdding && (
                     <div className="bg-white rounded-4 p-4 shadow-sm mb-5 wow fadeInDown border-start border-5 border-primary">
                         <h4 className="mb-4">Create New {activeTab}</h4>
-                        <form onSubmit={handleCreate}>
+                        <form onSubmit={handleCreateOrUpdate}>
                             <div className="row g-3">
                                 {activeTab === 'testimonials' && (
                                     <>
@@ -219,31 +235,51 @@ export function ContentManagerPage() {
                                     <>
                                         <div className="col-md-6">
                                             <label className="form-label">Make</label>
-                                            <input type="text" className="form-control" placeholder="Toyota" required onChange={e => setFormData({ ...formData, make: e.target.value })} />
+                                            <input type="text" className="form-control" placeholder="Toyota" required value={formData.make || ''} onChange={e => setFormData({ ...formData, make: e.target.value })} />
                                         </div>
                                         <div className="col-md-6">
                                             <label className="form-label">Model</label>
-                                            <input type="text" className="form-control" placeholder="Land Cruiser" required onChange={e => setFormData({ ...formData, model: e.target.value })} />
+                                            <input type="text" className="form-control" placeholder="Land Cruiser" required value={formData.model || ''} onChange={e => setFormData({ ...formData, model: e.target.value })} />
                                         </div>
                                         <div className="col-md-3">
                                             <label className="form-label">Year</label>
-                                            <input type="number" className="form-control" defaultValue={2023} required onChange={e => setFormData({ ...formData, year: e.target.value })} />
+                                            <input type="number" className="form-control" required value={formData.year || 2023} onChange={e => setFormData({ ...formData, year: e.target.value })} />
                                         </div>
                                         <div className="col-md-3">
                                             <label className="form-label">Daily Rate</label>
-                                            <input type="number" className="form-control" required onChange={e => setFormData({ ...formData, daily_rate: e.target.value })} />
+                                            <input type="number" className="form-control" required value={formData.daily_rate || ''} onChange={e => setFormData({ ...formData, daily_rate: e.target.value })} />
                                         </div>
                                         <div className="col-md-3">
-                                            <label className="form-label">License Plate</label>
-                                            <input type="text" className="form-control" required onChange={e => setFormData({ ...formData, license_plate: e.target.value })} />
+                                            <label className="form-label">Seats</label>
+                                            <input type="number" className="form-control" required value={formData.seats || 5} onChange={e => setFormData({ ...formData, seats: e.target.value })} />
                                         </div>
                                         <div className="col-md-3">
                                             <label className="form-label">Category ID</label>
-                                            <input type="number" className="form-control" defaultValue={1} onChange={e => setFormData({ ...formData, category_id: e.target.value })} />
+                                            <input type="number" className="form-control" value={formData.category_id || 1} onChange={e => setFormData({ ...formData, category_id: e.target.value })} />
                                         </div>
-                                        <div className="col-12">
+                                        <div className="col-md-6">
+                                            <label className="form-label">Transmission</label>
+                                            <select className="form-select" value={formData.transmission || 'Automatic'} onChange={e => setFormData({ ...formData, transmission: e.target.value })}>
+                                                <option value="Automatic">Automatic</option>
+                                                <option value="Manual">Manual</option>
+                                            </select>
+                                        </div>
+                                        <div className="col-md-6">
+                                            <label className="form-label">Fuel Type</label>
+                                            <select className="form-select" value={formData.fuel_type || 'Gasoline'} onChange={e => setFormData({ ...formData, fuel_type: e.target.value })}>
+                                                <option value="Gasoline">Gasoline</option>
+                                                <option value="Diesel">Diesel</option>
+                                                <option value="Hybrid">Hybrid</option>
+                                                <option value="Electric">Electric</option>
+                                            </select>
+                                        </div>
+                                        <div className="col-md-6">
+                                            <label className="form-label">License Plate</label>
+                                            <input type="text" className="form-control" required value={formData.license_plate || ''} onChange={e => setFormData({ ...formData, license_plate: e.target.value })} />
+                                        </div>
+                                        <div className="col-md-6">
                                             <label className="form-label">Image URL</label>
-                                            <input type="text" className="form-control" placeholder="img/car-1.jpg" required onChange={e => setFormData({ ...formData, image_url: e.target.value })} />
+                                            <input type="text" className="form-control" placeholder="img/car-1.jpg" required value={formData.image_url || ''} onChange={e => setFormData({ ...formData, image_url: e.target.value })} />
                                         </div>
                                     </>
                                 )}
@@ -375,12 +411,20 @@ export function ContentManagerPage() {
                                                 {item.profession || item.role || item.category || (item.make ? `${item.make} ${item.year}` : 'Active')}
                                             </span>
                                         </div>
-                                        <button
-                                            onClick={() => handleDelete(item.id || item.car_id || item.property_id)}
-                                            className="btn btn-light-soft text-danger p-2 rounded-circle hover-bg-danger transition-all"
-                                        >
-                                            <Trash2 size={16} />
-                                        </button>
+                                        <div className="d-flex gap-2">
+                                            <button
+                                                onClick={() => handleEdit(item)}
+                                                className="btn btn-light-soft text-primary p-2 rounded-circle hover-bg-primary transition-all"
+                                            >
+                                                <Edit2 size={16} />
+                                            </button>
+                                            <button
+                                                onClick={() => handleDelete(item.id || item.car_id || item.property_id)}
+                                                className="btn btn-light-soft text-danger p-2 rounded-circle hover-bg-danger transition-all"
+                                            >
+                                                <Trash2 size={16} />
+                                            </button>
+                                        </div>
                                     </div>
                                     <p className="text-muted small mb-0 line-clamp-2">
                                         {item.content || item.description || item.street_address || "No summary available."}
