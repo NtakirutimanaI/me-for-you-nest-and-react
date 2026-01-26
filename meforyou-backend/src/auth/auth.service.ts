@@ -65,4 +65,12 @@ export class AuthService {
     async validateUser(payload: any): Promise<any> {
         return await this.usersRepository.findOne({ where: { user_id: payload.sub } });
     }
+
+    async findAll() {
+        return this.usersRepository.find();
+    }
+
+    async findOne(id: number) {
+        return this.usersRepository.findOne({ where: { user_id: id } });
+    }
 }

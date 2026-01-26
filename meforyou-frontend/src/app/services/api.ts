@@ -15,6 +15,7 @@ export const api = {
         login: (credentials: any) => apiClient.post('/auth/login', credentials),
         register: (data: any) => apiClient.post('/auth/register', data),
         me: () => apiClient.get('/auth/me'),
+        findAll: () => apiClient.get('/auth/users'),
     },
 
     events: {
@@ -26,9 +27,17 @@ export const api = {
     services: {
         findAll: async (): Promise<EventService[]> => {
             const data = await apiClient.get('/services');
-            // Ensure data structure matches frontend
-            return data;
+            return data.map((s: any) => ({
+                id: s.id.toString(),
+                name: s.title,
+                description: s.description,
+                price: parseFloat(s.price),
+                category: s.category,
+                image: s.image_url,
+            }));
         },
+        create: (data: any) => apiClient.post('/services', data),
+        delete: (id: number | string) => apiClient.delete(`/services/${id}`),
     },
 
     properties: {
@@ -43,12 +52,16 @@ export const api = {
                 bedrooms: p.bedrooms,
                 bathrooms: parseFloat(p.bathrooms),
                 maxGuests: 4, // Default or add to entity
-                image: p.photos_urls?.[0] || '/img/house-1.jpg', // Fallback
+                image: p.photos_urls && p.photos_urls.length > 0
+                    ? (p.photos_urls[0].startsWith('http') ? p.photos_urls[0] : `/${p.photos_urls[0]}`)
+                    : '/img/Pic9.jpg',
                 available: p.property_status === 'available',
                 amenities: p.amenities ? Object.keys(p.amenities) : [],
             }));
         },
         findOne: (id: string | number) => apiClient.get(`/properties/${id}`),
+        create: (data: any) => apiClient.post('/properties', data),
+        delete: (id: number | string) => apiClient.delete(`/properties/${id}`),
         lease: (data: any) => apiClient.post('/properties/lease', data),
         findAllLeases: () => apiClient.get('/properties/leases'),
     },
@@ -62,31 +75,51 @@ export const api = {
                 model: c.model,
                 year: c.year,
                 pricePerDay: parseFloat(c.daily_rate),
-                image: c.photos_urls?.[0] || '/img/car-1.jpg',
+                image: c.photos_urls && c.photos_urls.length > 0
+                    ? (c.photos_urls[0].startsWith('http') ? c.photos_urls[0] : `/${c.photos_urls[0]}`)
+                    : '/img/hero-cars.jpg',
                 available: c.car_status === 'available',
                 features: c.features ? Object.keys(c.features) : [],
-                category: c.category?.name?.toLowerCase() || 'economy',
-                seats: c.seats,
+                category: c.category?.category_name?.toLowerCase() || 'economy',
+                seats: c.seats || 5,
+                transmission: c.transmission || 'Automatic',
+                fuelType: c.fuel_type || 'Gasoline',
             }));
         },
         findOne: (id: string | number) => apiClient.get(`/cars/${id}`),
+        create: (data: any) => apiClient.post('/cars', data),
+        delete: (id: number | string) => apiClient.delete(`/cars/${id}`),
         rent: (data: any) => apiClient.post('/cars/rent', data),
         findAllRentals: () => apiClient.get('/cars/rentals'),
     },
 
     team: {
         findAll: () => apiClient.get('/team-members'),
+        create: (data: any) => apiClient.post('/team-members', data),
+        delete: (id: number | string) => apiClient.delete(`/team-members/${id}`),
     },
 
     testimonials: {
         findAll: () => apiClient.get('/testimonials'),
+        create: (data: any) => apiClient.post('/testimonials', data),
+        delete: (id: number | string) => apiClient.delete(`/testimonials/${id}`),
     },
 
     carouselItems: {
         findAll: () => apiClient.get('/carousel-items'),
+        create: (data: any) => apiClient.post('/carousel-items', data),
+        delete: (id: number | string) => apiClient.delete(`/carousel-items/${id}`),
     },
 
     facilities: {
         findAll: () => apiClient.get('/facilities'),
+        create: (data: any) => apiClient.post('/facilities', data),
+        delete: (id: number | string) => apiClient.delete(`/facilities/${id}`),
+    },
+
+    partners: {
+        findAll: () => apiClient.get('/partners'),
+        create: (data: any) => apiClient.post('/partners', data),
+        delete: (id: number | string) => apiClient.delete(`/partners/${id}`),
     }
 };

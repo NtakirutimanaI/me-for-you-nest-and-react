@@ -31,6 +31,8 @@ export interface CarRental {
   features: string[];
   category: 'economy' | 'luxury' | 'suv' | 'van';
   seats?: number;
+  transmission?: string;
+  fuelType?: string;
 }
 
 export interface HouseRental {

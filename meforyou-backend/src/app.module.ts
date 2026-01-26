@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 // Core Entities
 import { User } from './entities/core/user.entity';
@@ -42,6 +44,7 @@ import { TestimonialsModule } from './testimonials/testimonials.module';
 import { EventsModule } from './events/events.module';
 import { PropertiesModule } from './properties/properties.module';
 import { CarsModule } from './cars/cars.module';
+import { PartnersModule } from './partners/partners.module';
 
 import { AuthModule } from './auth/auth.module';
 
@@ -87,6 +90,10 @@ import { AuthModule } from './auth/auth.module';
     EventsModule,
     PropertiesModule,
     CarsModule,
+    PartnersModule,
+    TypeOrmModule.forFeature([User, CarCategory, PropertyType, CarLocation]),
   ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule { }

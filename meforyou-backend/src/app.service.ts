@@ -4,6 +4,17 @@ import { FacilitiesService } from './facilities/facilities.service';
 import { ServicesService } from './services/services.service';
 import { TeamMembersService } from './team_members/team_members.service';
 import { TestimonialsService } from './testimonials/testimonials.service';
+import { PartnersService } from './partners/partners.service';
+import { InjectRepository } from '@nestjs/typeorm';
+import { User, UserType } from './entities/core/user.entity';
+import { Repository } from 'typeorm';
+import { Transmission, FuelType } from './entities/cars/car.entity';
+import { CarCategory } from './entities/cars/car-category.entity';
+import { PropertyType } from './entities/properties/property-type.entity';
+import { CarsService } from './cars/cars.service';
+import { PropertiesService } from './properties/properties.service';
+import { CarLocation } from './entities/cars/car-location.entity';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AppService implements OnApplicationBootstrap {
@@ -13,6 +24,17 @@ export class AppService implements OnApplicationBootstrap {
     private readonly servicesService: ServicesService,
     private readonly teamMembersService: TeamMembersService,
     private readonly testimonialsService: TestimonialsService,
+    private readonly partnersService: PartnersService,
+    private readonly carsService: CarsService,
+    private readonly propertiesService: PropertiesService,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+    @InjectRepository(CarCategory)
+    private readonly carCategoryRepository: Repository<CarCategory>,
+    @InjectRepository(PropertyType)
+    private readonly propertyTypeRepository: Repository<PropertyType>,
+    @InjectRepository(CarLocation)
+    private readonly carLocationRepository: Repository<CarLocation>,
   ) { }
 
   getHello(): string {
@@ -21,11 +43,16 @@ export class AppService implements OnApplicationBootstrap {
 
   async onApplicationBootstrap() {
     console.log('Seeding data...');
+    await this.seedUsers();
     await this.seedCarousel();
     await this.seedFacilities();
     await this.seedServices();
     await this.seedTeam();
     await this.seedTestimonials();
+    await this.seedPartners();
+    await this.seedCars();
+    await this.seedLocations();
+    await this.seedProperties();
     console.log('Seeding complete.');
   }
 
@@ -64,12 +91,48 @@ export class AppService implements OnApplicationBootstrap {
   async seedServices() {
     if ((await this.servicesService.findAll()).length === 0) {
       const services = [
-        { title: 'Event Planning & Coordination', image_url: 'img/classes-1.jpg' },
-        { title: 'Protocol & Service', image_url: 'img/classes-2.jpg' },
-        { title: 'Food & Drink Supply (Catering)', image_url: 'img/classes-3.jpg' },
-        { title: 'Professional Sound System & Music Band', image_url: 'img/classes-4.jpg' },
-        { title: 'Language Service', image_url: 'img/classes-5.jpg' },
-        { title: 'General Knowledge', image_url: 'img/classes-6.jpg' },
+        {
+          title: 'Event Planning & Coordination',
+          description: 'Full-cycle planning for weddings, corporate retreats, and private parties.',
+          image_url: 'img/classes-1.jpg',
+          category: 'Events',
+          price: 500
+        },
+        {
+          title: 'Protocol & Service',
+          description: 'Professional hosting and protocol services for high-profile gatherings.',
+          image_url: 'img/classes-2.jpg',
+          category: 'Hospitality',
+          price: 150
+        },
+        {
+          title: 'Food & Drink Supply (Catering)',
+          description: 'Authentic Rwandan and international cuisines tailored to your guest list.',
+          image_url: 'img/classes-3.jpg',
+          category: 'Catering',
+          price: 25
+        },
+        {
+          title: 'Professional Sound & Music',
+          description: 'State-of-the-art sound systems and live bands for any event size.',
+          image_url: 'img/classes-4.jpg',
+          category: 'Entertainment',
+          price: 300
+        },
+        {
+          title: 'Language Service',
+          description: 'Translation, interpretation, and language training in EN, FR, KN, and SW.',
+          image_url: 'img/classes-5.jpg',
+          category: 'Consulting',
+          price: 100
+        },
+        {
+          title: 'General Advisory',
+          description: 'Strategic coaching and mentoring for personal and business growth.',
+          image_url: 'img/classes-6.jpg',
+          category: 'Consulting',
+          price: 80
+        },
       ];
       for (const s of services) {
         await this.servicesService.create(s);
@@ -79,22 +142,16 @@ export class AppService implements OnApplicationBootstrap {
 
   async seedTeam() {
     if ((await this.teamMembersService.findAll()).length === 0) {
-      await this.teamMembersService.create({ name: 'Papy Patrick Ndazigaruye', role: 'Founder & CEO', image_url: 'img/team-1.jpg' });
-      await this.teamMembersService.create({ name: 'Faustin Ndazigaruye', role: 'Business Partner', image_url: 'img/team-2.jpg' });
-      await this.teamMembersService.create({ name: 'Jamie Proxy Ndazigaruye', role: 'Business Partner', image_url: 'img/team-3.jpg' });
+      await this.teamMembersService.create({ name: 'Papy Patrick Ndazigaruye', role: 'Founder & CEO', image_url: 'img/team-1y.jpg' });
+      await this.teamMembersService.create({ name: 'Tuyishime Jean Bosco', role: 'Operations Manager', image_url: 'img/team-222.jpg' });
+      await this.teamMembersService.create({ name: 'Mukamurenzi Chantal', role: 'Head of Events', image_url: 'img/team-3.jpg' });
+      await this.teamMembersService.create({ name: 'Ishimwe Solange', role: 'Logistics Coordinator', image_url: 'img/team-1.jpg' });
     }
   }
 
   async seedTestimonials() {
-    // Clear existing to ensure the latest "true contents" are applied
     const existing = await this.testimonialsService.findAll();
-    if (existing.length !== 13) { // Force refresh to reach exactly 13 diverse items
-      for (const t of existing) {
-        await this.testimonialsService.remove(t.id);
-      }
-    }
-
-    if ((await this.testimonialsService.findAll()).length === 0) {
+    if (existing.length === 0) { // Only seed if empty to allow permanent data persistence
       // WEDDING CATEGORY
       await this.testimonialsService.create({ name: 'Alice & Janvier', profession: 'Wedding Couple', content: 'Celebrating our love across two unforgettable days was a dream come true. Me For You Advisory carried us through every moment with care.', image_url: 'img/testimonial-1.jpg', type: 'text' });
       await this.testimonialsService.create({ name: 'Ziggy & Selya', profession: 'Wedding Couple', content: 'From the first meeting to the last dance, we felt supported by a team that cared as if it were their own wedding.', image_url: 'img/testimonial-2.jpg', type: 'text' });
@@ -135,6 +192,233 @@ export class AppService implements OnApplicationBootstrap {
         image_url: 'img/classes-5.jpg',
         video_url: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
         type: 'video'
+      });
+    }
+  }
+
+  async seedPartners() {
+    if ((await this.partnersService.findAll()).length === 0) {
+      const partners = [
+        {
+          name: 'Papy Patrick Ndazigaruye',
+          role: 'Founder & CEO',
+          description: 'Visionary leader managing Me For You Advisory operations and strategic growth.',
+          logo_url: '/img/founder.jpg'
+        },
+        {
+          name: 'Faustin Ndazigaruye',
+          role: 'Business Partner',
+          description: 'Key strategic partner contributing to the development of our cultural and housing projects.',
+          logo_url: '/img/team-1y.jpg'
+        },
+        {
+          name: 'Jamie Proxy Ndazigaruye',
+          role: 'Business Partner',
+          description: 'Operations and logistics partner specializing in transport and service excellence.',
+          logo_url: '/img/team-222.jpg'
+        },
+        {
+          name: 'Emmanuel Ngamije Ndazigaruye',
+          role: 'Business Partner',
+          description: 'Liaison partner for language services and international relations within the advisory.',
+          logo_url: '/img/team-3.jpg'
+        }
+      ];
+
+      for (const p of partners) {
+        await this.partnersService.create(p);
+      }
+    }
+  }
+
+  async seedUsers() {
+    if ((await this.userRepository.count()) === 0) {
+      const salt = await bcrypt.genSalt();
+      const password_hash = await bcrypt.hash('password123', salt);
+
+      await this.userRepository.save([
+        {
+          username: 'admin',
+          email: 'admin@meforyou.org',
+          password_hash,
+          first_name: 'Admin',
+          last_name: 'User',
+          user_type: UserType.ADMIN
+        },
+        {
+          username: 'client',
+          email: 'client@meforyou.org',
+          password_hash,
+          first_name: 'Client',
+          last_name: 'User',
+          user_type: UserType.CLIENT
+        }
+      ]);
+    }
+  }
+
+  async seedCars() {
+    // Clear existing cars to ensure new images are applied
+    const existing = await this.carsService.findAll();
+    for (const c of existing) {
+      await this.carsService.remove(c.car_id);
+    }
+
+    // Seed Categories first
+    let luxury = await this.carCategoryRepository.findOneBy({ category_name: 'luxury' });
+    if (!luxury) { luxury = await this.carCategoryRepository.save({ category_name: 'luxury', daily_rate_min: 150, daily_rate_max: 500 }); }
+
+    let suv = await this.carCategoryRepository.findOneBy({ category_name: 'suv' });
+    if (!suv) { suv = await this.carCategoryRepository.save({ category_name: 'suv', daily_rate_min: 80, daily_rate_max: 200 }); }
+
+    let economy = await this.carCategoryRepository.findOneBy({ category_name: 'economy' });
+    if (!economy) { economy = await this.carCategoryRepository.save({ category_name: 'economy', daily_rate_min: 30, daily_rate_max: 80 }); }
+
+    let van = await this.carCategoryRepository.findOneBy({ category_name: 'van' });
+    if (!van) { van = await this.carCategoryRepository.save({ category_name: 'van', daily_rate_min: 70, daily_rate_max: 150 }); }
+
+    await this.carsService.create({
+      make: 'Range Rover',
+      model: 'Vogue',
+      year: 2023,
+      daily_rate: 250,
+      car_status: 'available' as any,
+      category: luxury!,
+      photos_urls: ['img/car-vogue.png'],
+      features: { 'A/C': true, 'Bluetooth': true, 'Chauffeur': true },
+      seats: 5,
+      transmission: Transmission.AUTOMATIC,
+      fuel_type: FuelType.DIESEL,
+      license_plate: 'RAB 123 A'
+    });
+
+    await this.carsService.create({
+      make: 'Toyota',
+      model: 'Prado',
+      year: 2022,
+      daily_rate: 150,
+      car_status: 'available' as any,
+      category: suv!,
+      photos_urls: ['img/car-prado.png'],
+      features: { '4x4': true, 'A/C': true },
+      seats: 7,
+      transmission: Transmission.AUTOMATIC,
+      fuel_type: FuelType.DIESEL,
+      license_plate: 'RAC 456 B'
+    });
+
+    await this.carsService.create({
+      make: 'Toyota',
+      model: 'Corolla',
+      year: 2021,
+      daily_rate: 50,
+      car_status: 'available' as any,
+      category: economy!,
+      photos_urls: ['img/car-corolla.png'],
+      features: { 'A/C': true, 'Bluetooth': true },
+      seats: 5,
+      transmission: Transmission.AUTOMATIC,
+      fuel_type: FuelType.GASOLINE,
+      license_plate: 'RAD 789 C'
+    });
+
+    await this.carsService.create({
+      make: 'Toyota',
+      model: 'Hiace',
+      year: 2020,
+      daily_rate: 120,
+      car_status: 'available' as any,
+      category: van!,
+      photos_urls: ['img/car-hiace.png'],
+      features: { 'A/C': true, '14 Seats': true },
+      seats: 14,
+      transmission: Transmission.MANUAL,
+      fuel_type: FuelType.DIESEL,
+      license_plate: 'RAE 012 D'
+    });
+
+    await this.carsService.create({
+      make: 'Mercedes-Benz',
+      model: 'S-Class',
+      year: 2023,
+      daily_rate: 300,
+      car_status: 'available' as any,
+      category: luxury!,
+      photos_urls: ['img/car-mercedes.png'],
+      features: { 'A/C': true, 'Leather': true, 'Chauffeur': true },
+      seats: 5,
+      transmission: Transmission.AUTOMATIC,
+      fuel_type: FuelType.HYBRID,
+      license_plate: 'RAF 345 E'
+    });
+  }
+
+  async seedProperties() {
+    // Seed Types first
+    let apartment = await this.propertyTypeRepository.findOneBy({ type_name: 'Apartment' });
+    if (!apartment) { apartment = await this.propertyTypeRepository.save({ type_name: 'Apartment' }); }
+
+    let villa = await this.propertyTypeRepository.findOneBy({ type_name: 'Villa' });
+    if (!villa) { villa = await this.propertyTypeRepository.save({ type_name: 'Villa' }); }
+
+    const admin = await this.userRepository.findOneBy({ username: 'admin' });
+
+    // Check if properties exist and update them, or create new ones
+    const existingProperties = await this.propertiesService.findAll();
+
+    if (existingProperties.length === 0) {
+      await this.propertiesService.create({
+        property_name: 'Kigali Heights Apartment',
+        property_type: apartment!,
+        owner: admin!,
+        street_address: 'KN 2 St',
+        city: 'Kigali',
+        country: 'Rwanda',
+        bedrooms: 2,
+        bathrooms: 2,
+        monthly_rent: 1200,
+        property_status: 'available' as any,
+        photos_urls: ['img/Pic9.jpg']
+      });
+
+      await this.propertiesService.create({
+        property_name: 'Gisozi Royal Villa',
+        property_type: villa!,
+        owner: admin!,
+        street_address: 'KG 667 St',
+        city: 'Kigali',
+        country: 'Rwanda',
+        bedrooms: 4,
+        bathrooms: 3,
+        monthly_rent: 2500,
+        property_status: 'available' as any,
+        photos_urls: ['img/about-1.jpg']
+      });
+    } else {
+      // Update existing properties with correct image paths
+      for (const prop of existingProperties) {
+        if (prop.property_name === 'Kigali Heights Apartment') {
+          await this.propertiesService.update(prop.property_id, { photos_urls: ['img/Pic9.jpg'] });
+        } else if (prop.property_name === 'Gisozi Royal Villa') {
+          await this.propertiesService.update(prop.property_id, { photos_urls: ['img/about-1.jpg'] });
+        }
+      }
+    }
+  }
+
+  async seedLocations() {
+    if ((await this.carLocationRepository.count()) === 0) {
+      await this.carLocationRepository.save({
+        location_name: 'Kigali International Airport',
+        address: 'H6VQ+93C, Kigali',
+        city: 'Kigali',
+        is_active: true
+      });
+      await this.carLocationRepository.save({
+        location_name: 'Me For You Advisory Hub',
+        address: 'KN 3 Rd, Kigali',
+        city: 'Kigali',
+        is_active: true
       });
     }
   }

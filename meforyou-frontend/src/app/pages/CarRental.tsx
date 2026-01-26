@@ -19,9 +19,11 @@ export function CarRentalPage() {
   const [endDate, setEndDate] = useState('');
   const [filterCategory, setFilterCategory] = useState<string>('all');
   const [cars, setCars] = useState<CarRental[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchCars = async () => {
+      setLoading(true);
       try {
         const data = await api.cars.findAll();
         setCars(data);
@@ -30,6 +32,8 @@ export function CarRentalPage() {
         // Fallback for demo
         const local = JSON.parse(localStorage.getItem('carRentals') || '[]');
         setCars(local);
+      } finally {
+        setLoading(false);
       }
     };
     fetchCars();
@@ -64,8 +68,8 @@ export function CarRentalPage() {
       return;
     }
 
-    if (!startDate || !endDate) {
-      toast.error('Please select rental dates');
+    if (new Date(endDate) <= new Date(startDate)) {
+      toast.error('Return date must be after pickup date');
       return;
     }
 
@@ -74,17 +78,18 @@ export function CarRentalPage() {
     const bookingData = {
       car_id: selectedCar.id,
       client_id: currentUser.id,
-      start_date: startDate,
-      end_date: endDate,
+      pickup_date: startDate,
+      return_date: endDate,
+      pickup_location_id: 1, // Default to Airport
+      return_location_id: 1, // Default to Airport
       daily_rate: selectedCar.pricePerDay,
-      total_cost: calculateTotal(),
-      status: 'pending'
+      rental_status: 'reserved'
     };
 
     try {
-      await api.cars.rent(bookingData);
+      const response = await api.cars.rent(bookingData);
       toast.success('Booking created successfully!');
-      navigate(`/payment/booking-${Date.now()}`);
+      navigate(`/payment/rental-${response.rental_id}`);
     } catch (error: any) {
       toast.error(error.message || 'Failed to create booking');
     }
@@ -92,28 +97,34 @@ export function CarRentalPage() {
 
   return (
     <div className="container-fluid bg-white p-0">
-      {/* Hero Section */}
-      <div className="container-fluid p-0 position-relative">
-        <div className="wave-down" style={{ top: '-1px' }}></div>
-        <div className="position-relative">
-          <img className="img-fluid d-block w-100" src="/img/hero-cars.jpg" alt="" style={{ height: '600px', objectFit: 'cover' }} />
-          <div className="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style={{ background: 'rgba(0, 0, 0, 0.5)' }}>
-            <div className="container pt-5">
-              <div className="row align-items-center">
-                <div className="col-10 col-lg-8">
-                  <div className="p-3 p-md-4 animated zoomIn">
-                    <h6 className="text-white text-uppercase fw-bold mb-3 animated slideInDown" style={{ letterSpacing: '3px', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>{t('programs')}</h6>
-                    <h1 className="display-3 text-white mb-4 fw-bold animated slideInDown" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>{t('premium_fleet')}</h1>
-                    <p className="fs-5 fw-medium text-white mb-4 animated fadeInUp" style={{ maxWidth: '600px', textShadow: '0 1px 2px rgba(0,0,0,0.8)' }}>
-                      Whether for business or pleasure, find the perfect vehicle for your journey across Rwanda.
-                    </p>
-                  </div>
-                </div>
-              </div>
+      {/* Shorter Premium Hero Header Section */}
+      <div className="container-fluid page-header position-relative p-0 mb-5" style={{
+        background: 'linear-gradient(rgba(16, 55, 65, 0.7), rgba(16, 55, 65, 0.7)), url("/img/hero-cars.jpg") center center no-repeat',
+        backgroundSize: 'cover',
+        minHeight: '280px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        <div className="container py-5 text-center mt-3">
+          <h1 className="display-3 text-white fw-bold mb-2 animated slideInDown" style={{ textShadow: '0 4px 15px rgba(0,0,0,0.5)' }}>Car Rental Fleet</h1>
+          <nav aria-label="breadcrumb">
+            <div className="d-inline-flex align-items-center text-white fs-6 fw-medium animated slideInUp">
+              <Link className="text-white hover-opacity-100 transition-all text-decoration-none" to="/">{t('home')}</Link>
+              <span className="mx-2 opacity-50">/</span>
+              <span className="opacity-75">{t('programs') || 'Programs'}</span>
+              <span className="mx-2 opacity-50">/</span>
+              <span className="text-white">Car Rental</span>
             </div>
-          </div>
+          </nav>
         </div>
-        <div className="wave-up" style={{ bottom: '-1px' }}></div>
+
+        {/* Scalloped Border effect */}
+        <div className="position-absolute start-0 bottom-0 w-100 overflow-hidden" style={{ lineHeight: 0, height: '30px' }}>
+          <svg viewBox="0 0 120 28" preserveAspectRatio="none" style={{ width: '100%', height: '100%' }}>
+            <path d="M0 28 Q 5 0, 10 28 T 20 28 T 30 28 T 40 28 T 50 28 T 60 28 T 70 28 T 80 28 T 90 28 T 100 28 T 110 28 T 120 28 V 28 H 0 Z" fill="white" />
+          </svg>
+        </div>
       </div>
 
       <div className="container-xxl py-5">
@@ -142,7 +153,12 @@ export function CarRentalPage() {
                       className={`classes-item border rounded h-100 cursor-pointer overflow-hidden transition-all ${selectedCar?.id === car.id ? 'border-primary border-4 shadow-lg' : 'bg-white hover-shadow'}`}
                     >
                       <div className="position-relative">
-                        <img src={car.image} alt={car.brand} className="img-fluid w-100" style={{ height: '240px', objectFit: 'cover' }} />
+                        <img
+                          src={car.image ? (car.image.startsWith('http') ? car.image : (car.image.startsWith('/') ? car.image : '/' + car.image)) : "/img/car-1.jpg"}
+                          alt={car.brand}
+                          className="img-fluid w-100"
+                          style={{ height: '240px', objectFit: 'cover' }}
+                        />
                         <div className="position-absolute top-0 end-0 m-3 px-3 py-1 bg-primary text-white rounded-pill fw-bold small">
                           {formatPrice(car.pricePerDay)}/day
                         </div>
@@ -155,8 +171,8 @@ export function CarRentalPage() {
                         <p className="text-muted small mb-3">{car.model} • {car.year}</p>
                         <div className="d-flex gap-3 mb-4 text-muted small border-top pt-3">
                           <div className="d-flex align-items-center gap-1"><Users size={14} className="text-primary" /> {car.seats || 5} {t('seats')}</div>
-                          <div className="d-flex align-items-center gap-1"><Fuel size={14} className="text-primary" /> Petrol/Diesel</div>
-                          <div className="d-flex align-items-center gap-1"><Settings size={14} className="text-primary" /> Manual/Auto</div>
+                          <div className="d-flex align-items-center gap-1 text-capitalize"><Fuel size={14} className="text-primary" /> {car.fuelType || 'Gasoline'}</div>
+                          <div className="d-flex align-items-center gap-1 text-capitalize"><Settings size={14} className="text-primary" /> {car.transmission || 'Auto'}</div>
                         </div>
                         <button className={`btn w-100 rounded-pill ${selectedCar?.id === car.id ? 'btn-primary' : 'btn-outline-primary'}`}>
                           {selectedCar?.id === car.id ? t('completed') : t('select_vehicle')}
@@ -165,6 +181,18 @@ export function CarRentalPage() {
                     </div>
                   </div>
                 ))}
+                {filteredCars.length === 0 && !loading && (
+                  <div className="col-12 text-center py-5">
+                    <Car size={48} className="text-muted mb-3 opacity-25" />
+                    <h4>No vehicles found</h4>
+                    <p className="text-muted">Try changing your filters or category selection.</p>
+                  </div>
+                )}
+                {loading && (
+                  <div className="col-12 text-center py-5">
+                    <div className="spinner-border text-primary" role="status"></div>
+                  </div>
+                )}
               </div>
             </div>
 

@@ -96,13 +96,43 @@ export function AboutPage() {
 
   return (
     <div className="container-fluid bg-white p-0">
-      {/* Photo Collage Hero Section */}
+      {/* Shorter Premium Hero Header Section */}
+      <div className="container-fluid page-header position-relative p-0 mb-5" style={{
+        background: 'linear-gradient(rgba(16, 55, 65, 0.7), rgba(16, 55, 65, 0.7)), url("/img/3L7A6430.jpg") center center no-repeat',
+        backgroundSize: 'cover',
+        minHeight: '280px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        <div className="container py-5 text-center mt-3">
+          <h1 className="display-3 text-white fw-bold mb-2 animated slideInDown" style={{ textShadow: '0 4px 15px rgba(0,0,0,0.5)' }}>About Us</h1>
+          <nav aria-label="breadcrumb">
+            <div className="d-inline-flex align-items-center text-white fs-6 fw-medium animated slideInUp">
+              <Link className="text-white hover-opacity-100 transition-all text-decoration-none" to="/">{t('home')}</Link>
+              <span className="mx-2 opacity-50">/</span>
+              <span className="opacity-75">{t('pages') || 'Pages'}</span>
+              <span className="mx-2 opacity-50">/</span>
+              <span className="text-white">{t('about')}</span>
+            </div>
+          </nav>
+        </div>
+
+        {/* Large White Scalloped Wave Border */}
+        <div className="position-absolute start-0 bottom-0 w-100 overflow-hidden" style={{ lineHeight: 0, height: '30px' }}>
+          <svg viewBox="0 0 120 28" preserveAspectRatio="none" style={{ width: '100%', height: '100%' }}>
+            <path d="M0 28 Q 5 0, 10 28 T 20 28 T 30 28 T 40 28 T 50 28 T 60 28 T 70 28 T 80 28 T 90 28 T 100 28 T 110 28 T 120 28 V 28 H 0 Z" fill="white" />
+          </svg>
+        </div>
+      </div>
+
+      {/* Intro Section */}
       <div className="container-xxl py-5">
         <div className="container">
           <div className="row align-items-center g-5">
             <div className="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
-              <h6 className="text-primary text-uppercase mb-3" style={{ letterSpacing: '2px' }}>{t('about')}</h6>
-              <h1 className="display-4 fw-bold mb-4">{t('hero_title_2')}</h1>
+              <h6 className="text-primary text-uppercase mb-3" style={{ letterSpacing: '2px', fontWeight: '800' }}>{t('who_we_are')}</h6>
+              <h1 className="display-5 fw-bold mb-4">{t('hero_title_2')}</h1>
               <p className="fs-5 text-muted mb-4 leading-relaxed">
                 {t('hero_desc_2')}
               </p>

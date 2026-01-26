@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Navigate, Link } from 'react-router';
 import { useAuth } from '../context/AuthContext';
+import { api } from '../services/api';
 import { useLanguage } from '../context/LanguageContext';
 import {
   Calendar, Car, Home, DollarSign, Users, Package,
-  TrendingUp, Clock, CheckCircle, XCircle
+  TrendingUp, Clock, CheckCircle, XCircle, Settings2, Plus
 } from 'lucide-react';
 import { useCurrency } from '../context/CurrencyContext';
 import type { Booking, User } from '../types';
@@ -18,19 +19,75 @@ export function DashboardPage() {
   const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+        const [eventData, carData, propData] = await Promise.all([
+          api.events.findAll(),
+          api.cars.findAllRentals(),
+          api.properties.findAllLeases()
+        ]);
+
+        // Unify into Booking interface for display
+        const unified: Booking[] = [
+          ...eventData.map((e: any) => ({
+            id: e.event_id.toString(),
+            userId: e.client?.user_id,
+            userName: `${e.client?.first_name || ''} ${e.client?.last_name || ''}`.trim() || 'Guest',
+            serviceType: 'events',
+            startDate: e.event_date || e.start_date,
+            totalAmount: parseFloat(e.budget || 0),
+            status: e.event_status || 'pending',
+            paymentStatus: 'pending',
+            createdAt: e.created_at
+          })),
+          ...carData.map((r: any) => ({
+            id: r.rental_id.toString(),
+            userId: r.client?.user_id,
+            userName: r.client?.username || 'Client',
+            serviceType: 'car-rental',
+            startDate: r.start_date,
+            totalAmount: parseFloat(r.total_cost || 0),
+            status: r.status || 'pending',
+            paymentStatus: 'pending',
+            createdAt: r.created_at
+          })),
+          ...propData.map((l: any) => ({
+            id: l.lease_id.toString(),
+            userId: l.tenant?.user_id,
+            userName: l.tenant?.username || 'Tenant',
+            serviceType: 'house-rental',
+            startDate: l.start_date,
+            totalAmount: parseFloat(l.monthly_rent || 0),
+            status: l.lease_status === 'active' ? 'confirmed' : 'pending',
+            paymentStatus: 'pending',
+            createdAt: l.created_at
+          }))
+        ];
+
+        setAllBookings(unified);
+
+        if (user?.role === 'client') {
+          setBookings(unified.filter(b => b.userId?.toString() === user.id.toString()));
+        } else {
+          setBookings(unified);
+        }
+
+        if (user?.role === 'admin' || user?.role === 'manager') {
+          const userData = await api.auth.findAll();
+          setUsers(userData.map((u: any) => ({
+            id: u.user_id,
+            name: `${u.first_name || ''} ${u.last_name || ''}`.trim() || u.username,
+            email: u.email,
+            role: u.user_type,
+          })));
+        }
+      } catch (error) {
+        console.error("Dashboard fetch failed:", error);
+      }
+    };
+
     if (user) {
-      const allBookingsData = JSON.parse(localStorage.getItem('bookings') || '[]');
-      setAllBookings(allBookingsData);
-
-      if (user.role === 'client') {
-        setBookings(allBookingsData.filter((b: Booking) => b.userId === user.id));
-      } else {
-        setBookings(allBookingsData);
-      }
-
-      if (user.role === 'admin' || user.role === 'manager') {
-        setUsers(JSON.parse(localStorage.getItem('users') || '[]'));
-      }
+      fetchDashboardData();
     }
   }, [user]);
 
@@ -186,7 +243,7 @@ export function DashboardPage() {
             <div className="col-lg-4 wow fadeInUp" data-wow-delay="0.3s">
               <div className="bg-white rounded p-4 shadow-sm h-100">
                 <h4 className="mb-4">{t('quick_actions')}</h4>
-                <div className="list-group list-group-flush">
+                <div className="list-group list-group-flush mb-4">
                   <Link to="/events" className="list-group-item list-group-item-action border-0 px-0 d-flex align-items-center mb-2">
                     <div className="rounded-circle bg-primary-soft text-primary p-3 me-3">
                       <Calendar size={20} />
@@ -218,7 +275,19 @@ export function DashboardPage() {
 
                 {(user?.role === 'admin' || user?.role === 'manager') && (
                   <div className="mt-4 pt-4 border-top">
-                    <h5 className="mb-3">Admin Overviews</h5>
+                    <h5 className="mb-3">Admin Controls</h5>
+                    <Link to="/content-manager" className="list-group-item list-group-item-action border-0 px-0 d-flex align-items-center mb-3 bg-primary text-white rounded-4 p-3 shadow-sm hover-lift">
+                      <div className="rounded-circle bg-white text-primary p-2 me-3">
+                        <Settings2 size={20} />
+                      </div>
+                      <div className="flex-grow-1">
+                        <h6 className="mb-0 text-white">Manage Content</h6>
+                        <small className="text-white-50">Team, Services, FAQ & More</small>
+                      </div>
+                      <Link to="/content-manager" className="text-white ms-auto">
+                        <Plus size={20} />
+                      </Link>
+                    </Link>
                     <div className="p-3 bg-light rounded shadow-sm">
                       <div className="d-flex justify-content-between mb-2">
                         <span className="small text-muted">Total Users</span>
@@ -235,6 +304,12 @@ export function DashboardPage() {
           </div>
         </div>
       </div>
-    </div>
+      <style>{`
+        .hover-lift:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1) !important; }
+        .bg-primary-soft { background-color: rgba(254, 93, 55, 0.1); }
+        .bg-success-soft { background-color: rgba(25, 135, 84, 0.1); }
+        .bg-info-soft { background-color: rgba(13, 202, 240, 0.1); }
+      `}</style>
+    </div >
   );
 }

@@ -18,9 +18,11 @@ export function HouseRentalPage() {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [houses, setHouses] = useState<HouseRental[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchHouses = async () => {
+      setLoading(true);
       try {
         const data = await api.properties.findAll();
         setHouses(data);
@@ -28,6 +30,8 @@ export function HouseRentalPage() {
         console.error('Failed to load houses', error);
         const local = JSON.parse(localStorage.getItem('houseRentals') || '[]');
         setHouses(local);
+      } finally {
+        setLoading(false);
       }
     };
     fetchHouses();
@@ -63,6 +67,11 @@ export function HouseRentalPage() {
       return;
     }
 
+    if (new Date(endDate) <= new Date(startDate)) {
+      toast.error('Check-out date must be after check-in date');
+      return;
+    }
+
     const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
 
     // Create a Lease (or booking)
@@ -88,6 +97,36 @@ export function HouseRentalPage() {
 
   return (
     <div className="container-fluid bg-white p-0">
+      {/* Shorter Premium Hero Header Section */}
+      <div className="container-fluid page-header position-relative p-0 mb-5" style={{
+        background: 'linear-gradient(rgba(16, 55, 65, 0.7), rgba(16, 55, 65, 0.7)), url("/img/Pic9.jpg") center center no-repeat',
+        backgroundSize: 'cover',
+        minHeight: '280px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        <div className="container py-5 text-center mt-3">
+          <h1 className="display-3 text-white fw-bold mb-2 animated slideInDown" style={{ textShadow: '0 4px 15px rgba(0,0,0,0.5)' }}>House & Property Rental</h1>
+          <nav aria-label="breadcrumb">
+            <div className="d-inline-flex align-items-center text-white fs-6 fw-medium animated slideInUp">
+              <Link className="text-white hover-opacity-100 transition-all text-decoration-none" to="/">{t('home')}</Link>
+              <span className="mx-2 opacity-50">/</span>
+              <span className="opacity-75">{t('programs') || 'Programs'}</span>
+              <span className="mx-2 opacity-50">/</span>
+              <span className="text-white">House Rental</span>
+            </div>
+          </nav>
+        </div>
+
+        {/* Scalloped Border effect */}
+        <div className="position-absolute start-0 bottom-0 w-100 overflow-hidden" style={{ lineHeight: 0, height: '30px' }}>
+          <svg viewBox="0 0 120 28" preserveAspectRatio="none" style={{ width: '100%', height: '100%' }}>
+            <path d="M0 28 Q 5 0, 10 28 T 20 28 T 30 28 T 40 28 T 50 28 T 60 28 T 70 28 T 80 28 T 90 28 T 100 28 T 110 28 T 120 28 V 28 H 0 Z" fill="white" />
+          </svg>
+        </div>
+      </div>
+
       <div className="container-xxl py-5">
         <div className="container">
           <div className="row justify-content-center">
@@ -110,7 +149,12 @@ export function HouseRentalPage() {
                       className={`classes-item border rounded h-100 cursor-pointer overflow-hidden transition-all ${selectedHouse?.id === house.id ? 'border-primary ring-2 ring-primary shadow-lg' : 'bg-white hover-shadow'}`}
                     >
                       <div className="position-relative">
-                        <img src={house.image} alt={house.title} className="img-fluid w-100" style={{ height: '240px', objectFit: 'cover' }} />
+                        <img
+                          src={house.image ? (house.image.startsWith('http') ? house.image : (house.image.startsWith('/') ? house.image : '/' + house.image)) : '/img/Pic9.jpg'}
+                          alt={house.title}
+                          className="img-fluid w-100"
+                          style={{ height: '240px', objectFit: 'cover' }}
+                        />
                         <div className="position-absolute bottom-0 start-0 m-3 px-3 py-1 bg-primary text-white rounded-pill fw-bold small shadow">
                           {formatPrice(house.pricePerNight)}/night
                         </div>
@@ -143,6 +187,18 @@ export function HouseRentalPage() {
                     </div>
                   </div>
                 ))}
+                {houses.length === 0 && !loading && (
+                  <div className="col-12 text-center py-5">
+                    <HomeIcon size={48} className="text-muted mb-3 opacity-25" />
+                    <h4>No properties available</h4>
+                    <p className="text-muted">Please check back later for available properties.</p>
+                  </div>
+                )}
+                {loading && (
+                  <div className="col-12 text-center py-5">
+                    <div className="spinner-border text-primary" role="status"></div>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -172,7 +228,12 @@ export function HouseRentalPage() {
                 {selectedHouse ? (
                   <div className="mt-4 pt-4 border-top">
                     <div className="d-flex align-items-center mb-3">
-                      <img src={selectedHouse.image} className="rounded me-3" style={{ width: '80px', height: '60px', objectFit: 'cover' }} alt="" />
+                      <img
+                        src={selectedHouse.image ? (selectedHouse.image.startsWith('http') ? selectedHouse.image : (selectedHouse.image.startsWith('/') ? selectedHouse.image : '/' + selectedHouse.image)) : '/img/Pic9.jpg'}
+                        className="rounded me-3"
+                        style={{ width: '80px', height: '60px', objectFit: 'cover' }}
+                        alt=""
+                      />
                       <div className="overflow-hidden">
                         <h6 className="mb-0 text-truncate">{selectedHouse.title}</h6>
                         <small className="text-muted">{formatPrice(selectedHouse.pricePerNight)}/night</small>

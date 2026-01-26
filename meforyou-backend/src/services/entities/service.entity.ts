@@ -22,4 +22,10 @@ export class Service {
 
     @Column({ default: 'Negociable' })
     price_label: string;
+
+    @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
+    price: number;
+
+    @Column({ default: 'General' })
+    category: string;
 }

@@ -3,8 +3,12 @@ import { api } from '../services/api';
 import { Quote, Star, MessageSquare, Heart, Users, Award, CheckCircle2, Play, X, ArrowRight } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { Link } from 'react-router';
+import { useAuth } from '../context/AuthContext';
+import { Settings } from 'lucide-react';
 
 export function TestimonialsPage() {
+    const { user } = useAuth();
+    const isAdmin = user?.role === 'admin' || user?.role === 'manager';
     const { t } = useLanguage();
     const [testimonials, setTestimonials] = useState<any[]>([]);
     const [activeFilter, setActiveFilter] = useState('All');
@@ -30,12 +34,13 @@ export function TestimonialsPage() {
     const categories = ['All', 'Weddings', 'Corporate', 'Services'];
 
     const filteredTestimonials = useMemo(() => {
-        const textOnly = testimonials.filter(t => t.type !== 'video');
+        const textOnly = testimonials.filter(t => (t.type || 'text') === 'text');
         if (activeFilter === 'All') return textOnly;
         return textOnly.filter(t => {
-            if (activeFilter === 'Weddings') return t.profession.toLowerCase().includes('wedding') || t.profession.toLowerCase().includes('couple');
-            if (activeFilter === 'Corporate') return t.profession.toLowerCase().includes('corporate') || t.profession.toLowerCase().includes('business') || t.profession.toLowerCase().includes('hub') || t.profession.toLowerCase().includes('air');
-            if (activeFilter === 'Services') return !t.profession.toLowerCase().includes('wedding') && !t.profession.toLowerCase().includes('corporate');
+            const profession = (t.profession || '').toLowerCase();
+            if (activeFilter === 'Weddings') return profession.includes('wedding') || profession.includes('couple');
+            if (activeFilter === 'Corporate') return profession.includes('corporate') || profession.includes('business') || profession.includes('hub') || profession.includes('air') || profession.includes('partner') || profession.includes('client');
+            if (activeFilter === 'Services') return !profession.includes('wedding') && !profession.includes('couple') && !profession.includes('corporate') && !profession.includes('hub');
             return true;
         });
     }, [testimonials, activeFilter]);
@@ -51,13 +56,6 @@ export function TestimonialsPage() {
         { icon: MessageSquare, count: "250+", label: "Positive Reviews" }
     ];
 
-    const partners = [
-        { name: "RwandAir" },
-        { name: "Kigali Tech Hub" },
-        { name: "Bank of Kigali" },
-        { name: "MTN Rwanda" },
-        { name: "I&M Bank" }
-    ];
 
     return (
         <div className="container-fluid bg-white p-0">
@@ -161,23 +159,6 @@ export function TestimonialsPage() {
                 </div>
             </div>
 
-            {/* Client Logo Cloud */}
-            <div className="container-fluid py-5 bg-white border-top border-bottom border-light">
-                <div className="container">
-                    <div className="text-center mb-5">
-                        <span className="text-muted fw-bold text-uppercase small" style={{ letterSpacing: '2px' }}>Trusted By leading brands</span>
-                    </div>
-                    <div className="row g-4 justify-content-center align-items-center opacity-75">
-                        {partners.map((p, idx) => (
-                            <div key={idx} className="col-6 col-md-4 col-lg-2 text-center grayscale hover-color transition-all">
-                                <div className="p-3 bg-light rounded-4 fw-bold text-dark-teal" style={{ border: '1px dashed #ddd' }}>
-                                    {p.name}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
 
             {/* Written Testimonials with Filtering */}
             <div className="container-xxl py-5">
@@ -286,6 +267,20 @@ export function TestimonialsPage() {
                     </div>
                 </div>
             </div>
+
+            {/* Admin Quick Link */}
+            {isAdmin && (
+                <div className="position-fixed bottom-0 end-0 m-4" style={{ zIndex: 1050 }}>
+                    <Link
+                        to="/content-manager"
+                        className="btn btn-primary rounded-circle shadow-lg d-flex align-items-center justify-content-center wow bounceIn"
+                        style={{ width: '60px', height: '60px' }}
+                        title="Manage Content"
+                    >
+                        <Settings size={30} />
+                    </Link>
+                </div>
+            )}
 
             <style>{`
                 .mt-n5 { margin-top: -3rem !important; }

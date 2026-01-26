@@ -108,6 +108,36 @@ export function EventsPage() {
 
   return (
     <div className="container-fluid bg-white p-0">
+      {/* Shorter Premium Hero Header Section */}
+      <div className="container-fluid page-header position-relative p-0 mb-5" style={{
+        background: 'linear-gradient(rgba(16, 55, 65, 0.7), rgba(16, 55, 65, 0.7)), url("/img/3L7A6333.jpg") center center no-repeat',
+        backgroundSize: 'cover',
+        minHeight: '280px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        <div className="container py-5 text-center mt-3">
+          <h1 className="display-3 text-white fw-bold mb-2 animated slideInDown" style={{ textShadow: '0 4px 15px rgba(0,0,0,0.5)' }}>Events Management</h1>
+          <nav aria-label="breadcrumb">
+            <div className="d-inline-flex align-items-center text-white fs-6 fw-medium animated slideInUp">
+              <Link className="text-white hover-opacity-100 transition-all text-decoration-none" to="/">{t('home')}</Link>
+              <span className="mx-2 opacity-50">/</span>
+              <span className="opacity-75">{t('programs') || 'Programs'}</span>
+              <span className="mx-2 opacity-50">/</span>
+              <span className="text-white">{t('events')}</span>
+            </div>
+          </nav>
+        </div>
+
+        {/* Scalloped Border effect */}
+        <div className="position-absolute start-0 bottom-0 w-100 overflow-hidden" style={{ lineHeight: 0, height: '30px' }}>
+          <svg viewBox="0 0 120 28" preserveAspectRatio="none" style={{ width: '100%', height: '100%' }}>
+            <path d="M0 28 Q 5 0, 10 28 T 20 28 T 30 28 T 40 28 T 50 28 T 60 28 T 70 28 T 80 28 T 90 28 T 100 28 T 110 28 T 120 28 V 28 H 0 Z" fill="white" />
+          </svg>
+        </div>
+      </div>
+
       <div className="container-xxl py-5">
         <div className="container">
           <div className="row justify-content-center">

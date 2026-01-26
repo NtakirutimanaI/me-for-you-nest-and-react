@@ -272,7 +272,6 @@ export function Navigation() {
         </div>
       </div>
 
-      <div className="scallop-down"></div>
 
       <style>{`
           .navbar-nav .nav-link { color: #555 !important; font-size: 16px; padding: 30px 15px !important; transition: 0.3s; }

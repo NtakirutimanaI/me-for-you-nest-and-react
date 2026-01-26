@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Body, HttpCode, HttpStatus, Get } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
@@ -22,5 +22,11 @@ export class AuthController {
     @ApiResponse({ status: 401, description: 'Invalid credentials' })
     login(@Body() credentials: any) {
         return this.authService.login(credentials);
+    }
+
+    @Get('users')
+    @ApiOperation({ summary: 'Get all users (Admin only)' })
+    findAll() {
+        return this.authService.findAll();
     }
 }
