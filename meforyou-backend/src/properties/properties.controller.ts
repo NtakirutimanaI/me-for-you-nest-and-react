@@ -5,6 +5,9 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
 import { UserType } from '../entities/core/user.entity';
+import { CreatePropertyDto } from './dto/create-property.dto';
+import { UpdatePropertyDto } from './dto/update-property.dto';
+import { CreateLeaseDto } from './dto/create-lease.dto';
 
 @Controller('properties')
 export class PropertiesController {
@@ -12,7 +15,7 @@ export class PropertiesController {
 
     @Post('lease')
     @UseGuards(JwtAuthGuard)
-    lease(@Body() createLeaseDto: any) {
+    lease(@Body() createLeaseDto: CreateLeaseDto) {
         return this.propertiesService.lease(createLeaseDto);
     }
 
@@ -26,7 +29,7 @@ export class PropertiesController {
     @Post()
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles(UserType.ADMIN, UserType.MANAGER, UserType.AGENT)
-    create(@Body() createPropertyDto: Partial<Property>) {
+    create(@Body() createPropertyDto: CreatePropertyDto) {
         return this.propertiesService.create(createPropertyDto);
     }
 
@@ -43,7 +46,7 @@ export class PropertiesController {
     @Patch(':id')
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles(UserType.ADMIN, UserType.MANAGER, UserType.AGENT)
-    update(@Param('id') id: string, @Body() updatePropertyDto: Partial<Property>) {
+    update(@Param('id') id: string, @Body() updatePropertyDto: UpdatePropertyDto) {
         return this.propertiesService.update(+id, updatePropertyDto);
     }
 

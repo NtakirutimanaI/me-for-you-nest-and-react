@@ -1,4 +1,5 @@
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+import { toast } from 'sonner';
 
 const getToken = () => localStorage.getItem('token');
 
@@ -17,9 +18,7 @@ export const apiClient = {
         });
         if (!response.ok) {
             if (response.status === 401) {
-                // Optional: Dispatch event or handle logout
-                // localStorage.removeItem('token');
-                // window.location.href = '/login'; 
+                // optionally redirect
             }
             throw new Error(`Error ${response.status}: ${response.statusText}`);
         }
@@ -40,7 +39,9 @@ export const apiClient = {
         });
         if (!response.ok) {
             const errorData = await response.json().catch(() => ({}));
-            throw new Error(errorData.message || `Error ${response.status}: ${response.statusText}`);
+            const message = errorData.message || `Error ${response.status}: ${response.statusText}`;
+            toast.error(message);
+            throw new Error(message);
         }
         return response.json();
     },
@@ -59,7 +60,9 @@ export const apiClient = {
         });
         if (!response.ok) {
             const errorData = await response.json().catch(() => ({}));
-            throw new Error(errorData.message || `Error ${response.status}: ${response.statusText}`);
+            const message = errorData.message || `Error ${response.status}: ${response.statusText}`;
+            toast.error(message);
+            throw new Error(message);
         }
         return response.json();
     },
@@ -76,7 +79,9 @@ export const apiClient = {
             headers,
         });
         if (!response.ok) {
-            throw new Error(`Error ${response.status}: ${response.statusText}`);
+            const message = `Error ${response.status}: ${response.statusText}`;
+            toast.error(message);
+            throw new Error(message);
         }
         // Delete sometimes returns 204 No Content
         if (response.status === 204) return null;

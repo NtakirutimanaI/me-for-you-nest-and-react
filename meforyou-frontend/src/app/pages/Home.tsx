@@ -1,8 +1,38 @@
+
 import { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router';
-import { Calendar, Car, Home as HomeIcon, Award, Quote, ArrowRight, Star, ChevronDown, Zap, DollarSign, Settings2, Shield, Heart, Lightbulb } from 'lucide-react';
+import { Calendar, Car, Home as HomeIcon, Award, Quote, ArrowRight, Star, ChevronDown, Zap, DollarSign, Settings2, Shield, Heart, Lightbulb, ChevronLeft, ChevronRight } from 'lucide-react';
+import Slider from 'react-slick';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import { useLanguage } from '../context/LanguageContext';
 import { api } from '../services/api';
+
+function NextArrow(props: any) {
+  const { onClick } = props;
+  return (
+    <div
+      className="owl-nav-btn next"
+      onClick={onClick}
+      style={{ position: 'absolute', right: '20px', top: '50%', transform: 'translateY(-50%)', zIndex: 2, cursor: 'pointer', background: 'rgba(255,255,255,0.2)', padding: '10px', borderRadius: '50%' }}
+    >
+      <ChevronRight className="text-white" size={24} />
+    </div>
+  );
+}
+
+function PrevArrow(props: any) {
+  const { onClick } = props;
+  return (
+    <div
+      className="owl-nav-btn prev"
+      onClick={onClick}
+      style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', zIndex: 2, cursor: 'pointer', background: 'rgba(255,255,255,0.2)', padding: '10px', borderRadius: '50%' }}
+    >
+      <ChevronLeft className="text-white" size={24} />
+    </div>
+  );
+}
 
 export function Home() {
   const { t } = useLanguage();
@@ -27,40 +57,24 @@ export function Home() {
   }, []);
 
   useEffect(() => {
-    const $ = (window as any).jQuery;
-    if ($ && typeof $.fn.owlCarousel === 'function') {
-      // Hero Carousel
-      // Initialize for both default and dynamic items
-      $(".header-carousel").trigger('destroy.owl.carousel');
-      // Small delay to ensure React render is complete
-      setTimeout(() => {
-        $(".header-carousel").owlCarousel({
-          autoplay: true,
-          smartSpeed: 1500,
-          items: 1,
-          dots: true,
-          loop: true,
-          nav: true,
-          navText: [
-            '<i class="fa fa-chevron-left"></i>',
-            '<i class="fa fa-chevron-right"></i>'
-          ]
-        });
-      }, 100);
-    }
     if ((window as any).WOW) {
       new (window as any).WOW().init();
     }
+  }, []);
 
-    // Cleanup function
-    return () => {
-      if ($ && typeof $.fn.owlCarousel === 'function') {
-        $(".header-carousel").trigger('destroy.owl.carousel');
-      }
-    };
-  }, [carouselItems]);
-
-
+  const carouselSettings = {
+    dots: true,
+    infinite: true,
+    speed: 1500,
+    autoplay: true,
+    autoplaySpeed: 5000,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    fade: true,
+    arrows: true,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />
+  };
 
   const defaultCarousel = [
     { title: t('hero_title_1'), description: t('hero_desc_1'), image_url: 'img/hero-v2-wedding.png' },
@@ -73,8 +87,8 @@ export function Home() {
     <div className="container-fluid bg-white p-0">
       {/* Hero Section */}
       <div className="container-fluid p-0 position-relative">
-        <div className="wave-down" style={{ top: '-1px' }}></div>
-        <div className="owl-carousel header-carousel position-relative">
+        <div className="wave-down" style={{ top: '-1px', zIndex: 2 }}></div>
+        <Slider {...carouselSettings} className="header-carousel position-relative">
           {displayCarousel.map((item, index) => (
             <div key={index} className="owl-carousel-item position-relative">
               <img
@@ -126,8 +140,8 @@ export function Home() {
               </div>
             </div>
           ))}
-        </div>
-        <div className="wave-up" style={{ bottom: '-1px' }}></div>
+        </Slider>
+        <div className="wave-up" style={{ bottom: '-1px', zIndex: 2 }}></div>
       </div>
 
       {/* Why Choose Us */}
@@ -172,8 +186,6 @@ export function Home() {
         </div>
       </div>
 
-
-
       {/* Mobile App Section */}
       <AppSection />
 
@@ -192,8 +204,7 @@ export function Home() {
         </div>
       </div>
 
-
-
+      {/* Call to Action */}
       <div className="container-xxl py-5">
         <div className="container position-relative">
           <div className="scallop-down" style={{ top: '-20px' }}></div>
@@ -317,4 +328,3 @@ function AppSection() {
     </div>
   );
 }
-

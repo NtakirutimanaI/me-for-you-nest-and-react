@@ -5,6 +5,9 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
 import { UserType } from '../entities/core/user.entity';
+import { CreateCarDto } from './dto/create-car.dto';
+import { UpdateCarDto } from './dto/update-car.dto';
+import { CreateRentalDto } from './dto/create-rental.dto';
 
 @Controller('cars')
 export class CarsController {
@@ -12,7 +15,7 @@ export class CarsController {
 
     @Post('rent')
     @UseGuards(JwtAuthGuard)
-    rent(@Body() createRentalDto: any) {
+    rent(@Body() createRentalDto: CreateRentalDto) {
         return this.carsService.rent(createRentalDto);
     }
 
@@ -26,7 +29,7 @@ export class CarsController {
     @Post()
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles(UserType.ADMIN, UserType.MANAGER, UserType.AGENT)
-    create(@Body() createCarDto: Partial<Car>) {
+    create(@Body() createCarDto: CreateCarDto) {
         return this.carsService.create(createCarDto);
     }
 
@@ -43,7 +46,7 @@ export class CarsController {
     @Patch(':id')
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles(UserType.ADMIN, UserType.MANAGER, UserType.AGENT)
-    update(@Param('id') id: string, @Body() updateCarDto: Partial<Car>) {
+    update(@Param('id') id: string, @Body() updateCarDto: UpdateCarDto) {
         return this.carsService.update(+id, updateCarDto);
     }
 

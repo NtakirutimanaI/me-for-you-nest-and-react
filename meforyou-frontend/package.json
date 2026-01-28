@@ -63,7 +63,9 @@
     "vaul": "1.1.2"
   },
   "devDependencies": {
+    "@types/react-slick": "^0.23.13",
     "@vitejs/plugin-react": "4.7.0",
+    "slick-carousel": "^1.8.1",
     "vite": "6.3.5"
   },
   "peerDependencies": {
