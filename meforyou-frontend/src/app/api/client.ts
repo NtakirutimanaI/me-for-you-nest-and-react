@@ -1,7 +1,10 @@
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
 
+const getToken = () => localStorage.getItem('token');
+
 export const apiClient = {
-    get: async (endpoint: string, token?: string) => {
+    get: async (endpoint: string) => {
+        const token = getToken();
         const headers: HeadersInit = {
             'Content-Type': 'application/json',
         };
@@ -13,11 +16,17 @@ export const apiClient = {
             headers,
         });
         if (!response.ok) {
+            if (response.status === 401) {
+                // Optional: Dispatch event or handle logout
+                // localStorage.removeItem('token');
+                // window.location.href = '/login'; 
+            }
             throw new Error(`Error ${response.status}: ${response.statusText}`);
         }
         return response.json();
     },
-    post: async (endpoint: string, body: any, token?: string) => {
+    post: async (endpoint: string, body: any) => {
+        const token = getToken();
         const headers: HeadersInit = {
             'Content-Type': 'application/json',
         };
@@ -35,7 +44,8 @@ export const apiClient = {
         }
         return response.json();
     },
-    patch: async (endpoint: string, body: any, token?: string) => {
+    patch: async (endpoint: string, body: any) => {
+        const token = getToken();
         const headers: HeadersInit = {
             'Content-Type': 'application/json',
         };
@@ -53,7 +63,8 @@ export const apiClient = {
         }
         return response.json();
     },
-    delete: async (endpoint: string, token?: string) => {
+    delete: async (endpoint: string) => {
+        const token = getToken();
         const headers: HeadersInit = {
             'Content-Type': 'application/json',
         };
