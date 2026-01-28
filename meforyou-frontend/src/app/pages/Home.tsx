@@ -30,8 +30,10 @@ export function Home() {
     const $ = (window as any).jQuery;
     if ($ && typeof $.fn.owlCarousel === 'function') {
       // Hero Carousel
-      if (carouselItems.length > 0) {
-        $(".header-carousel").trigger('destroy.owl.carousel');
+      // Initialize for both default and dynamic items
+      $(".header-carousel").trigger('destroy.owl.carousel');
+      // Small delay to ensure React render is complete
+      setTimeout(() => {
         $(".header-carousel").owlCarousel({
           autoplay: true,
           smartSpeed: 1500,
@@ -44,33 +46,19 @@ export function Home() {
             '<i class="fa fa-chevron-right"></i>'
           ]
         });
-      }
-
-      // Testimonial Carousel
-      if (dynamicTestimonials.length > 0) {
-        $(".testimonial-carousel").trigger('destroy.owl.carousel');
-        $(".testimonial-carousel").owlCarousel({
-          autoplay: true,
-          smartSpeed: 1000,
-          margin: 24,
-          dots: false,
-          loop: true,
-          nav: true,
-          navText: [
-            '<i class="fa fa-chevron-left"></i>',
-            '<i class="fa fa-chevron-right"></i>'
-          ],
-          responsive: {
-            0: { items: 1 },
-            992: { items: 2 }
-          }
-        });
-      }
+      }, 100);
     }
     if ((window as any).WOW) {
       new (window as any).WOW().init();
     }
-  }, [carouselItems, dynamicTestimonials]);
+
+    // Cleanup function
+    return () => {
+      if ($ && typeof $.fn.owlCarousel === 'function') {
+        $(".header-carousel").trigger('destroy.owl.carousel');
+      }
+    };
+  }, [carouselItems]);
 
 
 
@@ -204,38 +192,7 @@ export function Home() {
         </div>
       </div>
 
-      {/* Testimonial Section */}
-      {dynamicTestimonials.length > 0 && (
-        <div id="testimonials" className="container-xxl py-5">
-          <div className="container">
-            <div className="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style={{ maxWidth: '600px' }}>
-              <h1 className="mb-3">{t('what_clients_say')}</h1>
-              <p>Hear from the people who have experienced our services firsthand.</p>
-              <Link to="/testimonials" className="btn btn-outline-primary rounded-pill px-4 mt-2 fw-bold shadow-sm d-inline-flex align-items-center gap-2">
-                View All Stories <ArrowRight size={16} />
-              </Link>
-            </div>
-            <div className="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.1s">
-              {dynamicTestimonials.map((t_item, idx) => (
-                <div key={idx} className="testimonial-item bg-white rounded-4 p-4 p-md-5 shadow-sm border border-light h-100 hover-lift transition-all position-relative mx-2">
-                  <Quote size={60} className="text-primary opacity-10 position-absolute top-0 end-0 m-4" />
-                  <div className="d-flex mb-3">
-                    {[...Array(5)].map((_, i) => <Star key={i} size={16} className="text-warning" fill="currentColor" />)}
-                  </div>
-                  <p className="fs-5 mb-4 italic text-dark leading-relaxed">"{t_item.content}"</p>
-                  <div className="d-flex align-items-center mt-auto border-top pt-4">
-                    <img className="img-fluid flex-shrink-0 rounded-circle border border-2 border-primary-soft testimonial-img-hover" src={t_item.image_url ? (t_item.image_url.startsWith('http') ? t_item.image_url : `/${t_item.image_url}`) : "/img/testimonial-1.jpg"} style={{ width: '64px', height: '64px', objectFit: 'cover' }} alt="" />
-                    <div className="ps-3">
-                      <h5 className="mb-0 fw-bold text-dark">{t_item.name}</h5>
-                      <small className="text-primary fw-bold text-uppercase" style={{ fontSize: '10px', letterSpacing: '1px' }}>{t_item.profession}</small>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
+
 
       <div className="container-xxl py-5">
         <div className="container position-relative">

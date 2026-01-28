@@ -43,7 +43,7 @@ export class AppService implements OnApplicationBootstrap {
 
   async onApplicationBootstrap() {
     console.log('Seeding data...');
-    await this.seedUsers();
+    // await this.seedUsers(); // Conflict with seed.ts
     await this.seedCarousel();
     await this.seedFacilities();
     await this.seedServices();

@@ -85,61 +85,59 @@ async function bootstrap() {
 
     console.log('Seeding users...');
 
+
+    console.log('Cleaning up existing seed users using raw SQL...');
+
     for (const userData of usersToSeed) {
-        const existingUser = await userRepository.findOne({
-            where: [{ email: userData.email }, { username: userData.username }],
+        try {
+            // Delete roles first (referencing user)
+            // Using subquery to find user_id by username or email
+            await dataSource.query(
+                `DELETE FROM user_roles WHERE user_id IN (SELECT user_id FROM users WHERE username = $1 OR email = $2)`,
+                [userData.username, userData.email]
+            );
+
+            // Delete user
+            await dataSource.query(
+                `DELETE FROM users WHERE username = $1 OR email = $2`,
+                [userData.username, userData.email]
+            );
+            console.log(`Cleaned up ${userData.username}`);
+        } catch (e) {
+            console.warn(`Warning during cleanup for ${userData.username}: ${e.message}`);
+        }
+    }
+
+    console.log('Seeding users...');
+
+    for (const userData of usersToSeed) {
+        console.log(`Creating user ${userData.username}...`);
+        const user = userRepository.create({
+            username: userData.username,
+            email: userData.email,
+            password_hash: hashedPassword,
+            first_name: userData.firstName,
+            last_name: userData.lastName,
+            user_type: userData.userType,
+            account_status: AccountStatus.ACTIVE,
+            email_verified: true,
+            created_at: new Date(),
+            updated_at: new Date(),
         });
 
-        let user;
+        // Save user
+        await userRepository.save(user);
 
-        if (existingUser) {
-            console.log(`User ${userData.username} already exists. Updating if needed...`);
-            user = existingUser;
-            // Optional: Update existing user properties if needed
-            user.user_type = userData.userType;
-            user.first_name = userData.firstName;
-            user.last_name = userData.lastName;
-            // Don't overwrite password
-            await userRepository.save(user);
-
-        } else {
-            console.log(`Creating user ${userData.username}...`);
-            user = userRepository.create({
-                username: userData.username,
-                email: userData.email,
-                password_hash: hashedPassword,
-                first_name: userData.firstName,
-                last_name: userData.lastName,
-                user_type: userData.userType,
-                account_status: AccountStatus.ACTIVE,
-                email_verified: true,
-                created_at: new Date(),
-                updated_at: new Date(),
-            });
-            await userRepository.save(user);
-        }
-
-        // Assign Role in user_roles table
-        // Check if role exists
-        const existingRole = await userRoleRepository.findOne({
-            where: {
-                user_id: user.user_id,
-                role_type: userData.userType,
-                department: userData.department
-            }
+        // Assign Role
+        console.log(`Assigning role ${userData.userType} in ${userData.department} to ${userData.username}`);
+        const userRole = userRoleRepository.create({
+            user_id: user.user_id,
+            role_type: userData.userType,
+            department: userData.department,
+            assigned_by: user.user_id,
+            is_active: true
         });
-
-        if (!existingRole) {
-            console.log(`Assigning role ${userData.userType} in ${userData.department} to ${userData.username}`);
-            const userRole = userRoleRepository.create({
-                user_id: user.user_id,
-                role_type: userData.userType,
-                department: userData.department,
-                assigned_by: user.user_id, // Self-assigned for seed
-                is_active: true
-            });
-            await userRoleRepository.save(userRole);
-        }
+        await userRoleRepository.save(userRole);
     }
 
     console.log('Seeding complete!');

@@ -1,22 +1,31 @@
-import { Controller, Get, Post, Body, Param, Delete, Patch } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Patch, UseGuards } from '@nestjs/common';
 import { CarsService } from './cars.service';
 import { Car } from '../entities/cars/car.entity';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { RolesGuard } from '../auth/roles.guard';
+import { Roles } from '../auth/roles.decorator';
+import { UserType } from '../entities/core/user.entity';
 
 @Controller('cars')
 export class CarsController {
     constructor(private readonly carsService: CarsService) { }
 
     @Post('rent')
+    @UseGuards(JwtAuthGuard)
     rent(@Body() createRentalDto: any) {
         return this.carsService.rent(createRentalDto);
     }
 
     @Get('rentals')
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles(UserType.ADMIN, UserType.MANAGER, UserType.AGENT)
     findAllRentals() {
         return this.carsService.findAllRentals();
     }
 
     @Post()
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles(UserType.ADMIN, UserType.MANAGER, UserType.AGENT)
     create(@Body() createCarDto: Partial<Car>) {
         return this.carsService.create(createCarDto);
     }
@@ -32,11 +41,15 @@ export class CarsController {
     }
 
     @Patch(':id')
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles(UserType.ADMIN, UserType.MANAGER, UserType.AGENT)
     update(@Param('id') id: string, @Body() updateCarDto: Partial<Car>) {
         return this.carsService.update(+id, updateCarDto);
     }
 
     @Delete(':id')
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles(UserType.ADMIN, UserType.MANAGER, UserType.AGENT)
     remove(@Param('id') id: string) {
         return this.carsService.remove(+id);
     }

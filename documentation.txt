@@ -1,0 +1,66 @@
+# Me For You Application Documentation
+
+## Testing Credentials
+
+The following accounts have been seeded into the database for testing purposes.
+**Default Password:** `Password123!` (Note: If you had a previous admin account, its password was preserved).
+
+### System Administrator
+*Access to all system features and settings.*
+- **Username:** `admin`
+- **Email:** `admin@meforyou.com`
+- **Role:** ADMIN
+- **Department:** ALL
+
+### Managers
+*Department-head level access.*
+
+**Events Manager**
+- **Username:** `manager_events`
+- **Email:** `manager.events@meforyou.com`
+- **Role:** MANAGER
+- **Department:** EVENTS
+
+**Car Rental Manager**
+- **Username:** `manager_cars`
+- **Email:** `manager.cars@meforyou.com`
+- **Role:** MANAGER
+- **Department:** CAR_RENTAL
+
+**Properties Manager**
+- **Username:** `manager_properties`
+- **Email:** `manager.properties@meforyou.com`
+- **Role:** MANAGER
+- **Department:** PROPERTY_RENTAL
+
+### Agents
+*Staff level access for specific departments.*
+
+**Events Agent**
+- **Username:** `agent_events`
+- **Email:** `agent.events@meforyou.com`
+- **Role:** AGENT
+- **Department:** EVENTS
+
+**Car Rental Agent**
+- **Username:** `agent_cars`
+- **Email:** `agent.cars@meforyou.com`
+- **Role:** AGENT
+- **Department:** CAR_RENTAL
+
+**Properties Agent**
+- **Username:** `agent_properties`
+- **Email:** `agent.properties@meforyou.com`
+- **Role:** AGENT
+- **Department:** PROPERTY_RENTAL
+
+### Client (Standard User)
+*Regular user access for booking and viewing services.*
+- **Username:** `client`
+- **Email:** `client@meforyou.com`
+- **Role:** CLIENT
+
+## Access Points
+- **Login Page:** [http://localhost:5173/login](http://localhost:5173/login)
+- **Main Dashboard:** [http://localhost:5173/dashboard](http://localhost:5173/dashboard)
+  *(Note: Redirects to appropriate views based on user role)*
