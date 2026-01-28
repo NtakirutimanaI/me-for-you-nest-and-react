@@ -43,15 +43,31 @@ export function RegisterPage() {
 
   return (
     <div className="container-fluid bg-white p-0">
-      {/* Page Header */}
-      <div className="container-fluid page-header position-relative mb-5">
-        <div className="d-flex flex-column align-items-center justify-content-center pt-0 pt-lg-5" style={{ minHeight: '400px' }}>
-          <h1 className="display-4 text-white mb-3 mt-0 mt-lg-5">{t('sign_up')}</h1>
-          <div className="d-inline-flex text-white">
-            <p className="m-0 text-uppercase"><Link className="text-white" to="/">{t('home')}</Link></p>
-            <i className="fa fa-angle-double-right pt-1 px-3 text-white"></i>
-            <p className="m-0 text-uppercase">{t('sign_up')}</p>
-          </div>
+      {/* Shorter Premium Hero Header Section */}
+      <div className="container-fluid page-header position-relative p-0 mb-5" style={{
+        background: 'linear-gradient(rgba(16, 55, 65, 0.7), rgba(16, 55, 65, 0.7)), url("/img/3L7A6367.jpg") center center no-repeat',
+        backgroundSize: 'cover',
+        minHeight: '280px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        <div className="container py-5 text-center mt-3">
+          <h1 className="display-3 text-white fw-bold mb-2 animated slideInDown" style={{ textShadow: '0 4px 15px rgba(0,0,0,0.5)' }}>{t('sign_up')}</h1>
+          <nav aria-label="breadcrumb">
+            <div className="d-inline-flex align-items-center text-white fs-6 fw-medium animated slideInUp">
+              <Link className="text-white hover-opacity-100 transition-all text-decoration-none" to="/">{t('home')}</Link>
+              <span className="mx-2 opacity-50">/</span>
+              <span className="text-white">{t('sign_up')}</span>
+            </div>
+          </nav>
+        </div>
+
+        {/* Large White Scalloped Wave Border */}
+        <div className="position-absolute start-0 bottom-0 w-100 overflow-hidden" style={{ lineHeight: 0, height: '30px' }}>
+          <svg viewBox="0 0 120 28" preserveAspectRatio="none" style={{ width: '100%', height: '100%' }}>
+            <path d="M0 28 Q 5 0, 10 28 T 20 28 T 30 28 T 40 28 T 50 28 T 60 28 T 70 28 T 80 28 T 90 28 T 100 28 T 110 28 T 120 28 V 28 H 0 Z" fill="white" />
+          </svg>
         </div>
       </div>
 

@@ -29,9 +29,7 @@ function LayoutWrapper() {
       <main
         className="flex-grow-1"
         style={{
-          paddingTop: '85px',
-          paddingLeft: isDashboardRoute ? '260px' : '0',
-          transition: 'padding-left 0.3s ease'
+          paddingTop: '85px'
         }}
       >
         <Outlet />
